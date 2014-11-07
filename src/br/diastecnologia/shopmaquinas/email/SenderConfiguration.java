@@ -35,6 +35,10 @@ public class SenderConfiguration {
 	@Inject
 	@Property("email.ssl")
 	private String ssl;
+	
+	@Inject
+	@Property("email.cc")
+	private String cc;
 
 	public String getSmtp() {
 		return smtp;
@@ -94,6 +98,14 @@ public class SenderConfiguration {
 
 	public String getSsl() {
 		return ssl;
+	}
+
+	public String getCc() {
+		return cc;
+	}
+
+	public void setCc(String cc) {
+		this.cc = cc;
 	}
 	
 }

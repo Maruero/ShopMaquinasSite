@@ -81,8 +81,7 @@ public class AdDetailsController {
 			adDao.em.persist(message);
 			adDao.commitTransaction();
 			
-			emailSender.SendEmail("Proposta recebida", body, body, ad.getPerson() );
-			emailSender.SendEmail("Proposta recebida", body, body, session.getUser().getPerson() );
+			emailSender.SendEmail(emailConfiguration.getProposalSubject(), body, body, session.getUser().getPerson(), ad.getPerson() );
 			
 		}catch(Exception ex){
 			
