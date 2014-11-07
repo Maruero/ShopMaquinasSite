@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="default">
+		<class>br.diastecnologia.shopmaquinas.bean.Ad</class>
+		<class>br.diastecnologia.shopmaquinas.bean.AdProperty</class>
+		<class>br.diastecnologia.shopmaquinas.bean.AdPropertyValue</class>
+		<class>br.diastecnologia.shopmaquinas.bean.Company</class>
+		<class>br.diastecnologia.shopmaquinas.bean.Contract</class>
+		<class>br.diastecnologia.shopmaquinas.bean.ContractDefinition</class>
+		<class>br.diastecnologia.shopmaquinas.bean.ContractDefinitionProperty</class>
+		<class>br.diastecnologia.shopmaquinas.bean.ContractDefinitionPropertyValue</class>
+		<class>br.diastecnologia.shopmaquinas.bean.Document</class>
+		<class>br.diastecnologia.shopmaquinas.bean.Message</class>
+		<class>br.diastecnologia.shopmaquinas.bean.Person</class>
+		<class>br.diastecnologia.shopmaquinas.bean.User</class>
+		
+		
+		<properties>
+			<!-- 
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/shopmaquinas" />
+			<property name="hibernate.connection.username" value="root" />
+			<property name="hibernate.connection.password" value="dias1986" />
+			<property name="hibernate.show_sql" value="true"/>
+			 -->
+			 
+			<property name="eclipselink.target-database" value="MySQL"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+			<property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/shopmaquinas"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="javax.persistence.jdbc.password" value="dias1986"/>
+		</properties>
+	</persistence-unit>
+</persistence>
