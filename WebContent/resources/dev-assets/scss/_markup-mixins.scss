@@ -1,0 +1,62 @@
+%listreset {
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+
+@mixin after {
+	content:"";
+	position:absolute;
+}
+@mixin link-color ($color) {
+	color: $color;
+	&:hover, &:active, &:focus {
+		color: lighten($color, 25%);
+		outline:0;
+		text-decoration:none;
+	}
+}
+@mixin link-color-dark ($color) {
+	color: $color;
+	&:hover, &:active, &:focus {
+		color: darken($color, 25%);
+		outline:0;
+		text-decoration:none;
+	}
+}
+
+@mixin bg-color ($color) {
+	background-color: $color;
+	&:hover {
+		background-color: lighten($color, 10%);
+	}
+}
+
+@mixin bg-color-dark ($color) {
+	background-color: $color;
+	&:hover {
+		background-color: darken($color, 10%);
+	}
+}
+
+// clearfix
+%clearfix {
+	&:after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+}
+// full width
+%full-width {
+	padding-left: 9999px;
+	padding-right: 9999px;
+	margin-left: -9999px;
+	margin-right: -9999px;
+}
+
+// hide text
+%hide-text {
+	text-indent: -9999px;
+	overflow: hidden;
+}

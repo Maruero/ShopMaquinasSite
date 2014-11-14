@@ -15,6 +15,7 @@ import br.com.caelum.vraptor.view.Results;
 import br.diastecnologia.shopmaquinas.bean.Ad;
 import br.diastecnologia.shopmaquinas.bean.JsonResponse;
 import br.diastecnologia.shopmaquinas.bean.Message;
+import br.diastecnologia.shopmaquinas.bean.Person;
 import br.diastecnologia.shopmaquinas.dao.AdDao;
 import br.diastecnologia.shopmaquinas.email.EmailConfiguration;
 import br.diastecnologia.shopmaquinas.email.EmailSender;
@@ -63,25 +64,30 @@ public class AdDetailsController {
 	}
 	
 	@Post("/anuncios/salvar-proposta")
-	public void saveProposal( @Named("adID") int adID, @Named("price") double price, @Named("text") String text){
+	public void saveProposal( @Named("adID") int adID, @Named("price") double price, @Named("text") String text, @Named("person") Person person){
 		JsonResponse response = new JsonResponse("Proposta realizada com sucesso.");
 		try{
 			
 			Ad ad = adDao.getAd(adID);
-			String body = emailConfiguration.getProposalText(session.getUser().getPerson(), ad.getPerson(), ad, price, text);
+			String body = emailConfiguration.getProposalText(person, ad.getPerson(), ad, price, text);
 			
 			Message message = new Message();
 			message.setAd(ad);
 			message.setDate( Calendar.getInstance().getTime() );
-			message.setFromPerson( session.getUser().getPerson() );
+			message.setFromPerson( person );
 			message.setToPerson( ad.getPerson() );
 			message.setText( "Proposta: " + CurrencyUtils.toString(price) + " - " + text );
 			
 			adDao.beginTransaction();
+			
+			if( person.getPersonID() < 1 ){
+				adDao.em.persist(person);
+			}
+			
 			adDao.em.persist(message);
 			adDao.commitTransaction();
 			
-			emailSender.SendEmail(emailConfiguration.getProposalSubject(), body, body, session.getUser().getPerson(), ad.getPerson() );
+			emailSender.SendEmail(emailConfiguration.getProposalSubject(), body, body, person, ad.getPerson() );
 			
 		}catch(Exception ex){
 			

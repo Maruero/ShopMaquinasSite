@@ -1,0 +1,68 @@
+// Custom variables
+// Colors
+$body-bg: #e1e7e6;
+$text-color: #454444;
+$brand-danger: #c7151d;
+
+// Typography
+$font-size-base: 15px;
+$line-height-base: 1.333;
+$font-family-sans-serif: Arial, Helvetica, sans-serif;
+$font-size-h1:		53px;
+$font-size-h2:		23px;
+$font-size-h3:		25px;
+$font-size-h4:		15px;
+
+
+//Scaffolding
+$brand-primary:#434343;
+$btn-primary-border: #434343;
+
+
+//breakpoints
+$screen-md: 992px;
+$screen-sm: 768px;
+$screen-xs: 480px;
+
+
+// Buttons
+$btn-default-color:#fff;
+$btn-default-bg:transparent;
+$btn-default-border:#fff;
+$btn-danger-bg: $brand-danger;
+$btn-default-border-width:2px;
+
+$icon-font-path: "../fonts/";
+
+// Grid system
+$grid-columns: 12;
+$grid-gutter-width: 20px;
+
+// Container sizes
+$container-large-desktop: ((1190px + $grid-gutter-width));
+
+// Components
+$border-radius-base: 0;
+
+// Forms
+$input-bg: #fff;
+$input-border: #fff;
+$input-border-radius: 0;
+$input-border-focus: $brand-primary;
+$input-color-placeholder: #aeaeae;
+
+// Navbar
+$navbar-default-border: transparent;
+$navbar-default-bg: rgba(0,0,0,0.48);
+$navbar-border-radius: 0;
+$navbar-default-link-color: #fff;
+$navbar-default-link-hover-color:#fcba1e;
+$navbar-default-link-active-bg: transparent;
+
+// Breadcrumbs
+$breadcrumb-bg: transparent;
+$breadcrumb-color: #333;
+$breadcrumb-active-color: #333;
+$breadcrumb-separator: ">";
+$breadcrumb-padding-vertical: 0px;
+$breadcrumb-padding-horizontal: 0px;

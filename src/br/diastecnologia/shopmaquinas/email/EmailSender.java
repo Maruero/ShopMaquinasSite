@@ -38,7 +38,7 @@ public class EmailSender {
 			email.setSubject(subject);
 			email.setHtmlMsg(htmlBody);
 			email.setTextMsg(textBody);
-			email.addTo(person.getEmail(), person.getFirstName() + " " + person.getLastname() );
+			email.addTo(person.getEmail(), person.getFirstname() + " " + person.getLastname() );
 			email.send();
 			
 		}catch(Exception ex){

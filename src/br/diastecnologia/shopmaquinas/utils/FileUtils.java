@@ -37,6 +37,9 @@ public class FileUtils {
 		Path newFilePath = Paths.get(currentForder, defaultFolder, newFileName);
 		Files.copy(file.getFile(), newFilePath, StandardCopyOption.REPLACE_EXISTING);
 		
+		ImageUtils.creatingMiniimage(currentForder +"\\" + defaultFolder, newFileName);
+		ImageUtils.applyOverlay(currentForder +"\\" + defaultFolder, newFileName, false);
+		
 		return newWebFileName;
 	}
 	
