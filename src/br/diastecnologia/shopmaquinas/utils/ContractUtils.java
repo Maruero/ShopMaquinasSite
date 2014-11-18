@@ -13,7 +13,7 @@ public class ContractUtils {
 		Contract contract = null;
 		if( person != null && person.getContracts() != null && person.getContracts().size() > 0 ){
 		
-			Optional<Contract> opContract = person.getContracts().stream().filter( c-> c.getEndDate().before(Calendar.getInstance().getTime()) ).findFirst();
+			Optional<Contract> opContract = person.getContracts().stream().filter( c-> c.getEndDate().after(Calendar.getInstance().getTime()) ).findFirst();
 			if( opContract.isPresent()){
 				contract = opContract.get();
 				

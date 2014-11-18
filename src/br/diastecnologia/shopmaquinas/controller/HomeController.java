@@ -11,21 +11,24 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.view.Results;
 import br.diastecnologia.shopmaquinas.bean.Ad;
+import br.diastecnologia.shopmaquinas.bean.JsonResponse;
 import br.diastecnologia.shopmaquinas.bean.User;
 import br.diastecnologia.shopmaquinas.dao.AdDao;
 import br.diastecnologia.shopmaquinas.dao.Dao;
+import br.diastecnologia.shopmaquinas.enums.JsonResponseCode;
 import br.diastecnologia.shopmaquinas.session.SessionBean;
 import br.diastecnologia.shopmaquinas.utils.AdPropertyUtils;
 
 @Controller
-public class HomeController {
-
-	@Inject
-	private Result result;
+public class HomeController{
 	
 	@Inject
-	private SessionBean session;
+	protected Result result;
+	
+	@Inject
+	protected SessionBean session;
 	
 	private AdDao adDao = new AdDao();
 	private Dao dao = (Dao)adDao;
@@ -36,32 +39,31 @@ public class HomeController {
 		result.include("ads", ads);
 	}
 	
-	@Get("/login")
-	public void login(@Named("nextPage") String nextPage ){
-		session.setRedirectObject(nextPage);
-	}
-	
 	@Post("/logon")
 	public void logon( @Named("username") String username, @Named("password") String password){
-		
-		String nextPage = (String)session.getRedirectObject();
-		if( nextPage == null || nextPage.length() < 1 ){
-			nextPage = ".";
-		}
+		JsonResponse response = new JsonResponse("Login realizado com sucesso.");
 		
 		Optional<User> user = dao.users().where( 
 				u-> u.getUsername().equals(username)
 				&& u.getPassword().equals( password )).findFirst();
 		
 		if( !user.isPresent() ){
-			result.include("ErrorMessage", "Usuário e/ou senha inválidos!");
-			result.redirectTo( HomeController.class ).login(nextPage);
-			return;
+			response.setCode( JsonResponseCode.ERROR.toString() );
+			response.setMessage("Usuário e/ou senha inválidos!");
 		}else{
-			session.setUser( user.get() );
-			result.redirectTo(nextPage);
-			return;
+			User userLogged = user.get();
+			response.setData( userLogged.getUsername() );
+			session.setUser( userLogged );
 		}
+		
+		result.use( Results.json() ).from( response ).recursive().serialize();
 	}
 	
+	@Post("/sair")
+	public void logout(){
+		session.setUser( null );
+		
+		JsonResponse response = new JsonResponse("Logout realizado com sucesso.");
+		result.use( Results.json() ).from( response ).recursive().serialize();
+	}
 }

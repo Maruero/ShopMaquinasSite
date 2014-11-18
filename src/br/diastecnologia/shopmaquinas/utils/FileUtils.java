@@ -32,15 +32,24 @@ public class FileUtils {
 		int now = LocalDateTime.now().getSecond() + LocalDateTime.now().getNano();
 		
 		String newFileName = now + "." + file.getContentType().split("/")[1];
-		String newWebFileName = webDefaultFolder + "/" + now + "." + file.getContentType().split("/")[1];
 		
 		Path newFilePath = Paths.get(currentForder, defaultFolder, newFileName);
 		Files.copy(file.getFile(), newFilePath, StandardCopyOption.REPLACE_EXISTING);
 		
-		ImageUtils.creatingMiniimage(currentForder +"\\" + defaultFolder, newFileName);
-		ImageUtils.applyOverlay(currentForder +"\\" + defaultFolder, newFileName, false);
+		ImageUtils.creatingMiniimage(currentForder +"/" + defaultFolder, newFileName);
+		ImageUtils.applyOverlay(currentForder +"/" + defaultFolder, newFileName, false);
 		
-		return newWebFileName;
+		return newFileName;
+	}
+
+
+	public String getWebDefaultFolder() {
+		return webDefaultFolder;
+	}
+
+
+	public void setWebDefaultFolder(String webDefaultFolder) {
+		this.webDefaultFolder = webDefaultFolder;
 	}
 	
 }

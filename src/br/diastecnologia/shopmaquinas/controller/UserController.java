@@ -19,13 +19,13 @@ import br.diastecnologia.shopmaquinas.dao.Dao;
 import br.diastecnologia.shopmaquinas.session.SessionBean;
 
 @Controller
-public class UserController {
-
-	@Inject
-	private Result result;
+public class UserController{
 	
 	@Inject
-	private SessionBean session;
+	protected Result result;
+	
+	@Inject
+	protected SessionBean session;
 	
 	private Dao dao = new Dao();
 	

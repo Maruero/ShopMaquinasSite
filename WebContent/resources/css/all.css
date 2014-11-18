@@ -781,6 +781,7 @@ h2 {
   padding-bottom: 19px;
   position: relative;
 }
+
 .modal1 .modal-content:after {
   content: '';
   position: absolute;
@@ -873,7 +874,7 @@ h2 {
   border: 1px solid #88bfd4;
 }
 .contact-form form textarea {
-  min-height: 352px !important;
+  min-height: 140px !important;
   width: 380px !important;
 }
 .contact-form form .btn-danger {
@@ -890,3 +891,48 @@ h2 {
   background: #7a000a;
   outline: none;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.modal1 .modal-dialog-popup {
+  width: 400px;
+  margin: 170px auto;
+}
+
+.modal-dialog-popup .modal-content:after {
+  content: '';
+  width: 0px;
+}
+
+
+#h2-popup{ 
+  margin-left: 0px;
+}
+
+#h2-popup.green{
+	background: #04939c;
+}
+
+#h2-popup.red{
+	background: #9c010d;
+}
+
+.left {
+	float:left !important;
+}
+

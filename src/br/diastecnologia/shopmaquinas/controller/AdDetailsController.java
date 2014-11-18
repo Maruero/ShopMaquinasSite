@@ -21,13 +21,15 @@ import br.diastecnologia.shopmaquinas.email.EmailConfiguration;
 import br.diastecnologia.shopmaquinas.email.EmailSender;
 import br.diastecnologia.shopmaquinas.enums.JsonResponseCode;
 import br.diastecnologia.shopmaquinas.session.SessionBean;
-import br.diastecnologia.shopmaquinas.utils.CurrencyUtils;
 
 @Controller
-public class AdDetailsController {
+public class AdDetailsController{
 
 	@Inject
-	private Result result;
+	protected Result result;
+	
+	@Inject
+	protected SessionBean session;
 	
 	@Inject
 	@Named("EmailSender")
@@ -36,9 +38,6 @@ public class AdDetailsController {
 	@Inject
 	@Named("EmailConfiguration")
 	private EmailConfiguration emailConfiguration;
-	
-	@Inject
-	private SessionBean session;
 	
 	private AdDao adDao = new AdDao();
 	
@@ -64,19 +63,19 @@ public class AdDetailsController {
 	}
 	
 	@Post("/anuncios/salvar-proposta")
-	public void saveProposal( @Named("adID") int adID, @Named("price") double price, @Named("text") String text, @Named("person") Person person){
+	public void saveProposal( @Named("adID") int adID, @Named("text") String text, @Named("person") Person person){
 		JsonResponse response = new JsonResponse("Proposta realizada com sucesso.");
 		try{
 			
 			Ad ad = adDao.getAd(adID);
-			String body = emailConfiguration.getProposalText(person, ad.getPerson(), ad, price, text);
+			String body = emailConfiguration.getProposalText(person, ad.getPerson(), ad, text);
 			
 			Message message = new Message();
 			message.setAd(ad);
 			message.setDate( Calendar.getInstance().getTime() );
 			message.setFromPerson( person );
 			message.setToPerson( ad.getPerson() );
-			message.setText( "Proposta: " + CurrencyUtils.toString(price) + " - " + text );
+			message.setText( "Proposta: " + text );
 			
 			adDao.beginTransaction();
 			

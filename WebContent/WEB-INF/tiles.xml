@@ -5,8 +5,11 @@
 <tiles-definitions>
   <definition name="shopmaquinas.template" template="/WEB-INF/jsp/template.jsp">
     <put-attribute name="head" value="" />
+    <put-attribute name="pageName" value="" />
     <put-attribute name="content" value="" />
+    <put-attribute name="secondContent" value="" />
     <put-attribute name="afterFooter" value="" />
     <put-attribute name="scripts" value="" />
+    <put-attribute name="pathPrefix" value=""/>
   </definition>
 </tiles-definitions>

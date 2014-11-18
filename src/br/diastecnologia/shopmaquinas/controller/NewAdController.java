@@ -20,13 +20,13 @@ import br.diastecnologia.shopmaquinas.utils.ContractUtils;
 import br.diastecnologia.shopmaquinas.utils.FileUtils;
 
 @Controller
-public class NewAdController {
-
-	@Inject
-	private Result result;
+public class NewAdController{
 	
 	@Inject
-	private SessionBean session;
+	protected Result result;
+	
+	@Inject
+	protected SessionBean session;
 	
 	@Inject
 	private FileUtils fileUtils;
@@ -40,6 +40,7 @@ public class NewAdController {
 			result.include("ErrorMessage", "Somente anunciantes ativos podem anunciar. Para anunciar contrate um de nossos planos.");
 			result.redirectTo( HomeController.class ).index();
 		}
+		session.setUploadedImages( new ArrayList<String>() );
 		result.include("Contract", contract);
 	}
 	
@@ -50,7 +51,9 @@ public class NewAdController {
 			ad = adDao.saveAd(ad, session.getUploadedImages());
 			result.redirectTo(AdDetailsController.class).getAdDetails( ad.getAdID() );
 		}catch(Exception ex){
+			ex.printStackTrace();
 			result.include("ErrorMessage", ex.getMessage());
+			result.redirectTo( NewAdController.class ).newAd();
 		}
 	}
 	
@@ -61,12 +64,15 @@ public class NewAdController {
 				session.setUploadedImages( new ArrayList<String>() );
 			}
 			
-			String path = fileUtils.saveFile(image);
+			String miniPath = fileUtils.getWebDefaultFolder() + "/mini-" + fileUtils.saveFile(image);
+			String path = miniPath.replaceAll("mini-", "");
+			session.getUploadedImages().add(miniPath);
 			session.getUploadedImages().add(path);
 			
-			result.use( Results.json() ).from( new JsonResponse("Imagem carregada com sucesso" , path) ).recursive().serialize();
+			result.include("path", miniPath);
 		}catch(Exception ex){
-			result.use( Results.json() ).from( new JsonResponse( JsonResponseCode.ERROR, ex.getMessage() ));
+			ex.printStackTrace();
+			result.include("errorMessage", ex.getMessage());
 		}
 	}
 	

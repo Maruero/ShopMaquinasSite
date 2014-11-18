@@ -9,6 +9,7 @@ public class JsonResponse {
 	private Object data;
 	
 	public JsonResponse(String message ){
+		this.message = message;
 		this.code = JsonResponseCode.OK.toString();
 	}
 	

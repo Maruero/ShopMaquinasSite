@@ -23,24 +23,21 @@ public class EmailConfiguration {
 	@Property("email.proposal.subject")
 	private String proposalSubject;
 	
-	public String getProposalText( Person from, Person to, Ad ad, double price, String text ){
+	public String getProposalText( Person from, Person to, Ad ad, String text ){
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append(proposalTitle);
 		builder.append("Dados do interessado <br/>");
-		builder.append("Nome: " + from.getFirstname() + " " + from.getLastname() + "<br/>");
+		builder.append("Nome: " + from.getFirstname() + "<br/>");
 		builder.append("E-mail: " + from.getEmail() + "<br/>");
 		builder.append("Telefone: " + from.getPhone() + "<br/><br/>");
 		
 		builder.append("Dados do anunciante <br/>" );
-		builder.append("Nome: " + to.getFirstname() + " " + from.getLastname() + "<br/>");
+		builder.append("Nome: " + to.getFirstname() + " " + to.getLastname() + "<br/>");
 		builder.append("E-mail: " + to.getEmail() + "<br/>");
 		builder.append("Telefone: " + to.getPhone() + "<br/><br/>");
 		
 		builder.append("Produto de interesse: <b>" + ad.getDescription() + "</b><br/><br/>");
-		if( price > 0 ){
-			builder.append("Valor da proposta: " + CurrencyUtils.toString(price) + "<br/>");
-		}
 		builder.append("Descrição: " + text);
 		
 		return builder.toString();
