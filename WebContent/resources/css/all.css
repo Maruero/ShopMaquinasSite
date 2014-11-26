@@ -1,22 +1,15 @@
-.feature-list, #footer .footer-left ul, #footer .footer-right .social-networks, .product-details .gallery-block .photos-list, .product-details .info {
+.feature-list, #footer .footer-left ul, #footer .footer-right .social-networks, .product-details .gallery-block .carousel-indicators, .product-details .info {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.product-details:after, .product-details .info li:after {
+.product-details:after, .product-details .info li:after, .login-holder .login-form .btn-wrap:after {
   content: "";
   display: block;
   clear: both;
 }
 
-@font-face {
-  font-family: 'akzidenz-grotesk_bq_light_sRg';
-  src: url("../fonts/akzidenzgrotesk-lightsc-webfont.eot");
-  src: url("../fonts/akzidenzgrotesk-lightsc-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/akzidenzgrotesk-lightsc-webfont.woff2") format("woff2"), url("../fonts/akzidenzgrotesk-lightsc-webfont.woff") format("woff"), url("../fonts/akzidenzgrotesk-lightsc-webfont.ttf") format("truetype"), url("../fonts/akzidenzgrotesk-lightsc-webfont.svg#akzidenz-grotesk_bq_light_sRg") format("svg");
-  font-weight: normal;
-  font-style: normal;
-}
 @font-face {
   font-family: 'akzidenz-grotesk_bq_condensMd';
   src: url("../fonts/akzidenzgrotesk-mediumcondalt-webfont.eot");
@@ -28,6 +21,20 @@
   font-family: 'akzidenz-grotesk_bq_condensBd';
   src: url("../fonts/akzidenzgrotesk-boldcondalt-webfont.eot");
   src: url("../fonts/akzidenzgrotesk-boldcondalt-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/akzidenzgrotesk-boldcondalt-webfont.woff2") format("woff2"), url("../fonts/akzidenzgrotesk-boldcondalt-webfont.woff") format("woff"), url("../fonts/akzidenzgrotesk-boldcondalt-webfont.ttf") format("truetype"), url("../fonts/akzidenzgrotesk-boldcondalt-webfont.svg#akzidenz-grotesk_bq_condensBd") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'akzidenz-grotesk_bq_light_cRg';
+  src: url("../fonts/akzidenzgroteskbq-ligcnd-webfont.eot");
+  src: url("../fonts/akzidenzgroteskbq-ligcnd-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/akzidenzgroteskbq-ligcnd-webfont.woff2") format("woff2"), url("../fonts/akzidenzgroteskbq-ligcnd-webfont.woff") format("woff"), url("../fonts/akzidenzgroteskbq-ligcnd-webfont.ttf") format("truetype"), url("../fonts/akzidenzgroteskbq-ligcnd-webfont.svg#akzidenz-grotesk_bq_light_cRg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'akzidenz-grotesk_bq_lightRg';
+  src: url("../fonts/akzidenzgroteskbq-light-webfont.eot");
+  src: url("../fonts/akzidenzgroteskbq-light-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/akzidenzgroteskbq-light-webfont.woff2") format("woff2"), url("../fonts/akzidenzgroteskbq-light-webfont.woff") format("woff"), url("../fonts/akzidenzgroteskbq-light-webfont.ttf") format("truetype"), url("../fonts/akzidenzgroteskbq-light-webfont.svg#akzidenz-grotesk_bq_lightRg") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -94,15 +101,10 @@
   max-height: 100000px;
 }
 
-html {
-  height: 100%;
-}
-
 body {
   min-width: 1190px;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: none;
-  height: 100%;
   font-weight: 500;
 }
 
@@ -154,20 +156,20 @@ a:focus {
 }
 
 ::-webkit-input-placeholder {
-  color: #8c8c8c;
+  color: #aeaeae;
 }
 
 :-moz-placeholder {
-  color: #8c8c8c;
+  color: #aeaeae;
 }
 
 ::-moz-placeholder {
-  color: #8c8c8c;
+  color: #aeaeae;
   opacity: 1;
 }
 
 :-ms-input-placeholder {
-  color: #8c8c8c;
+  color: #aeaeae !important;
 }
 
 #wrapper {
@@ -179,11 +181,26 @@ a:focus {
   background: #fff;
   -webkit-box-shadow: 0 0 17px 1px rgba(34, 31, 31, 0.75);
   box-shadow: 0 0 17px 1px rgba(34, 31, 31, 0.75);
+  width: 1170px !important;
+  min-width: 1170px !important;
+}
+
+.bg-stretch {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+.bg-stretch img {
+  width: 100%;
+  height: auto;
 }
 
 #header {
-  background: url(../images/header-bg.jpg) no-repeat;
   margin-bottom: 10px;
+  position: relative;
 }
 
 .header-top {
@@ -198,9 +215,6 @@ a:focus {
   position: relative;
   z-index: 5;
 }
-.logo img {
-  vertical-align: top;
-}
 
 .header-left {
   background: rgba(0, 0, 0, 0.3);
@@ -212,23 +226,26 @@ a:focus {
   bottom: 31px;
   right: 0;
   background: rgba(0, 0, 0, 0.48);
-  font: 23px/27px "akzidenz-grotesk_bq_light_sRg", Arial, Helvetica, sans-serif;
+  font: 23px/27px "akzidenz-grotesk_bq_lightRg", Arial, Helvetica, sans-serif;
   color: #fff;
   text-transform: uppercase;
   padding: 12px 5px 6px 233px;
-  text-align: center;
 }
 
 #nav {
   border-top: 1px solid #fff;
   margin: 0;
-  padding: 19px 0 14px;
+  padding: 19px 0 4px;
   text-transform: uppercase;
   font: 24px/28px "akzidenz-grotesk_bq_condensBd", Arial, Helvetica, sans-serif;
 }
+#nav ul {
+  margin: 0 !important;
+}
 #nav li {
   position: relative;
-  margin: 0 77px 0 35px;
+  margin: 0 62px 10px 50px;
+  display: inline-block !important;
 }
 #nav li:after {
   background: #fff;
@@ -244,6 +261,9 @@ a:focus {
 }
 #nav a {
   padding: 0;
+}
+#nav a:hover, #nav a:focus {
+  text-shadow: 0 0 7px rgba(255, 255, 255, 0.75);
 }
 
 .header-right {
@@ -263,6 +283,7 @@ a:focus {
   text-align: left;
   padding: 28px 10px 27px;
   letter-spacing: 1px;
+  outline: none;
 }
 .header-right .btn-default:hover, .header-right .btn-default:focus {
   color: #8c0202;
@@ -284,9 +305,9 @@ a:focus {
 }
 
 .heading-wrap {
-  background: url(../images/bg-heading01.jpg) no-repeat;
   padding: 16px 15px 8px;
   margin: 0 0 15px;
+  position: relative;
 }
 .heading-wrap h1 {
   font-family: "akzidenz-grotesk_bq_condensMd", Arial, Helvetica, sans-serif;
@@ -294,7 +315,7 @@ a:focus {
   color: #fff;
   margin: 0;
   text-transform: uppercase;
-  text-align: center;
+  position: relative;
 }
 
 .featured-block {
@@ -334,14 +355,11 @@ a:focus {
   height: 28px;
 }
 #sidebar .filter-form label {
-  font: 16px/18px "akzidenz-grotesk_bq_light_sRg", Arial, Helvetica, sans-serif;
+  font: 16px/18px "akzidenz-grotesk_bq_lightRg", Arial, Helvetica, sans-serif;
   color: #fff;
   text-transform: capitalize;
 }
 #sidebar .filter-form select {
-  background: transparent;
-  border: 3px solid #fff;
-  color: #fff;
   padding: 5px 2px;
   height: 35px;
   margin: 0 0 12px;
@@ -349,20 +367,23 @@ a:focus {
 #sidebar .filter-form .btn-danger {
   outline: none;
   width: 100%;
-  font: 17px/20px "akzidenz-grotesk_bq_light_sRg", Arial, Helvetica, sans-serif;
+  font: 17px/20px "akzidenz-grotesk_bq_lightRg", Arial, Helvetica, sans-serif;
   color: #fff;
   height: 37px;
   border: none;
   margin: -5px 0 0;
 }
 #sidebar .filter-form .link-refine {
-  font: 18px/20px "akzidenz-grotesk_bq_light_sRg", Arial, Helvetica, sans-serif;
+  font: 18px/20px "akzidenz-grotesk_bq_lightRg", Arial, Helvetica, sans-serif;
   color: #fff;
   display: inline-block;
   vertical-align: top;
 }
 #sidebar .filter-form .link-refine span {
   font-size: 23px;
+}
+#sidebar .filter-form .link-refine:hover {
+  color: #d7d7d7;
 }
 
 .feature-list {
@@ -443,9 +464,6 @@ h2 {
   margin: 0;
 }
 
-.utility-block .heading-wrap {
-  background: url(../images/bg-heading02.jpg) no-repeat;
-}
 .utility-block .four-block {
   padding: 0 0 0 12px;
 }
@@ -453,6 +471,12 @@ h2 {
   border-bottom: 1px solid #000;
   text-transform: uppercase;
   margin-bottom: 4px;
+}
+.utility-block h2 a {
+  color: #000;
+}
+.utility-block h2 a:hover {
+  color: #099aca;
 }
 .utility-block .stock-block {
   margin: 0 0 16px;
@@ -515,22 +539,22 @@ h2 {
 }
 
 #footer {
-  background: url(../images/bg-footer.jpg) no-repeat;
-  background-size: cover;
+  position: relative;
   padding: 18px 0 20px;
 }
 #footer .footer-left {
   font-size: 0;
   letter-spacing: -4px;
-  margin: 0 -20px;
+  margin: 0 -25px;
   padding: 8px 0 0 47px;
 }
 #footer .footer-left .box {
   display: inline-block;
   vertical-align: top;
-  font: 13px/15px "akzidenz-grotesk_bq_light_sRg", Arial, Helvetica, sans-serif;
+  font: 13px/15px "akzidenz-grotesk_bq_lightRg", Arial, Helvetica, sans-serif;
   letter-spacing: 0;
-  padding: 0 20px;
+  padding: 0 25px;
+  max-width: 175px;
 }
 #footer .footer-left h4 {
   font: 23px/25px "akzidenz-grotesk_bq_condensBd", Arial, Helvetica, sans-serif;
@@ -545,7 +569,7 @@ h2 {
   color: #fff;
 }
 #footer .footer-left ul li a:hover {
-  opacity: 0.8;
+  color: #fcba1e;
 }
 #footer .footer-right {
   float: right;
@@ -559,6 +583,7 @@ h2 {
   letter-spacing: -4px;
   margin: 0 -17px;
   padding-left: 12px;
+  max-width: 210px;
 }
 #footer .footer-right .social-networks li {
   display: inline-block;
@@ -567,6 +592,7 @@ h2 {
   letter-spacing: 0;
   padding: 0 17px;
   position: relative;
+  margin: 0 0 10px;
 }
 #footer .footer-right .social-networks li:after {
   background: #fff;
@@ -582,13 +608,13 @@ h2 {
 }
 #footer .footer-right .social-networks li a {
   color: #fff;
+  display: block;
+  width: 29px;
+  height: 29px;
 }
 #footer .footer-right .social-networks li a:hover {
-  opacity: 0.8;
-}
-
-.product-block .heading-wrap {
-  background: url(../images/bg-heading03.jpg) no-repeat;
+  color: #fcba1e;
+  font-size: 29px;
 }
 
 .product-details {
@@ -624,18 +650,16 @@ h2 {
   padding: 0 18px 0 0;
   margin-right: 37px;
 }
-.product-details .gallery-block .image-holder {
+.product-details .gallery-block .carousel
+.carousel-inner {
   margin: 0 0 7px;
 }
-.product-details .gallery-block .image-holder img {
-  vertical-align: top;
-}
-.product-details .gallery-block .photos-list {
+.product-details .gallery-block .carousel-indicators {
   font-size: 0;
   letter-spacing: -4px;
   margin: 0 -3.5px;
 }
-.product-details .gallery-block .photos-list li {
+.product-details .gallery-block .carousel-indicators li {
   display: inline-block;
   vertical-align: top;
   font-size: 15px;
@@ -643,7 +667,7 @@ h2 {
   padding: 0 3.5px;
   width: 25%;
 }
-.product-details .gallery-block .photos-list li img {
+.product-details .gallery-block .carousel-indicators li img {
   display: block;
 }
 .product-details .description {
@@ -672,8 +696,10 @@ h2 {
   overflow: hidden;
   display: block;
 }
-.product-details .info li .value p {
+.product-details .info li .value em {
   margin: 0 0 1px;
+  font-style: normal;
+  display: block;
 }
 .product-details .info li .value.price {
   font-weight: bold;
@@ -704,6 +730,7 @@ h2 {
 .modal .modal-dialog {
   width: 800px;
   margin: 100px auto;
+  z-index: 1060;
 }
 .modal .modal-content {
   border-radius: 0;
@@ -781,7 +808,6 @@ h2 {
   padding-bottom: 19px;
   position: relative;
 }
-
 .modal1 .modal-content:after {
   content: '';
   position: absolute;
@@ -874,7 +900,7 @@ h2 {
   border: 1px solid #88bfd4;
 }
 .contact-form form textarea {
-  min-height: 140px !important;
+  min-height: 352px !important;
   width: 380px !important;
 }
 .contact-form form .btn-danger {
@@ -891,6 +917,83 @@ h2 {
   background: #7a000a;
   outline: none;
 }
+
+.login-holder .close {
+  position: static;
+  margin: -22px -12px 0 0;
+}
+.login-holder .modal-dialog {
+  width: 680px;
+}
+.login-holder .modal-content {
+  background: #fff;
+  padding-bottom: 19px;
+  position: relative;
+  border-radius: 10px;
+}
+.login-holder .modal-content .modal-header {
+  padding: 33px 11px 19px;
+  margin: 0 20px;
+  border-color: #d7d7d7;
+}
+.login-holder .modal-content .modal-body {
+  padding: 19px 28px;
+}
+.login-holder .modal-title {
+  font: 33px/36px "akzidenz-grotesk_bq_light_cRg", Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  color: #000;
+}
+.login-holder .modal-title strong {
+  font-family: "akzidenz-grotesk_bq_condensBd", Arial, Helvetica, sans-serif;
+  color: #0265b8;
+}
+.login-holder .login-form .form-group {
+  margin: 0 0 22px;
+}
+.login-holder .login-form label {
+  font: 31px/34px "akzidenz-grotesk_bq_light_cRg", Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  color: #000;
+  margin: 0 0 4px 4px;
+}
+.login-holder .login-form .form-control {
+  width: 623px;
+  height: 41px;
+  background-color: #FFF;
+  border: 1px solid #000001;
+  font-size: 14px;
+}
+.login-holder .login-form .btn-wrap {
+  margin: -12px 0 0;
+}
+.login-holder .login-form .btn-wrap .forget-pass {
+  font-size: 19px;
+  text-decoration: underline;
+  color: #0265b8;
+  margin: -5px 0 04px;
+}
+.login-holder .login-form .btn-wrap .forget-pass:hover {
+  text-decoration: none;
+}
+.login-holder .login-form .btn-wrap .btn-primary {
+  border-radius: 0;
+  font-size: 25px;
+  line-height: 28px;
+  height: 41px;
+  min-width: 108px;
+  padding: 5px;
+  margin: 0;
+  outline: none;
+}
+.login-holder .login-form .btn-wrap .btn-primary:focus, .login-holder .login-form .btn-wrap .btn-primary:hover {
+  -webkit-box-shadow: 0 0 2.1px 0.9px #00bbb4;
+  box-shadow: 0 0 2.1px 0.9px #00bbb4;
+  background: #0265b8;
+}
+
+
+
 
 
 
@@ -936,3 +1039,6 @@ h2 {
 	float:left !important;
 }
 
+.slogan {
+	text-align: center;
+}

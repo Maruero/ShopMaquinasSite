@@ -29,75 +29,91 @@
 	<tiles:putAttribute name="secondContent">
 	
 		<section class="utility-block">
-			<header class="heading-wrap">
+			<header class="heading-wrap text-center">
+				<div class="bg-stretch">
+					<img src="resources/images/bg-heading02.jpg" alt="image description" width="1170" height="77">
+				</div>
 				<h1>utilidades</h1>
 			</header>
 			<div class="four-block">
 				<div class="row">
-					<div class="col-md-3">
+					<div class="col-xs-3">
 						<section class="gallery-holder">
-							<h2>Previsão de preciptação</h2>
+							<h2><a href="#">Previsão de preciptação</a></h2>
 							<div class="holder">
-								<div id="carousel-generic1" class="carousel slide" data-ride="carousel">
+								<div id="carousel-generic1" class="carousel slide" data-ride="carousel" data-interval="false">
 									<div class="carousel-inner" role="listbox">
 										<div class="item active">
-											<a href="#" data-toggle="modal" data-target="#myModal2"><img src="resources/images/img10.jpg" alt="image description" width="267" height="211"></a>
+											<a href="#" data-toggle="modal" data-target="#myModal2">
+												<img src="http://wxmaps.org/pix/sa3.24hr.png" alt="image description" width="800" height="620">
+											</a>
 										</div>
 										<div class="item">
-											<a href="#" data-toggle="modal" data-target="#myModal2"><img src="resources/images/img10.jpg" alt="image description" width="267" height="211"></a>
+											<a href="#" data-toggle="modal" data-target="#myModal2">
+												<img src="http://wxmaps.org/pix/sa3.48hr.png" alt="image description" width="800" height="620">
+											</a>
 										</div>
 										<div class="item">
-											<a href="#" data-toggle="modal" data-target="#myModal2"><img src="resources/images/img10.jpg" alt="image description" width="267" height="211"></a>
+											<a href="#" data-toggle="modal" data-target="#myModal2">
+												<img src="http://wxmaps.org/pix/sa3.72hr.png" alt="image description" width="800" height="620">
+											</a>
 										</div>
 										<div class="item">
-											<a href="#" data-toggle="modal" data-target="#myModal2"><img src="resources/images/img10.jpg" alt="image description" width="267" height="211"></a>
+											<a href="#" data-toggle="modal" data-target="#myModal2">
+												<img src="http://wxmaps.org/pix/sa3.96hr.png" alt="image description" width="800" height="620">	
+											</a>
 										</div>
 										<div class="item">
-											<a href="#" data-toggle="modal" data-target="#myModal2"><img src="resources/images/img10.jpg" alt="image description" width="267" height="211"></a>
+											<a href="#" data-toggle="modal" data-target="#myModal2">
+												<img src="http://wxmaps.org/pix/sa3.120hr.png" alt="image description" width="800" height="620">
+											</a>
 										</div>
 										<div class="item">
-											<a href="#" data-toggle="modal" data-target="#myModal2"><img src="resources/images/img10.jpg" alt="image description" width="267" height="211"></a>
+											<a href="#" data-toggle="modal" data-target="#myModal2">
+												<img src="http://wxmaps.org/pix/sa3.144hr.png" alt="image description" width="800" height="620">
+											</a>
 										</div>
 									</div>
 									<ol class="carousel-indicators">
 										<li data-target="#carousel-generic1" data-slide-to="0" class="active">
-											<img src="resources/images/img11.jpg" alt="image description" width="85" height="67">
+											<img src="http://wxmaps.org/pix/sa3.24hr.png" alt="image description" width="113" height="87">
 										</li>
-										<li data-target="#carousel-generic1" data-slide-to="1">
-											<img src="resources/images/img11.jpg" alt="image description" width="85" height="67">
+										<li data-target="#carousel-generic1" data-slide-to="1" class="active">
+											<img src="http://wxmaps.org/pix/sa3.48hr.png" alt="image description" width="113" height="87">
 										</li>
-										<li data-target="#carousel-generic1" data-slide-to="2">
-											<img src="resources/images/img11.jpg" alt="image description" width="85" height="67">
+										<li data-target="#carousel-generic1" data-slide-to="2" class="active">
+											<img src="http://wxmaps.org/pix/sa3.72hr.png" alt="image description" width="113" height="87">
 										</li>
-										<li data-target="#carousel-generic1" data-slide-to="3">
-											<img src="resources/images/img11.jpg" alt="image description" width="85" height="67">
+										<li data-target="#carousel-generic1" data-slide-to="3" class="active">
+											<img src="http://wxmaps.org/pix/sa3.96hr.png" alt="image description" width="113" height="87">
 										</li>
-										<li data-target="#carousel-generic1" data-slide-to="4">
-											<img src="resources/images/img11.jpg" alt="image description" width="85" height="67">
+										<li data-target="#carousel-generic1" data-slide-to="4" class="active">
+											<img src="http://wxmaps.org/pix/sa3.120hr.png" alt="image description" width="113" height="87">
 										</li>
-										<li data-target="#carousel-generic1" data-slide-to="5">
-											<img src="resources/images/img11.jpg" alt="image description" width="85" height="67">
+										<li data-target="#carousel-generic1" data-slide-to="5" class="active">
+											<img src="http://wxmaps.org/pix/sa3.144hr.png" alt="image description" width="113" height="87">
 										</li>
+										
 									</ol>
 								</div>
 							</div>
 						</section>
 					</div>
-					<div class="col-md-3">
+					<div class="col-xs-3">
 						<section class="stock-block">
-							<h2>Bolsa de valores</h2>
+							<h2><a href="#">Bolsa de valores</a></h2>
 							<div class="holder">
 								<img src="resources/images/img02.jpg" alt="image description" width="267" height="157">
 							</div>
 						</section>
 						<section class="stock-block">
-							<h2>Bolsa de valores</h2>
+							<h2><a href="#">Bolsa de valores</a></h2>
 							<div class="holder">
 								<img src="resources/images/img03.jpg" alt="image description" width="266" height="178">
 							</div>
 						</section>
 					</div>
-					<div class="col-md-3">
+					<div class="col-xs-3">
 						<section class="notice-holder">
 							<h2>Previsão de preciptação</h2>
 							<div class="holder">
@@ -105,7 +121,7 @@
 							</div>
 						</section>
 					</div>
-					<div class="col-md-3">
+					<div class="col-xs-3">
 						<div class="ad-holder">
 							<img src="resources/images/img06.png" alt="image description" width="257" height="306">
 							<a href="#" class="btn-ad">clique aqui</a>
@@ -120,49 +136,49 @@
 	<!-- POPUPs e demais recursos para colocar escondido. -->
 	<tiles:putAttribute name="afterFooter">
 	
-		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+		<<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModal2" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<button type="button" class="close" data-dismiss="modal"><span class="icon-close"></span></button>
-					<div id="carousel-generic2" class="carousel slide" data-ride="carousel">
+					<div id="carousel-generic2" class="carousel slide" data-ride="carousel" data-interval="false">
 						<div class="carousel-inner" role="listbox">
 							<div class="item active">
-								<img src="resources/images/img12.jpg" alt="image description" width="800" height="620">
+								<img src="http://wxmaps.org/pix/sa3.24hr.png" alt="image description" width="800" height="600">
 							</div>
 							<div class="item">
-								<img src="resources/images/img12.jpg" alt="image description" width="800" height="620">
+								<img src="http://wxmaps.org/pix/sa3.48hr.png" alt="image description" width="800" height="600">
 							</div>
 							<div class="item">
-								<img src="resources/images/img12.jpg" alt="image description" width="800" height="620">
+								<img src="http://wxmaps.org/pix/sa3.72hr.png" alt="image description" width="800" height="600">
 							</div>
 							<div class="item">
-								<img src="resources/images/img12.jpg" alt="image description" width="800" height="620">
+								<img src="http://wxmaps.org/pix/sa3.96hr.png" alt="image description" width="800" height="600">
 							</div>
 							<div class="item">
-								<img src="resources/images/img12.jpg" alt="image description" width="800" height="620">
+								<img src="http://wxmaps.org/pix/sa3.120hr.png" alt="image description" width="800" height="600">
 							</div>
 							<div class="item">
-								<img src="resources/images/img12.jpg" alt="image description" width="800" height="620">
+								<img src="http://wxmaps.org/pix/sa3.144hr.png" alt="image description" width="800" height="600">
 							</div>
 						</div>
 						<ol class="carousel-indicators">
 							<li data-target="#carousel-generic2" data-slide-to="0" class="active">
-								<img src="resources/images/img13.jpg" alt="image description" width="113" height="87">
+								<img src="http://wxmaps.org/pix/sa3.24hr.png" alt="image description" width="113" height="87">
 							</li>
 							<li data-target="#carousel-generic2" data-slide-to="1">
-								<img src="resources/images/img13.jpg" alt="image description" width="113" height="87">
+								<img src="http://wxmaps.org/pix/sa3.48hr.png" alt="image description" width="113" height="87">
 							</li>
 							<li data-target="#carousel-generic2" data-slide-to="2">
-								<img src="resources/images/img13.jpg" alt="image description" width="113" height="87">
+								<img src="http://wxmaps.org/pix/sa3.72hr.png" alt="image description" width="113" height="87">
 							</li>
 							<li data-target="#carousel-generic2" data-slide-to="3">
-								<img src="resources/images/img13.jpg" alt="image description" width="113" height="87">
+								<img src="http://wxmaps.org/pix/sa3.96hr.png" alt="image description" width="113" height="87">
 							</li>
 							<li data-target="#carousel-generic2" data-slide-to="4">
-								<img src="resources/images/img13.jpg" alt="image description" width="113" height="87">
+								<img src="http://wxmaps.org/pix/sa3.120hr.png" alt="image description" width="113" height="87">
 							</li>
 							<li data-target="#carousel-generic2" data-slide-to="5">
-								<img src="resources/images/img13.jpg" alt="image description" width="113" height="87">
+								<img src="http://wxmaps.org/pix/sa3.144hr.png" alt="image description" width="113" height="87">
 							</li>
 						</ol>
 						<a class="left carousel-control" href="#carousel-generic2" role="button" data-slide="prev">Previous</a>

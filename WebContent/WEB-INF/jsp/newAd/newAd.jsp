@@ -22,53 +22,56 @@
 						<label for="name">Tipo*</label>
 						
 						<input type="hidden" name="ad.adPropertyValues[0].adProperty.name" value="TYPE"/>
-						<select class="form-control" name="ad.adPropertyValues[0].value" requiredLength="1" requiredMessage="Por favor, informe o tipo.">
+						<select class="form-control" name="ad.adPropertyValues[0].value" requiredLength="1" requiredMessage="Por favor, informe o tipo." id="type-select">
 							<option value="">Selecione</option>
-							<option value="maquina">Máquina</option>
-							<option value="caminhão">Caminhão</option>
-							<option value="acessorio">Acessório</option>
+							
+							<c:forEach items="${types}" var="type">
+								<option value="${type.name}" data-id="${type.id}">${type.name}</option>
+							</c:forEach>
 						</select>
 					</div>
 					
 					<div class="form-group">
-						<label for="name">Porte*</label>
+						<label for="name">Grupo*</label>
 						
-						<input type="hidden" name="ad.adPropertyValues[1].adProperty.name" value="SIZE"/>
-						<select class="form-control" name="ad.adPropertyValues[1].value" requiredLength="1" requiredMessage="Por favor, informe o porte.">
+						<input type="hidden" name="ad.adPropertyValues[1].adProperty.name" value="GROUP"/>
+						<select class="form-control" name="ad.adPropertyValues[1].value" requiredLength="1" requiredMessage="Por favor, informe o grupo." id="group-select">
 							<option value="">Selecione</option>
-							<option value="pequeno">Pequeno</option>
-							<option value="medio">Médio</option>
-							<option value="grande">Grande</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label for="name">Categoria*</label>
+						
+						<input type="hidden" name="ad.adPropertyValues[2].adProperty.name" value="CATEGORY"/>
+						<select class="form-control" name="ad.adPropertyValues[2].value" requiredLength="1" requiredMessage="Por favor, informe a categoria." id="category-select">
+							<option value="">Selecione</option>
 						</select>
 					</div>
 					
 					<div class="form-group">
 						<label for="name">Marca*</label>
 						
-						<input type="hidden" name="ad.adPropertyValues[2].adProperty.name" value="BRAND"/>
-						<select class="form-control" name="ad.adPropertyValues[2].value" requiredLength="1" requiredMessage="Por favor, informe a marca.">
+						<input type="hidden" name="ad.adPropertyValues[3].adProperty.name" value="BRAND"/>
+						<select class="form-control" name="ad.adPropertyValues[3].value" requiredLength="1" requiredMessage="Por favor, informe a marca." id="brand-select">
 							<option value="">Selecione</option>
-							<option value="john deere">John Deere</option>
-							<option value="outra 1">Outra 1</option>
 						</select>
 					</div>
 					
 					<div class="form-group">
 						<label for="name">Modelo*</label>
 						
-						<input type="hidden" name="ad.adPropertyValues[3].adProperty.name" value="MODEL"/>
-						<select class="form-control" name="ad.adPropertyValues[3].value" requiredLength="1" requiredMessage="Por favor, informe o modelo.">
+						<input type="hidden" name="ad.adPropertyValues[4].adProperty.name" value="MODEL"/>
+						<select class="form-control" name="ad.adPropertyValues[4].value" requiredLength="1" requiredMessage="Por favor, informe o modelo." id="model-select">
 							<option value="">Selecione</option>
-							<option value="modelo x">Modelo x</option>
-							<option value="modelo y">Modelo y</option>
 						</select>
 					</div>
 					
 					<div class="form-group">
 						<label for="name">Cor*</label>
 						
-						<input type="hidden" name="ad.adPropertyValues[4].adProperty.name" value="COLOR"/>
-						<select class="form-control" name="ad.adPropertyValues[4].value" requiredLength="1" requiredMessage="Por favor, informe a cor.">
+						<input type="hidden" name="ad.adPropertyValues[5].adProperty.name" value="COLOR"/>
+						<select class="form-control" name="ad.adPropertyValues[5].value" requiredLength="1" requiredMessage="Por favor, informe a cor.">
 							<option value="">Selecione</option>
 							<option value="branco">Branco</option>
 							<option value="preto">Preto</option>
@@ -78,15 +81,15 @@
 					<div class="form-group">
 						<label for="name">Ano*</label>
 						
-						<input type="hidden" name="ad.adPropertyValues[5].adProperty.name" value="YEAR"/>
-						<input type="text" class="form-control" name="ad.adPropertyValues[5].value" alt="9999" requiredLength="1" requiredMessage="Por favor, informe o ano de fabricação."/>
+						<input type="hidden" name="ad.adPropertyValues[6].adProperty.name" value="YEAR"/>
+						<input type="text" class="form-control" name="ad.adPropertyValues[6].value" alt="9999" requiredLength="1" requiredMessage="Por favor, informe o ano de fabricação."/>
 					</div>
 					
 					<div class="form-group">
 						<label for="name">Descrição</label>
 						
-						<input type="hidden" name="ad.adPropertyValues[6].adProperty.name" value="LONG_DESCRIPTION"/>
-						<textarea class="form-control" id="message" rows="3" name="ad.adPropertyValues[6].value"></textarea>
+						<input type="hidden" name="ad.adPropertyValues[7].adProperty.name" value="LONG_DESCRIPTION"/>
+						<textarea class="form-control" id="message" rows="3" name="ad.adPropertyValues[7].value"></textarea>
 					</div>
 				</div>
 				<div class="description">
@@ -96,29 +99,33 @@
 					
 					<div class="form-group" style="text-align:center;">
 					
-						<input type="hidden" name="ad.adPropertyValues[7].adProperty.name" value="UNIQUE_OWNER"/>
-						<input type="checkbox" name="ad.adPropertyValues[7].value" value="true"/> Único dono
+						<input type="hidden" name="ad.adPropertyValues[8].adProperty.name" value="UNIQUE_OWNER"/>
+						<input type="checkbox" name="ad.adPropertyValues[8].value" value="true"/> Único dono
 					</div>
 					
 					<div class="form-group" style="text-align:center;"> 
 					
-						<input type="hidden" name="ad.adPropertyValues[8].adProperty.name" value="EXCHANGE"/>
-						<input type="checkbox" name="ad.adPropertyValues[8].value" value="true"/> Aceita troca
+						<input type="hidden" name="ad.adPropertyValues[9].adProperty.name" value="EXCHANGE"/>
+						<input type="checkbox" name="ad.adPropertyValues[9].value" value="true"/> Aceita troca
 					</div>
+					
+					 
 					
 					<div class="form-group">
 						<label for="name">horas*</label>
 						
-						<input type="hidden" name="ad.adPropertyValues[9].adProperty.name" value="HOURS" />
-						<input type="text" class="form-control" name="ad.adPropertyValues[9].value" alt="999999" requiredLength="1" requiredMessage="Por favor, informe a quantidade de horas de uso."/>
+						<input type="hidden" name="otherProperties[0].adProperty.name" value="HOURS" />
+						<input type="text" class="form-control" name="otherProperties[0].value" alt="999999" requiredLength="1" requiredMessage="Por favor, informe a quantidade de horas de uso."/>
 					</div>
+					
 					
 					<div class="form-group">
 						<label for="name">Valor*</label>
 						
-						<input type="hidden" name="ad.adPropertyValues[10].adProperty.name" value="PRICE" />
-						<input type="text" onblur="putSymbol(this);" class="form-control" name="ad.adPropertyValues[10].value" alt="decimal" requiredLength="1" requiredMessage="Por favor, informe o preço."/>
+						<input type="hidden" name="otherProperties[1].adProperty.name" value="PRICE" />
+						<input type="text" onblur="putSymbol(this);" class="form-control" name="otherProperties[1].value" alt="decimal" requiredLength="1" requiredMessage="Por favor, informe o preço."/>
 					</div>
+					
 					
 					<div class="form-group">
 						<label for="name">Imagens carregadas</label>
@@ -182,7 +189,7 @@
 				</div>
 			</div>
 			<div class="text-wrap" style="width:830px;">
-				<button type="button" class="btn btn-danger" style="float:left;">Visualizar</button>
+				<button type="button" class="btn btn-danger" style="float:left;" onclick="return previewAd();">Visualizar</button>
 				<button type="button" class="btn btn-danger" style="float:right;" onclick="return saveAd();">Salvar</button>
 			</div>
 		</article>

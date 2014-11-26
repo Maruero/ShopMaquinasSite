@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -15,7 +16,7 @@ import br.diastecnologia.shopmaquinas.bean.Contract;
 import br.diastecnologia.shopmaquinas.bean.ContractDefinition;
 import br.diastecnologia.shopmaquinas.bean.Person;
 import br.diastecnologia.shopmaquinas.bean.User;
-import br.diastecnologia.shopmaquinas.dao.Dao;
+import br.diastecnologia.shopmaquinas.daos.AdDao;
 import br.diastecnologia.shopmaquinas.session.SessionBean;
 
 @Controller
@@ -27,7 +28,8 @@ public class UserController{
 	@Inject
 	protected SessionBean session;
 	
-	private Dao dao = new Dao();
+	@Inject
+	private AdDao dao;
 	
 	@Get("/contrato/cadastro")
 	public void register(){
@@ -50,12 +52,12 @@ public class UserController{
 	}
 	
 	@Post("/contrato/salvar-novo-contrato")
+	@Transactional
 	public void saveNewRegister( @Named("person")Person person, @Named("user")User user, @Named("contractDefinitionID")int contractDefinitionID, @Named("companyID")int companyID)
 	{
 		try{
 			ContractDefinition def = dao.contractDefinitions().where( c-> c.getContractDefinitionID() == contractDefinitionID).findFirst().get();
 			Contract contract = new Contract();
-			contract.setContractDefinitionID(contractDefinitionID);
 			contract.setContractDefinition(def);
 			contract.setStartDate( Calendar.getInstance().getTime() );
 			
@@ -63,24 +65,16 @@ public class UserController{
 			user.setPerson( person );
 			user.setUsername( person.getDocuments().get( 0 ).getDocumentNumber() );
 			
-			dao.beginTransaction();
-			
-			dao.em.persist( person.getContracts().get( 0 ));
-			dao.em.persist( person.getDocuments().get( 0 ));
-			dao.em.persist( person.getAddress());
-			dao.em.persist( person );
-			dao.em.persist( user );
-			dao.commitTransaction();
+			dao.getEM().persist( person.getContracts().get( 0 ));
+			dao.getEM().persist( person.getDocuments().get( 0 ));
+			dao.getEM().persist( person.getAddress());
+			dao.getEM().persist( person );
+			dao.getEM().persist( user );
 			
 			result.include("update", true);
 			result.include("message", "Novo cadastro salvo com sucesso!");
 			
 		}catch(Exception ex){
-			try{
-				if(dao.isActiveTransaction()){
-					dao.rollbackTransaction();
-				}
-			}catch(Exception ex1){}
 			result.include("errorMessage", ex.getMessage() );
 			result.redirectTo( UserController.class ).register();
 			return;
@@ -88,25 +82,18 @@ public class UserController{
 	}
 	
 	@Post("/contrato/salvar-contrato")
+	@Transactional
 	public void saveRegister( @Named("person")Person person)
 	{
 		try{
-			dao.beginTransaction();
-			
-			dao.em.persist( person.getDocuments().get( 0 ));
-			dao.em.merge( person.getAddress());
-			dao.em.merge( person );
-			dao.commitTransaction();
+			dao.getEM().persist( person.getDocuments().get( 0 ));
+			dao.getEM().merge( person.getAddress());
+			dao.getEM().merge( person );
 			
 			result.include("update", true);
 			result.include("message", "Cadastro salvo com sucesso!");
 			
 		}catch(Exception ex){
-			try{
-				if(dao.isActiveTransaction()){
-					dao.rollbackTransaction();
-				}
-			}catch(Exception ex1){}
 			result.include("errorMessage", ex.getMessage() );
 			result.redirectTo( UserController.class ).register();
 			return;

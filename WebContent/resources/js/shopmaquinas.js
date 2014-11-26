@@ -9,12 +9,14 @@ $(document).ready(function() {
 		  $(this).setMask($(this).data('mask'));
 	});
 	
+	loadOptions();
+	
 });
 
 function processError(){
 	var errorMessage = $("#errorMessage").html();
 	if( errorMessage.length > 0 ){
-		openRedPopup("Ocorreu um erro: ", errorMessage);
+		openRedPopup("Atenção: ", errorMessage);
 	}
 }
 
@@ -219,7 +221,7 @@ function openPopup( title, message ){
 
 
 /** ===============================================================
- * Upload de imagens
+ * Criação de anúncios
  ==================================================================**/
 
 function sendImage(button){
@@ -234,6 +236,17 @@ function sendImage(button){
 
 function saveAd(){
 	if( validate("form-new-ad")){
+		$('#form-new-ad').attr('action', 'novo-anuncio');
+		$('#form-new-ad').prop('target', '');
+		$('#form-new-ad').submit();
+	}
+	return false;
+}
+
+function previewAd(){
+	if( validate("form-new-ad")){
+		$('#form-new-ad').attr('action', 'novo-anuncio/visualizar');
+		$('#form-new-ad').prop('target', 'about:blank');
 		$('#form-new-ad').submit();
 	}
 	return false;
@@ -266,7 +279,141 @@ function showImage(elem){
 function putSymbol(elem){
 	var val = $(elem).val();
 	if( val.split(' ').length < 2){
-		val = 'R$ ' + val;
+		//val = 'R$ ' + val;
 	}
 	$(elem).val(val);
 }
+
+/** ===============================================================
+ * SELECT's
+ ==================================================================**/
+
+var typeJson = [
+	{
+		'id' : '',
+		'name' : 'Selecione'
+	},
+	{
+		'id' : '1',
+		'name' : 'Ve&iacute;culos'
+	},
+	{
+		'id' : '2',
+		'name' : 'M&aacute;quinas'
+	},
+	{
+		'id' : '3',
+		'name' : 'Implementos'
+	},
+	{
+		'id' : '4',
+		'name' : 'Industriais'
+	}
+];
+
+function loadOptions(){
+	
+	var prefix = $("#pathPrefix").html();
+	
+	$('#group-select').prop('disabled', true);
+	$('#category-select').prop('disabled', true);
+	$('#brand-select').prop('disabled', true);
+	$('#model-select').prop('disabled', true);
+	
+	$('#group-home-select').prop('disabled', true);
+	$('#category-home-select').prop('disabled', true);
+	$('#brand-home-select').prop('disabled', true);
+	$('#model-home-select').prop('disabled', true);
+	
+	$("#type-select").html('');
+	$(typeJson).each(function (option){
+		$('#type-select').append(
+			'<option value="'+this.name+'" data-id="'+this.id+'">'+this.name+'</option>'
+		);
+	});
+	
+	$("#type-select").on('change', function (){
+		var typeId = $("#type-select option:selected").attr('data-id');
+		var url = prefix + 'getGroups?typeId=' +typeId;
+		var target = '#group-select';
+		load(url, target);
+	});
+	
+	$("#group-select").on('change', function (){
+		var groupId = $("#group-select option:selected").attr('data-id');
+		var url = prefix + 'getCategories?groupId=' +groupId;
+		var target = '#category-select';
+		load(url, target);
+	});
+	
+	$("#category-select").on('change', function (){
+		var categoryId = $("#category-select option:selected").attr('data-id');
+		var url = prefix + 'getBrands?categoryId=' +categoryId;
+		var target = '#brand-select';
+		load(url, target);
+	});
+	
+	$("#brand-select").on('change', function (){
+		var brandId = $("#brand-select option:selected").attr('data-id');
+		var url = prefix + 'getModels?brandId=' +brandId;
+		var target = '#model-select';
+		load(url, target);
+	});
+	
+	$(typeJson).each(function (option){
+		$('#type-home-select').append(
+			'<option value="'+this.name+'" data-id="'+this.id+'">'+this.name+'</option>'
+		);
+	});
+	
+	$("#type-home-select").on('change', function (){
+		var typeId = $("#type-home-select option:selected").attr('data-id');
+		var url = prefix + 'getGroups?typeId=' +typeId;
+		var target = '#group-home-select';
+		load(url, target);
+	});
+	
+	$("#group-home-select").on('change', function (){
+		var groupId = $("#group-home-select option:selected").attr('data-id');
+		var url = prefix + 'getCategories?groupId=' +groupId;
+		var target = '#category-home-select';
+		load(url, target);
+	});
+	
+	$("#category-home-select").on('change', function (){
+		var categoryId = $("#category-home-select option:selected").attr('data-id');
+		var url = prefix + 'getBrands?categoryId=' +categoryId;
+		var target = '#brand-home-select';
+		load(url, target);
+	});
+	
+	$("#brand-home-select").on('change', function (){
+		var brandId = $("#brand-home-select option:selected").attr('data-id');
+		var url = prefix + 'getModels?brandId=' +brandId;
+		var target = '#model-home-select';
+		load(url, target);
+	});
+	
+}
+
+function load( url , target ){
+	$('' + target + ' option').html('Carregando');
+	$.ajax({
+		url : url,
+		success: function(data){
+			$('' + target).prop('disabled', false);
+			$('' + target).html('<option value="" data-id="">Selecione</option>');
+			$(data.list).each(function(option){
+				$('' + target).append(
+					'<option value="'+this.name+'" data-id="'+this.id+'">'+this.name+'</option>'
+				);
+			});
+		},
+		error: function(data){
+			
+		}
+	});
+}
+
+
+

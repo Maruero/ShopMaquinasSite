@@ -5,6 +5,8 @@ import javax.inject.Inject;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Result;
+import br.diastecnologia.shopmaquinas.bean.Person;
+import br.diastecnologia.shopmaquinas.daos.AdDao;
 import br.diastecnologia.shopmaquinas.session.SessionBean;
 
 @Controller
@@ -16,6 +18,9 @@ public class ContractController {
 	@Inject
 	protected SessionBean session;
 	
+	@Inject
+	protected AdDao dao;
+	
 	@Get("/contratos")
 	public void contracts(){
 		if( session.getUser() == null){
@@ -24,8 +29,10 @@ public class ContractController {
 			return;
 		}
 		
+		Person person = dao.getEM().merge(session.getUser().getPerson());
+		
 		result.include("restricted", true);
-		result.include("contracts", session.getUser().getPerson().getContracts());
+		result.include("contracts", person.getContracts());
 	}
 	
 }

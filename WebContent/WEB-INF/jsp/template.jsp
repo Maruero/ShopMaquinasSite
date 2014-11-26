@@ -9,8 +9,15 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Shop Maquinas</title>
 		
-		<link type="text/css" rel="stylesheet" href="<tiles:getAsString name="pathPrefix"/>resources/css/bootstrap.css">
+		<link type="text/css" rel="stylesheet" href="<tiles:getAsString name="pathPrefix"/>resources/css/bootstrap.min.css">
 		<link type="text/css" rel="stylesheet" href="<tiles:getAsString name="pathPrefix"/>resources/css/all.css">
+		
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
 		
 		<tiles:insertAttribute name="head" />
 	</head>
@@ -24,7 +31,10 @@
 				<div class="row">
 					<header id="header">
 						<div class="row">
-							<div class="col-md-9">
+							<div class="bg-stretch">
+								<img src="<tiles:getAsString name="pathPrefix"/>resources/images/header-bg.jpg" alt="image description" width="1170" height="212">
+							</div>
+							<div class="col-xs-9">
 								<div class="header-left">
 									<div class="header-top">
 										<div class="logo">
@@ -46,7 +56,7 @@
 									</nav>
 								</div>
 							</div>
-							<div class="col-md-3">
+							<div class="col-xs-3">
 								<div class="header-right">
 									<span id="user-logged" style="display:none">${session.user.username}</span>
 									<span id="page-restricted" style="display:none">${restricted}</span>
@@ -69,11 +79,14 @@
 					<main id="main">
 						
 						<section class="featured-block">
-							<header class="heading-wrap">
+							<header class="heading-wrap text-center">
+								<div class="bg-stretch">
+									<img src="<tiles:getAsString name="pathPrefix"/>resources/images/bg-heading01.jpg" alt="image description" width="1170" height="80">
+								</div>
 								<h1><tiles:insertAttribute name="pageName" /></h1>
 							</header>
 							<div class="row">
-								<div class="col-md-2">
+								<div class="col-xs-2">
 									<aside id="sidebar">
 										<section class="widget filter-form">
 											<h2>Busca</h2>
@@ -83,19 +96,29 @@
 														<input class="form-control" type="text" placeholder="Digite..">
 													</div>
 													<div class="form-group">
-														<label for="select1">Por Categoria</label>
-														<select id="select1" class="form-control">
-															<option>Selecionar...</option>
-															<option>Selecionar...</option>
-															<option>Selecionar...</option>
+														<label>Categorias</label>
+														<select id="type-home-select" class="form-control">
+															<option>Tipo</option>
 														</select>
 													</div>
 													<div class="form-group">
-														<label for="select2">Por Categoria</label>
-														<select id="select2" class="form-control">
-															<option>Selecionar...</option>
-															<option>Selecionar...</option>
-															<option>Selecionar...</option>
+														<select id="group-home-select" class="form-control">
+															<option>Grupo</option>
+														</select>
+													</div>
+													<div class="form-group">
+														<select id="category-home-select" class="form-control">
+															<option>Categoria</option>
+														</select>
+													</div>
+													<div class="form-group">
+														<select id="brand-home-select" class="form-control">
+															<option>Marca</option>
+														</select>
+													</div>
+													<div class="form-group">
+														<select id="model-home-select" class="form-control">
+															<option>Modelo</option>
 														</select>
 													</div>
 													<div class="form-group">
@@ -103,11 +126,11 @@
 													</div>
 												</fieldset>
 											</form>
-											<a href="#" class="link-refine"><span>+</span> Refinar Pesquisa</a>
+											<a href="#" class="link-refine"><span>+</span> Busca Detalhada</a>
 										</section>
 									</aside>
 								</div>
-								<div class="col-md-10">
+								<div class="col-xs-10">
 								
 									<tiles:insertAttribute name="content" />
 								
@@ -120,7 +143,10 @@
 					</main>
 					<footer id="footer">
 						<div class="row">
-							<div class="col-md-8">
+							<div class="bg-stretch">
+								<img src="<tiles:getAsString name="pathPrefix"/>resources/images/bg-footer.jpg" alt="image description" width="1170" height="229">
+							</div>
+							<div class="col-xs-8">
 								<div class="footer-left">
 									<div class="box">
 										<h4>Compre</h4>
@@ -172,7 +198,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-md-4">
+							<div class="col-xs-4">
 								<div class="footer-right">
 									<div class="logo">
 										<a href="#"><img src="<tiles:getAsString name="pathPrefix"/>resources/images/logo.png" alt="Shop Maquinas" width="178" height="140"></a>
@@ -241,7 +267,7 @@
 			</div>
 		</div>
 		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/jquery-1.11.1.min.js"></script>
-		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/bootstrap.js"></script>
+		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/shopmaquinas.js"></script>
 		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/meiomask.js"></script>
 		

@@ -1,19 +1,19 @@
 package br.diastecnologia.shopmaquinas.utils;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 
 import br.diastecnologia.shopmaquinas.bean.Contract;
-import br.diastecnologia.shopmaquinas.bean.Person;
 import br.diastecnologia.shopmaquinas.enums.ContractDefinitionProperty;
 
 public class ContractUtils {
 
-	public static Contract getValidContract( Person person ){
+	public static Contract getValidContract( List<Contract> contracts ){
 		Contract contract = null;
-		if( person != null && person.getContracts() != null && person.getContracts().size() > 0 ){
+		if( contracts != null && contracts.size() > 0 ){
 		
-			Optional<Contract> opContract = person.getContracts().stream().filter( c-> c.getEndDate().after(Calendar.getInstance().getTime()) ).findFirst();
+			Optional<Contract> opContract = contracts.stream().filter( c-> c.getEndDate().after(Calendar.getInstance().getTime()) ).findFirst();
 			if( opContract.isPresent()){
 				contract = opContract.get();
 				

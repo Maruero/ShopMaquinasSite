@@ -14,30 +14,37 @@
 		<class>br.diastecnologia.shopmaquinas.bean.Message</class>
 		<class>br.diastecnologia.shopmaquinas.bean.Person</class>
 		<class>br.diastecnologia.shopmaquinas.bean.User</class>
+		<class>br.diastecnologia.shopmaquinas.bean.Category</class>
+		<class>br.diastecnologia.shopmaquinas.bean.Type</class>
+		<class>br.diastecnologia.shopmaquinas.bean.Subtype</class>
+		<class>br.diastecnologia.shopmaquinas.bean.Brand</class>
+		<class>br.diastecnologia.shopmaquinas.bean.Model</class>
 		
 		
 		<properties> 
+	 	
+			<property name="eclipselink.target-database" value="MySQL"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true" />
+			<property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
+			
 			<!-- 
-			<property name="eclipselink.target-database" value="MySQL"/>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-			<property name="hibernate.show_sql" value="true"/>
-			<property name="hibernate.format_sql" value="true" />
-			<property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/shopmaquinas"/>
-			<property name="javax.persistence.jdbc.user" value="root"/>
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-			<property name="javax.persistence.jdbc.password" value="dias1986"/>
-		 	-->
-		 	
-			<property name="eclipselink.target-database" value="MySQL"/>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-			<property name="hibernate.show_sql" value="true"/>
-			<property name="hibernate.format_sql" value="true" />
-			<property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysql-shop-maquinas.jelasticlw.com.br/shopmaquinas"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.password" value="bhN9RJ9Jay"/>
+			 -->
+			 
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/shopmaquinas"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="javax.persistence.jdbc.password" value="dias1986"/>
+			
+			<property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider"/>
+			<property name="hibernate.c3p0.preferredTestQuery" value="SELECT 1" />
+            <property name="hibernate.c3p0.testConnectionOnCheckout" value="true" />
+            <property name="hibernate.c3p0.idle_test_period" value="300" />
 		</properties>
 	</persistence-unit>
 </persistence>

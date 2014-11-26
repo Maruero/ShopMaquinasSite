@@ -13,16 +13,22 @@
 		<article class="product-details">
 			<a href="#" class="btn-favourite"><span class="icon-star"></span></a>
 			<div class="gallery-block">
-				<div class="image-holder">
-					<img src="../../${ad.image}" alt="image description" width="400" height="341">
+			
+				<div id="carousel-generic1" class="carousel slide" data-ride="carousel" data-interval="false">
+					<div class="carousel-inner" role="listbox">
+						<div class="item active">
+							<img src="../../${ad.image}" alt="image description" width="400" height="341">
+						</div>
+					</div>
+				
+					<ol class="carousel-indicators photos-list">
+						<c:forEach items="${ad.images}" var="image">
+							<li>
+								<a href="#"><img src="../../${image}" alt="image description" width="95" height="81" onclick="return showImage(this);"></a>
+							</li>
+						</c:forEach>
+					</ol>
 				</div>
-				<ul class="photos-list">
-					<c:forEach items="${ad.images}" var="image">
-						<li>
-							<a href="#"><img src="../../${image}" alt="image description" width="95" height="81" onclick="return showImage(this);"></a>
-						</li>
-					</c:forEach>
-				</ul>
 			</div>
 			<div class="description">
 				<h3>${ad.description}</h3>

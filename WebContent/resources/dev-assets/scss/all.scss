@@ -8,12 +8,10 @@
 @-o-viewport        { width: device-width; }
 @viewport           { width: device-width; }
 *{max-height:100000px;}
-html {height: 100%;}
 body{
 	min-width:1190px;
 	-webkit-text-size-adjust:100%;
 	-ms-text-size-adjust:none;
-	height: 100%;
 	font-weight: 500;
 }
 input[type=text],
@@ -52,17 +50,17 @@ a:focus {
 	outline: none;
 }
 ::-webkit-input-placeholder {
-	color: #8c8c8c;
+	color: #aeaeae;
 }
 :-moz-placeholder {
-	color: #8c8c8c;
+	color: #aeaeae;
 }
 ::-moz-placeholder {
-	color: #8c8c8c;
+	color: #aeaeae;
 	opacity: 1;
 }
 :-ms-input-placeholder {
-	color: #8c8c8c;
+	color: #aeaeae !important;
 }
 #wrapper {
 	overflow: hidden;
@@ -71,10 +69,24 @@ a:focus {
 .container{
 	background: #fff; 
 	@include box-shadow(0 0 17px 1px rgba(34,31,31,.75));
+	width: 1170px !important;
+	min-width: 1170px !important;
+}
+.bg-stretch{
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+	img{
+		width: 100%;
+		height: auto;
+	}
 }
 #header{
-	background: url(../images/header-bg.jpg) no-repeat;
 	margin-bottom:10px;
+	position: relative;
 }
 .header-top{
 	margin-bottom: 10px;
@@ -86,9 +98,6 @@ a:focus {
 	height: 140px;
 	position: relative;
 	z-index: 5;
-	img{
-		vertical-align: top;
-	}
 }
 .header-left{
 	background: rgba(0,0,0,0.3);
@@ -108,12 +117,14 @@ a:focus {
 #nav{
 	border-top: 1px solid #fff;
 	margin: 0;
-	padding: 19px 0 14px;
+	padding: 19px 0 4px;
 	text-transform: uppercase;
 	font:24px/28px $custom-bold;
+	ul{margin: 0 !important;}
 	li{
 		position: relative;
-		margin: 0 77px 0 35px;
+		margin: 0 62px 10px 50px;
+		display: inline-block !important;
 		&:after{
 			background: #fff;
 			width: 1px;
@@ -129,6 +140,10 @@ a:focus {
 	}
 	a{
 		padding: 0;
+		&:hover,
+		&:focus{
+			text-shadow: 0 0 7px rgba(255,255,255,.75);
+		}
 	}
 }
 .header-right{
@@ -147,6 +162,7 @@ a:focus {
 		text-align: left;
 		padding:28px 10px 27px;
 		letter-spacing: 1px;
+		outline: none;
 		&:hover,
 		&:focus{
 			color: #8c0202;
@@ -168,16 +184,16 @@ a:focus {
 	margin: 0 0 16px;
 }
 .heading-wrap{
-	background:url(../images/bg-heading01.jpg) no-repeat;
 	padding:16px 15px 8px;
 	margin:0 0 15px;
+	position: relative;
 	h1{
 		font-family: $custom-medium;
 		line-height: 56px;
 		color: #fff;
 		margin: 0;
 		text-transform: uppercase;
-		text-align: center;
+		position: relative;
 	}
 }
 .featured-block{
@@ -221,9 +237,6 @@ a:focus {
 			text-transform: capitalize;
 		}
 		select{
-			background:transparent;
-			border:3px solid #fff;
-			color: #fff;
 			padding:5px 2px;
 			height: 35px;
 			margin: 0 0 12px;
@@ -244,6 +257,9 @@ a:focus {
 			vertical-align: top;
 			span{
 				font-size: 23px;
+			}
+			&:hover{
+				color: #d7d7d7;
 			}
 		}
 	}
@@ -328,9 +344,6 @@ h2{
 	margin: 0;
 }
 .utility-block{
-	.heading-wrap{
-		background:url(../images/bg-heading02.jpg) no-repeat;
-	}
 	.four-block{
 		padding: 0 0 0 12px;
 	}
@@ -338,6 +351,12 @@ h2{
 		border-bottom: 1px solid #000;
 		text-transform: uppercase;
 		margin-bottom: 4px;
+		a{
+			color:#000;
+			&:hover{
+				color:#099aca;
+			}
+		}
 	}
 	.stock-block{
 		margin: 0 0 16px;
@@ -399,20 +418,20 @@ h2{
 	}
 }
 #footer{
-	background:url(../images/bg-footer.jpg) no-repeat;
-	background-size: cover;
+	position: relative;
 	padding: 18px 0 20px;
 	.footer-left{
 		font-size: 0;
 		letter-spacing: -4px;
-		margin: 0 -20px;
+		margin: 0 -25px;
 		padding: 8px 0 0 47px;
 		.box{
 			display: inline-block;
 			vertical-align: top;
 			font: 13px/15px $custom-light;
 			letter-spacing: 0;
-			padding: 0 20px;
+			padding: 0 25px;
+			max-width: 175px;
 		}
 		h4{
 			font:23px/25px $custom-bold;
@@ -427,7 +446,7 @@ h2{
 				a{
 					color: #fff;
 					&:hover{
-						opacity: 0.8;
+						color:#fcba1e;
 					}
 				}
 			}
@@ -445,6 +464,7 @@ h2{
 			letter-spacing: -4px;
 			margin: 0 -17px;
 			padding-left: 12px;
+			max-width: 210px;
 			li{
 				display: inline-block;
 				vertical-align: top;
@@ -452,6 +472,7 @@ h2{
 				letter-spacing: 0;
 				padding: 0 17px;
 				position: relative;
+				margin: 0 0 10px;
 				&:after{
 					background: #fff;
 					width: 1px;
@@ -466,17 +487,16 @@ h2{
 				}
 				a{
 					color: #fff;
+					display: block;
+					width: 29px;
+					height: 29px;
 					&:hover{
-						opacity: 0.8;
+						color: #fcba1e;
+						font-size: 29px;
 					}
 				}
 			}
 		}
-	}
-}
-.product-block{
-	.heading-wrap{
-		background: url(../images/bg-heading03.jpg) no-repeat;
 	}
 }
 .product-details{
@@ -512,13 +532,11 @@ h2{
 		position: relative;
 		padding: 0 18px 0 0;
 		margin-right: 37px;
-		.image-holder{
-			margin: 0 0 7px;
-			img{
-				vertical-align: top;
+		.carousel
+			.carousel-inner{
+				margin: 0 0 7px;
 			}
-		}
-		.photos-list{
+		.carousel-indicators{
 			@extend %listreset;
 			font-size: 0;
 			letter-spacing: -4px;
@@ -561,8 +579,10 @@ h2{
 			.value{
 				overflow: hidden;
 				display: block;
-				p{
+				em{
 					margin: 0 0 1px;
+					font-style: normal;
+					display: block;
 				}
 				&.price{
 					font-weight: bold;
@@ -598,6 +618,7 @@ h2{
 	.modal-dialog{
 		width: 800px;
 		margin: 100px auto;
+		z-index: 1060;
 	}
 	.modal-content{
 		border-radius: 0;
@@ -791,6 +812,84 @@ h2{
 			&:focus{
 				background: #7a000a;
 				outline: none;
+			}
+		}
+	}
+}
+.login-holder{
+	.close{
+		position:static;
+		margin: -22px -12px 0 0;
+	}
+	.modal-dialog{
+		width:680px;
+	}
+	.modal-content{
+		background: #fff;
+		padding-bottom: 19px;
+		position: relative;
+		border-radius:10px;
+		.modal-header{
+			padding: 33px 11px 19px;
+			margin: 0 20px;
+			border-color:#d7d7d7;
+		}
+		.modal-body{
+			padding:19px 28px;
+		}
+	}
+	.modal-title{
+		font:33px/36px $custom-light-c;
+		text-transform:uppercase;
+		color: #000;
+		strong{
+			font-family: $custom-bold;
+			color: #0265b8;
+		}
+	}
+	.login-form{
+		.form-group{
+			margin: 0 0 22px;
+		}
+		label{
+			font:31px/34px $custom-light-c;
+			text-transform:uppercase;
+			color: #000;
+			margin: 0 0 4px 4px;
+		}
+		.form-control{
+			width: 623px;
+			height: 41px;
+			background-color: #FFF;
+			border: 1px solid #000001;
+			font-size: 14px;
+		}
+		.btn-wrap{
+			@extend %clearfix;
+			margin: -12px 0 0;
+			.forget-pass{
+				font-size: 19px;
+				text-decoration: underline;
+				color: #0265b8;
+				margin: -5px 0 04px;
+				&:hover{
+					text-decoration: none;
+				}
+			}
+			.btn-primary{
+				border-radius:0;
+				font-size: 25px;
+				line-height: 28px;
+				height: 41px;
+				min-width: 108px;
+				padding:5px;
+				margin: 0;
+				outline: none;
+				&:focus,
+				&:hover{
+					@include box-shadow(0 0 2.1px 0.9px #00bbb4);
+					background:#0265b8;
+				}
 			}
 		}
 	}

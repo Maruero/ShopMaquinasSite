@@ -16,13 +16,7 @@ $font-size-h4:		15px;
 
 //Scaffolding
 $brand-primary:#434343;
-$btn-primary-border: #434343;
-
-
-//breakpoints
-$screen-md: 992px;
-$screen-sm: 768px;
-$screen-xs: 480px;
+$btn-primary-border: transparent;
 
 
 // Buttons
@@ -31,15 +25,15 @@ $btn-default-bg:transparent;
 $btn-default-border:#fff;
 $btn-danger-bg: $brand-danger;
 $btn-default-border-width:2px;
+$btn-primary-bg:#0288fa;
 
 $icon-font-path: "../fonts/";
 
 // Grid system
-$grid-columns: 12;
 $grid-gutter-width: 20px;
 
 // Container sizes
-$container-large-desktop: ((1190px + $grid-gutter-width));
+$container-large-desktop: ((1170px + $grid-gutter-width));
 
 // Components
 $border-radius-base: 0;
@@ -56,7 +50,7 @@ $navbar-default-border: transparent;
 $navbar-default-bg: rgba(0,0,0,0.48);
 $navbar-border-radius: 0;
 $navbar-default-link-color: #fff;
-$navbar-default-link-hover-color:#fcba1e;
+$navbar-default-link-hover-color:#dad8d8;
 $navbar-default-link-active-bg: transparent;
 
 // Breadcrumbs

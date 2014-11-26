@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -16,7 +17,7 @@ import br.diastecnologia.shopmaquinas.bean.Ad;
 import br.diastecnologia.shopmaquinas.bean.JsonResponse;
 import br.diastecnologia.shopmaquinas.bean.Message;
 import br.diastecnologia.shopmaquinas.bean.Person;
-import br.diastecnologia.shopmaquinas.dao.AdDao;
+import br.diastecnologia.shopmaquinas.daos.AdDao;
 import br.diastecnologia.shopmaquinas.email.EmailConfiguration;
 import br.diastecnologia.shopmaquinas.email.EmailSender;
 import br.diastecnologia.shopmaquinas.enums.JsonResponseCode;
@@ -39,7 +40,8 @@ public class AdDetailsController{
 	@Named("EmailConfiguration")
 	private EmailConfiguration emailConfiguration;
 	
-	private AdDao adDao = new AdDao();
+	@Inject
+	private AdDao adDao;
 	
 	
 	@Get
@@ -58,11 +60,12 @@ public class AdDetailsController{
 	}
 	
 	@Get("/anuncios/nao-encontrado")
-	public void notFound( ){
-		
+	public void notFound( )
+	{
 	}
 	
 	@Post("/anuncios/salvar-proposta")
+	@Transactional
 	public void saveProposal( @Named("adID") int adID, @Named("text") String text, @Named("person") Person person){
 		JsonResponse response = new JsonResponse("Proposta realizada com sucesso.");
 		try{
@@ -77,25 +80,15 @@ public class AdDetailsController{
 			message.setToPerson( ad.getPerson() );
 			message.setText( "Proposta: " + text );
 			
-			adDao.beginTransaction();
-			
 			if( person.getPersonID() < 1 ){
-				adDao.em.persist(person);
+				adDao.getEM().persist(person);
 			}
 			
-			adDao.em.persist(message);
-			adDao.commitTransaction();
+			adDao.getEM().persist(message);
 			
 			emailSender.SendEmail(emailConfiguration.getProposalSubject(), body, body, person, ad.getPerson() );
 			
 		}catch(Exception ex){
-			
-			try{
-				if( adDao.isActiveTransaction() ){
-					adDao.rollbackTransaction();
-				}
-			}catch(Exception ex1){}
-			
 			response.setCode( JsonResponseCode.ERROR.toString() );
 			response.setMessage( "Houve um problema ao realizar a proposta: " + ex.getMessage() );
 		}
