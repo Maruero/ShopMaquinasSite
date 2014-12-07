@@ -881,29 +881,29 @@ h2 {
   margin-left: -10px;
   background: #9c010d;
 }
-.contact-form form {
+.contact-form .form {
   padding: 0 17px 0 7px;
 }
-.contact-form form label {
+.contact-form .form label {
   font: 24px/26px "akzidenz-grotesk_bq_condensMd", Arial, Helvetica, sans-serif;
   color: #9c010d;
   text-transform: uppercase;
   margin: 0 0 0 5px;
 }
-.contact-form form .form-group {
+.contact-form .form .form-group {
   margin-bottom: 9px;
 }
-.contact-form form .form-control {
+.contact-form .form .form-control {
   width: 380px;
   height: 36px;
   background-color: #fff;
   border: 1px solid #88bfd4;
 }
-.contact-form form textarea {
+.contact-form .form textarea {
   min-height: 352px !important;
   width: 380px !important;
 }
-.contact-form form .btn-danger {
+.contact-form .form .btn-danger {
   background: #9c010d;
   font: 28px/30px "akzidenz-grotesk_bq_condensMd", Arial, Helvetica, sans-serif;
   text-transform: uppercase;
@@ -913,7 +913,7 @@ h2 {
   float: right;
   margin: -4px 0 0;
 }
-.contact-form form .btn-danger:hover, .contact-form form .btn-danger:focus {
+.contact-form .form .btn-danger:hover, .contact-form .form .btn-danger:focus {
   background: #7a000a;
   outline: none;
 }
@@ -1041,4 +1041,27 @@ h2 {
 
 .slogan {
 	text-align: center;
+}
+
+.new-contract{
+	background: #e5e5e5;
+	padding: 8px 50px 25px 50px;
+	position: relative;
+}
+
+.new-contract h3{
+	text-align: center;
+	font-weight: bold;
+}
+
+.new-contract h3.not-center{
+	text-align: justify;
+}
+
+.new-contract.product-details{
+    border-top: 1px solid #848484;
+}
+
+.new-contract .title{
+	text-align: right;
 }

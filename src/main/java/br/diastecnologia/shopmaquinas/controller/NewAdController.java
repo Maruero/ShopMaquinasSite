@@ -55,7 +55,7 @@ public class NewAdController{
 	}
 	
 	@Post("/anunciar/novo-anuncio")
-	@Transactional
+	@Transactional(rollbackOn=Exception.class)
 	public void saveAd(@Named("ad")Ad ad, @Named("otherProperties")List<AdPropertyValue> otherProperties){
 		try{
 			ad.getAdPropertyValues().addAll(otherProperties);

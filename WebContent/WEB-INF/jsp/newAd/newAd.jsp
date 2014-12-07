@@ -17,7 +17,7 @@
 				<input type="hidden" name="outro" id="imageSentCount" value="" requiredLength="1" requiredMessage="O envio de pelo menos uma imagem é obrigatório."/>
 				
 			
-				<div class="description" style="float:left; min-width:450px;">
+				<div class="description" style="float:left; min-width:450px;padding:7px 60px 0 0;">
 					<div class="form-group">
 						<label for="name">Tipo*</label>
 						
@@ -112,7 +112,7 @@
 					 
 					
 					<div class="form-group">
-						<label for="name">horas*</label>
+						<label for="name">horas/kilometragem*</label>
 						
 						<input type="hidden" name="otherProperties[0].adProperty.name" value="HOURS" />
 						<input type="text" class="form-control" name="otherProperties[0].value" alt="999999" requiredLength="1" requiredMessage="Por favor, informe a quantidade de horas de uso."/>

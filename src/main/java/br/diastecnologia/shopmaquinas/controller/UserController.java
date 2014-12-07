@@ -1,7 +1,9 @@
 package br.diastecnologia.shopmaquinas.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -14,6 +16,8 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
 import br.diastecnologia.shopmaquinas.bean.Contract;
 import br.diastecnologia.shopmaquinas.bean.ContractDefinition;
+import br.diastecnologia.shopmaquinas.bean.ContractDefinitionPropertyValue;
+import br.diastecnologia.shopmaquinas.bean.Image;
 import br.diastecnologia.shopmaquinas.bean.Person;
 import br.diastecnologia.shopmaquinas.bean.User;
 import br.diastecnologia.shopmaquinas.daos.AdDao;
@@ -31,12 +35,37 @@ public class UserController{
 	@Inject
 	private AdDao dao;
 	
+	@Get("/contrato/novo-contrato")
+	public void newContract(){
+		List<ContractDefinition> definitions = dao.contractDefinitions().toList();
+		result.include("definitions", definitions);
+	}
+	
+	@Get("/contrato/escolher-contrato")
+	public void setContract( @Named("contractDefinitionID")int contractDefinitionID){
+		session.setRedirectObject(contractDefinitionID);
+		result.redirectTo( UserController.class ).register();
+	}
+	
 	@Get("/contrato/cadastro")
 	public void register(){
 		if( session.getUser() != null && session.getUser().getPerson() != null ){
 			result.include("update", true);
 			result.include("person", session.getUser().getPerson() );
 		}
+		
+		int contractDefinitionID = (Integer)session.getRedirectObject();
+		session.setRedirectObject(contractDefinitionID);
+		
+		ContractDefinition def = dao.contractDefinitions().where( c-> c.getContractDefinitionID() == contractDefinitionID ).findFirst().get();
+		ContractDefinitionPropertyValue prop = def.getContractDefinitionPropertyValues().stream().filter( 
+				p -> p.getContractDefinitionProperty().getName().equals(br.diastecnologia.shopmaquinas.enums.ContractDefinitionProperty.TYPE.toString())).findFirst().get();
+		boolean isCompanyContract = prop.getValue().toUpperCase().equals("EMPRESARIAL");
+		
+		session.setUploadedImages( new ArrayList<String>() );
+		
+		result.include("isCompanyContract", isCompanyContract);
+		result.include("contractDefinitionID", contractDefinitionID);
 	}
 	
 	@Get("/contrato/checar-cpf")
@@ -52,12 +81,13 @@ public class UserController{
 	}
 	
 	@Post("/contrato/salvar-novo-contrato")
-	@Transactional
-	public void saveNewRegister( @Named("person")Person person, @Named("user")User user, @Named("contractDefinitionID")int contractDefinitionID, @Named("companyID")int companyID)
+	@Transactional(rollbackOn=Exception.class)
+	public void saveNewRegister( @Named("person")Person person, @Named("user")User user, @Named("contractDefinitionID")int contractDefinitionID)
 	{
 		try{
 			ContractDefinition def = dao.contractDefinitions().where( c-> c.getContractDefinitionID() == contractDefinitionID).findFirst().get();
 			Contract contract = new Contract();
+			contract.setPerson(person);
 			contract.setContractDefinition(def);
 			contract.setStartDate( Calendar.getInstance().getTime() );
 			
@@ -65,35 +95,34 @@ public class UserController{
 			user.setPerson( person );
 			user.setUsername( person.getDocuments().get( 0 ).getDocumentNumber() );
 			
-			dao.getEM().persist( person.getContracts().get( 0 ));
-			dao.getEM().persist( person.getDocuments().get( 0 ));
-			dao.getEM().persist( person.getAddress());
-			dao.getEM().persist( person );
-			dao.getEM().persist( user );
+			if(session.getUploadedImages() != null )
+			{
+				person.setImages(new ArrayList<Image>());
+				for( String image : session.getUploadedImages() )
+				{
+					Image i = new Image();
+					i.setPerson(person);
+					i.setPath(image);
+					person.getImages().add(i);
+				}
+			}
+
+			String username = user.getUsername();
+			String password = user.getPassword();
+			
+			user = dao.saveNewUser(user);
+			User userLogged = dao.users().where( 
+					u-> u.getUsername().equals(username)
+					&& u.getPassword().equals( password )).findFirst().get();
+			
+			session.setUser( userLogged );
 			
 			result.include("update", true);
 			result.include("message", "Novo cadastro salvo com sucesso!");
+			result.redirectTo(ContractController.class).contracts();
 			
 		}catch(Exception ex){
-			result.include("errorMessage", ex.getMessage() );
-			result.redirectTo( UserController.class ).register();
-			return;
-		}
-	}
-	
-	@Post("/contrato/salvar-contrato")
-	@Transactional
-	public void saveRegister( @Named("person")Person person)
-	{
-		try{
-			dao.getEM().persist( person.getDocuments().get( 0 ));
-			dao.getEM().merge( person.getAddress());
-			dao.getEM().merge( person );
-			
-			result.include("update", true);
-			result.include("message", "Cadastro salvo com sucesso!");
-			
-		}catch(Exception ex){
+			session.setRedirectObject(contractDefinitionID);
 			result.include("errorMessage", ex.getMessage() );
 			result.redirectTo( UserController.class ).register();
 			return;

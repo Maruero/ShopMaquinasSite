@@ -6,7 +6,6 @@ import javax.inject.Named;
 import br.com.caelum.vraptor.environment.Property;
 import br.diastecnologia.shopmaquinas.bean.Ad;
 import br.diastecnologia.shopmaquinas.bean.Person;
-import br.diastecnologia.shopmaquinas.utils.CurrencyUtils;
 
 @Named("EmailConfiguration")
 public class EmailConfiguration {

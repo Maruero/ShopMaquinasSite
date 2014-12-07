@@ -90,35 +90,40 @@
 									<aside id="sidebar">
 										<section class="widget filter-form">
 											<h2>Busca</h2>
-											<form action="#" role="form">
+											<form action="<tiles:getAsString name="pathPrefix"/>buscar-anuncions" role="form">
 												<fieldset>
 													<div class="form-group">
-														<input class="form-control" type="text" placeholder="Digite..">
+														<input class="form-control" type="text" name="description" placeholder="Digite..">
 													</div>
 													<div class="form-group">
 														<label>Categorias</label>
-														<select id="type-home-select" class="form-control">
-															<option>Tipo</option>
+														<input type="hidden" name="adPropertyValues[0].adProperty.adPropertyID" value="1" />
+														<select id="type-home-select" name="adPropertyValues[0].value" class="form-control">
+															<option value="">Tipo</option>
 														</select>
 													</div>
 													<div class="form-group">
-														<select id="group-home-select" class="form-control">
-															<option>Grupo</option>
+														<input type="hidden" name="adPropertyValues[1].adProperty.adPropertyID" value="2" />
+														<select id="group-home-select" name="adPropertyValues[1].value" class="form-control">
+															<option value="">Grupo</option>
 														</select>
 													</div>
 													<div class="form-group">
-														<select id="category-home-select" class="form-control">
-															<option>Categoria</option>
+														<input type="hidden" name="adPropertyValues[2].adProperty.adPropertyID" value="3" />
+														<select id="category-home-select" name="adPropertyValues[2].value" class="form-control">
+															<option value="">Categoria</option>
 														</select>
 													</div>
 													<div class="form-group">
-														<select id="brand-home-select" class="form-control">
-															<option>Marca</option>
+														<input type="hidden" name="adPropertyValues[3].adProperty.adPropertyID" value="4" />
+														<select id="brand-home-select" name="adPropertyValues[3].value" class="form-control">
+															<option value="">Marca</option>
 														</select>
 													</div>
 													<div class="form-group">
-														<select id="model-home-select" class="form-control">
-															<option>Modelo</option>
+														<input type="hidden" name="adPropertyValues[4].adProperty.adPropertyID" value="5" />
+														<select id="model-home-select" name="adPropertyValues[4].value" class="form-control">
+															<option value="">Modelo</option>
 														</select>
 													</div>
 													<div class="form-group">
@@ -223,7 +228,7 @@
 									<div class="col-md-12">
 										<section class="contact-form">
 											<h2 id="h2-popup">Aguarde</h2>
-											<form role="form">
+											<form class="form" role="form">
 												<div class="form-group">
 													<label for="name" id="label-popup">Carregando</label>
 												</div>
@@ -244,17 +249,17 @@
 									<div class="col-md-12">
 										<section class="contact-form">
 											<h2 id="h2-popup">Login</h2>
-											<form role="form" id="login-group">
+											<form class="form" role="form" id="login-group">
 												<div class="form-group">
 													<label for="name" id="label-popup">CPF/CNPJ</label>
-													<input type="text" class="form-control" id="username" name="username" requiredLength="1" alt="9999999999999" requiredMessage="O campo CPF/CNPJ é obrigatório!">
+													<input type="text" class="form-control" id="username" name="username" requiredLength="1" alt="99999999999999" requiredMessage="O campo CPF/CNPJ é obrigatório!">
 												</div>
 												<div class="form-group">
 													<label for="name" id="label-popup">Senha</label>
 													<input type="password" class="form-control" id="password" name="password" requiredLength="1" requiredMessage="O campo senha é obrigatório!">
 												</div>
 												<a type="submit" class="btn btn-danger left" onclick="return register('<tiles:getAsString name="pathPrefix"/>');">cadastre-se</a>
-												<a type="submit" class="btn btn-danger" onclick="return login('<tiles:getAsString name="pathPrefix"/>');">entrar</a>
+												<a type="submit" class="btn btn-danger" onclick="return login('<tiles:getAsString name="pathPrefix"/>');" id="login-button">entrar</a>
 											</form>
 										</section>
 									</div>

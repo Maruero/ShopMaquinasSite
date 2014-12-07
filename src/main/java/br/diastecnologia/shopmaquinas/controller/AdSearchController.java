@@ -11,6 +11,8 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
+import br.diastecnologia.shopmaquinas.bean.Ad;
+import br.diastecnologia.shopmaquinas.bean.AdPropertyValue;
 import br.diastecnologia.shopmaquinas.bean.Brand;
 import br.diastecnologia.shopmaquinas.bean.Model;
 import br.diastecnologia.shopmaquinas.bean.Subtype;
@@ -56,6 +58,16 @@ public class AdSearchController {
 	public void getModels( @Named("brandId")int brandId ){
 		List<Model> models = adDao.models().where( t-> t.getParentId() == brandId ).collect(Collectors.toList());
 		result.use( Results.json() ).from( models ).recursive().serialize();
+	}
+	
+	@Get
+	@Path("/buscar-anuncions")
+	public void search( @Named("adPropertyValues") List<AdPropertyValue> props, @Named("description") String description ){
+		
+		props = props.stream().filter( p-> p.getValue() != null).collect(Collectors.toList());
+		
+		List<Ad> ads = adDao.listAds(props, description, 1);
+		result.include("ads", ads);
 	}
 	
 }

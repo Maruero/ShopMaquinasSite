@@ -134,7 +134,7 @@
 						<div class="col-md-6">
 							<section class="contact-form">
 								<h2>fazer proposta</h2>
-								<form role="form" id="proposal-group">
+								<form role="form" class="form" id="proposal-group" style="padding-right:15px;">
 									<input type="hidden" id="proposal-adID" value="${ad.adID}">
 									<div class="form-group">
 										<label for="name">Nome*</label>

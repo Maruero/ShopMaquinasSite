@@ -13,7 +13,7 @@ public class ContractUtils {
 		Contract contract = null;
 		if( contracts != null && contracts.size() > 0 ){
 		
-			Optional<Contract> opContract = contracts.stream().filter( c-> c.getEndDate().after(Calendar.getInstance().getTime()) ).findFirst();
+			Optional<Contract> opContract = contracts.stream().filter( c-> c.getEndDate() == null || c.getEndDate().after(Calendar.getInstance().getTime()) ).findFirst();
 			if( opContract.isPresent()){
 				contract = opContract.get();
 				
@@ -22,7 +22,13 @@ public class ContractUtils {
 						.stream().filter( p -> 
 							p.getContractDefinitionProperty().getName().equals( ContractDefinitionProperty.AD_QUANTITY.toString() ) 
 						).findFirst().get().getDoubleValue();
-				if( maxAd <= contract.getAds().size() ){
+				
+				int contractAdsCount = 0;
+				if( contract.getAds() != null){
+					contractAdsCount = contract.getAds().size();
+				}
+				
+				if( maxAd <= contractAdsCount ){
 					contract = null;
 				}
 			}

@@ -19,6 +19,7 @@
 		<class>br.diastecnologia.shopmaquinas.bean.Subtype</class>
 		<class>br.diastecnologia.shopmaquinas.bean.Brand</class>
 		<class>br.diastecnologia.shopmaquinas.bean.Model</class>
+		<class>br.diastecnologia.shopmaquinas.bean.Image</class>
 		
 		
 		<properties> 

@@ -3,6 +3,7 @@ $(document).ready(function() {
 	formatDates();
 	processError();
 	hideNotMiniImageLink();
+	setMasks();
 	
 	$(':input').setMask();
 	$('input[data-mask]').each(function() {
@@ -20,8 +21,13 @@ function processError(){
 	}
 }
 
-function register(){
-	alert("Em desenvolvimento!");
+function register(prefixPath){
+	
+	if(!prefixPath){
+		prefixPath = "";
+	}
+	
+	window.location = prefixPath + "contrato/novo-contrato";
 	return false;
 }
 
@@ -70,6 +76,8 @@ function login(prefixPath){
 		prefixPath = "";
 	}
 	
+	$("#login-button").html("Carregando...");
+	
 	if(validate("login-group")){
 		$.ajax({
 			url: prefixPath + 'logon',
@@ -90,9 +98,11 @@ function login(prefixPath){
 					}
 					$("#popup-login-opener").click();
 				}
+				$("#login-button").html("Entrar");
 			},
 			error: function(data){
 				openRedPopup("Aten&ccedil;&atilde;o!", data.jsonResponse.message );
+				$("#login-button").html("Entrar");
 			}
 		});
 	}
@@ -416,4 +426,57 @@ function load( url , target ){
 }
 
 
+
+/*--------------------------- NOVO USUÁRIO -------------------------------*/
+function setMasks() {
+	$(':input').setMask();
+	$('input[data-mask]').each(function() {
+	  $(this).setMask($(this).data('mask'));
+	});
+	
+	$('#celular').setMask("(99) 9999-99999");
+	$('#celular').on('blur', function(event) {
+	    var target, phone, element;
+	    target = (event.currentTarget) ? event.currentTarget : event.srcElement;
+	    phone = target.value.replace(/\D/g, '');
+	    element = $(target);
+	    element.unsetMask();
+	    if(phone.length > 10) {
+	        element.setMask("(99) 99999-9999");
+	    } else {
+	        element.setMask("(99) 9999-99999");
+	    }
+	});
+}
+
+function buscarCEP(){
+	
+	$('.address-input').val('Carregando...');
+	
+	$.ajax({
+		url: 'http://cep.republicavirtual.com.br/web_cep.php',
+		dataType: "jsonp",
+		data: {
+			'cep' : $('#cep').val(),
+			'formato' : 'jsonp',
+			'callback' : 'receiveCEP'
+		},
+		success: function(data){
+			alert('success:' + data);
+		}
+	});
+	return false;
+}
+
+function receiveCEP(cep){
+	if( cep.uf == "" ){
+		alert("Cep não encontrado");
+	}else{			
+		$("#uf").val(cep.uf);
+		$("#cidade").val(cep.cidade);
+		$("#bairro").val(cep.bairro);
+		$("#logradouro").val(cep.tipo_logradouro + ' ' + cep.logradouro);
+	}
+	
+}
 

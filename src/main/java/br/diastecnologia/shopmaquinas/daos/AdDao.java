@@ -19,19 +19,18 @@ import br.diastecnologia.shopmaquinas.bean.AdProperty;
 import br.diastecnologia.shopmaquinas.bean.AdPropertyValue;
 import br.diastecnologia.shopmaquinas.bean.Brand;
 import br.diastecnologia.shopmaquinas.bean.Category;
-import br.diastecnologia.shopmaquinas.bean.Company;
 import br.diastecnologia.shopmaquinas.bean.Contract;
 import br.diastecnologia.shopmaquinas.bean.ContractDefinition;
 import br.diastecnologia.shopmaquinas.bean.ContractDefinitionProperty;
 import br.diastecnologia.shopmaquinas.bean.ContractDefinitionPropertyValue;
 import br.diastecnologia.shopmaquinas.bean.Document;
+import br.diastecnologia.shopmaquinas.bean.Image;
 import br.diastecnologia.shopmaquinas.bean.Message;
 import br.diastecnologia.shopmaquinas.bean.Model;
 import br.diastecnologia.shopmaquinas.bean.Person;
 import br.diastecnologia.shopmaquinas.bean.Subtype;
 import br.diastecnologia.shopmaquinas.bean.Type;
 import br.diastecnologia.shopmaquinas.bean.User;
-import br.diastecnologia.shopmaquinas.enums.AdProperties;
 import br.diastecnologia.shopmaquinas.utils.AdPropertyUtils;
 
 @RequestScoped
@@ -48,11 +47,14 @@ public class AdDao {
 	protected boolean activeTransaction;
 	private JinqJPAStreamProvider streams;
 	
-	public List<Ad> listAds( List<AdPropertyValue> props , int pageNumber ){
+	public List<Ad> listAds( List<AdPropertyValue> props , String text, int pageNumber ){
 		
 		long skip = (pageNumber -1) * adPageSize;
+		
+		List<Ad> ads = new ArrayList<Ad>();
+		
 		JinqStream<Ad> stream = ads();
-		if( props != null ){
+		if( props != null && props.size() > 0 ){
 			for( AdPropertyValue prop : props ){
 				stream = stream.where( a -> a.getAdPropertyValues().stream().filter( 
 						p-> p.getAdPropertyID() == prop.getAdPropertyID() && 
@@ -62,19 +64,19 @@ public class AdDao {
 			}
 		}
 		
-		stream = stream.skip(skip).limit(adPageSize);
-		List<Ad> ads = stream.toList();
-		
-		for( Ad ad : ads){
-			em.detach(ad);
+		if( text != null && text.length() > 0 ){
+			String[] textSearch = text.toUpperCase().split(" ");
 			
-			ad.setAdPropertyValues(
-				ad.getAdPropertyValues().stream().filter( 
-						p-> (!p.getAdProperty().getName().equals(AdProperties.IMAGE.toString()))
-						||(p.getAdProperty().getName().equals(AdProperties.IMAGE.toString()) && p.getValue().indexOf("mini") != -1)
-				).collect(Collectors.toList())
-			);
+			for( String search : textSearch ){
+				stream = stream.where( a -> a.getAdPropertyValues().stream().filter( 
+						p-> p.getValue().toUpperCase().contains( search )
+					).count() > 0
+				);
+			}
 		}
+		
+		stream = stream.skip(skip).limit(adPageSize);
+		ads = stream.toList();
 		
 		return ads;
 	}
@@ -127,6 +129,17 @@ public class AdDao {
 		return ad;
 	}
 
+	public User saveNewUser(User user){
+		em.persist( user );
+		if( user.getPerson().getDocuments() != null ){
+			for( Document doc : user.getPerson().getDocuments() ){
+				doc.setPersonID( user.getPerson().getPersonID() );
+				em.persist( doc);
+			}
+		}
+		return user;
+	}
+	
 	
 	public void flush(){
 		em.flush();
@@ -155,11 +168,6 @@ public class AdDao {
 	public JinqStream<AdPropertyValue> adPropertyValues() {
 		init();
 		return streams.streamAll(em, AdPropertyValue.class); 
-	}
-	
-	public JinqStream<Company> companies() {
-		init();
-		return streams.streamAll(em, Company.class); 
 	}
 	
 	public JinqStream<Contract> contracts() {
@@ -202,6 +210,11 @@ public class AdDao {
 		return streams.streamAll(em, Message.class);
 	}
 	
+	public JinqStream<Image> images(){
+		init();
+		return streams.streamAll(em, Image.class);
+	}
+	
 	public JinqStream<Category> categories(){
 		init();
 		return streams.streamAll(em, Category.class);
@@ -225,15 +238,5 @@ public class AdDao {
 	public JinqStream<Model> models(){
 		init();
 		return streams.streamAll(em, Model.class);
-	}
-
-	public boolean isActiveTransaction() {
-		init();
-		return activeTransaction;
-	}
-
-	public void setActiveTransaction(boolean activeTransaction) {
-		init();
-		this.activeTransaction = activeTransaction;
 	}
 }
