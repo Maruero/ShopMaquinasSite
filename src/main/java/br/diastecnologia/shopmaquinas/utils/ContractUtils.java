@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import br.diastecnologia.shopmaquinas.bean.Contract;
 import br.diastecnologia.shopmaquinas.enums.ContractDefinitionProperty;
+import br.diastecnologia.shopmaquinas.enums.ContractStatus;
 
 public class ContractUtils {
 
@@ -29,6 +30,10 @@ public class ContractUtils {
 				}
 				
 				if( maxAd <= contractAdsCount ){
+					contract = null;
+				}
+				
+				if( contract.getContractStatus() != ContractStatus.ACTIVE){
 					contract = null;
 				}
 			}

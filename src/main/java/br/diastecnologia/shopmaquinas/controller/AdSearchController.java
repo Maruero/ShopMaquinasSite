@@ -70,4 +70,31 @@ public class AdSearchController {
 		result.include("ads", ads);
 	}
 	
+	@Get
+	@Path("/busca-avancada")
+	public void advancedSearch( @Named("adPropertyValues") List<AdPropertyValue> props, @Named("otherProperties") List<AdPropertyValue> otherProps){
+		
+		props = props.stream().filter( p-> p.getValue() != null).collect(Collectors.toList());
+		otherProps = otherProps.stream().filter( p-> 
+			p.getValue() != null
+		).collect(Collectors.toList());
+		
+		List<Ad> ads = adDao.listAds(props, otherProps, 1);
+		
+		if( ads.size() < 1 ){
+			result.include("ErrorMessage", "A sua busca não retornou resultados.");
+			result.redirectTo( AdSearchController.class ).detailedSearch();
+			return;
+		}
+		
+		result.include("ads", ads);
+		result.forwardTo("/WEB-INF/jsp/adSearch/search.jsp");
+	}
+	
+	@Get
+	@Path("/busca-detalhada")
+	public void detailedSearch(){
+		
+	}
+	
 }

@@ -71,11 +71,7 @@
 						<label for="name">Cor*</label>
 						
 						<input type="hidden" name="ad.adPropertyValues[5].adProperty.name" value="COLOR"/>
-						<select class="form-control" name="ad.adPropertyValues[5].value" requiredLength="1" requiredMessage="Por favor, informe a cor.">
-							<option value="">Selecione</option>
-							<option value="branco">Branco</option>
-							<option value="preto">Preto</option>
-						</select>
+						<input type="text" class="form-control" name="ad.adPropertyValues[5].value" requiredLength="1" requiredMessage="Por favor, informe a cor." />					
 					</div>
 					
 					<div class="form-group">

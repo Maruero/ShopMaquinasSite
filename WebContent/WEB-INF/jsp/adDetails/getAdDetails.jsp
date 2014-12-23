@@ -16,16 +16,22 @@
 			
 				<div id="carousel-generic1" class="carousel slide" data-ride="carousel" data-interval="false">
 					<div class="carousel-inner" role="listbox">
-						<div class="item active">
-							<img src="../../${ad.image}" alt="image description" width="400" height="341">
+						<div class="item active image-holder">
+							<c:forEach items="${ad.images}" var="image">
+								<c:if test="${image.indexOf('mini') == -1 }">
+									<img src="../../${image}" alt="image description" width="400" height="341" data-name="${image}" style="display:none;">
+								</c:if>
+							</c:forEach>
 						</div>
 					</div>
 				
-					<ol class="carousel-indicators photos-list">
+					<ol class="carousel-indicators photos-list" style="width:400px;">
 						<c:forEach items="${ad.images}" var="image">
-							<li>
-								<a href="#"><img src="../../${image}" alt="image description" width="95" height="81" onclick="return showImage(this);"></a>
-							</li>
+							<c:if test="${image.indexOf('mini') != -1 }">
+								<li>
+									<a href="#"><img id="mini-image-link" src="../../${image}" alt="image description" width="95" height="81" onclick="return showImage(this);" data-name="${image}"></a>
+								</li>
+							</c:if>
 						</c:forEach>
 					</ol>
 				</div>
@@ -39,7 +45,14 @@
 						<c:if test="${prop.adProperty.visible}">
 							<li>
 								<strong class="title">${prop.adProperty.description} -</strong>
-								<span class="value price">${prop.value}</span>
+								<c:choose>
+									<c:when test="${prop.value == 'true' }">
+										<span class="value price">Sim</span>
+									</c:when>
+									<c:otherwise>
+										<span class="value price">${prop.value}</span>
+									</c:otherwise>
+								</c:choose>
 							</li>
 						</c:if>
 						

@@ -10,7 +10,7 @@
 		<title>Shop Maquinas</title>
 		
 		<link type="text/css" rel="stylesheet" href="<tiles:getAsString name="pathPrefix"/>resources/css/bootstrap.min.css">
-		<link type="text/css" rel="stylesheet" href="<tiles:getAsString name="pathPrefix"/>resources/css/all.css">
+		<link type="text/css" rel="stylesheet" href="<tiles:getAsString name="pathPrefix"/>resources/css/all_v1.css">
 		
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,7 +40,7 @@
 										<div class="logo">
 											<a href="<tiles:getAsString name="pathPrefix"/>"><img src="<tiles:getAsString name="pathPrefix"/>resources/images/logo.png" alt="Shop Maquinas" width="178" height="140"></a>
 										</div>
-										<span class="slogan">"Agora ficou fácil comprar e vender sua máquina e implemento agrícola"</span>
+										<span class="slogan">"Agora ficou fácil comprar e vender máquinas e implementos agrícolas"</span>
 									</div>
 									<nav id="nav" class="navbar navbar-default" role="navigation">
 										<div class="container-fluid">
@@ -131,7 +131,7 @@
 													</div>
 												</fieldset>
 											</form>
-											<a href="#" class="link-refine"><span>+</span> Busca Detalhada</a>
+											<a href="<tiles:getAsString name="pathPrefix"/>busca-detalhada" class="link-refine"><span>+</span> Busca Detalhada</a>
 										</section>
 									</aside>
 								</div>
@@ -209,9 +209,9 @@
 										<a href="#"><img src="<tiles:getAsString name="pathPrefix"/>resources/images/logo.png" alt="Shop Maquinas" width="178" height="140"></a>
 									</div>
 									<ul class="social-networks">
-										<li><a href="#"><span class="icon-twitter"></span></a></li>
-										<li><a href="#"><span class="icon-facebook"></span></a></li>
-										<li><a href="#"><span class="icon-feed"></span></a></li>
+										<li><a href="javascript:;"><span class="icon-twitter"></span></a></li>
+										<li><a href="javascript:;"><span class="icon-facebook"></span></a></li>
+										<li><a href="javascript:;"><span class="icon-feed"></span></a></li>
 									</ul>
 								</div>
 							</div>
@@ -256,7 +256,7 @@
 												</div>
 												<div class="form-group">
 													<label for="name" id="label-popup">Senha</label>
-													<input type="password" class="form-control" id="password" name="password" requiredLength="1" requiredMessage="O campo senha é obrigatório!">
+													<input type="password" class="form-control" data-id="login-password" id="password" name="password" requiredLength="1" requiredMessage="O campo senha é obrigatório!">
 												</div>
 												<a type="submit" class="btn btn-danger left" onclick="return register('<tiles:getAsString name="pathPrefix"/>');">cadastre-se</a>
 												<a type="submit" class="btn btn-danger" onclick="return login('<tiles:getAsString name="pathPrefix"/>');" id="login-button">entrar</a>
@@ -273,7 +273,7 @@
 		</div>
 		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/jquery-1.11.1.min.js"></script>
 		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/shopmaquinas.js"></script>
+		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/shopmaquinas_v1.js"></script>
 		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/meiomask.js"></script>
 		
 		<tiles:insertAttribute name="scripts" />

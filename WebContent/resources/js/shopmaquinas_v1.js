@@ -2,7 +2,7 @@ $(document).ready(function() {
 	
 	formatDates();
 	processError();
-	hideNotMiniImageLink();
+	showFirst();
 	setMasks();
 	
 	$(':input').setMask();
@@ -11,13 +11,22 @@ $(document).ready(function() {
 	});
 	
 	loadOptions();
-	
+	bindEvents();
 });
+
+function bindEvents(){
+	$('#password[data-id="login-password"]').keypress(function (e) {
+	  if (e.which == 13) {
+	    $('#login-button').click();
+	    return false;    
+	  }
+	});
+}
 
 function processError(){
 	var errorMessage = $("#errorMessage").html();
 	if( errorMessage.length > 0 ){
-		openRedPopup("Atenção: ", errorMessage);
+		openRedPopup("Aten&ccedil;&atilde;o: ", errorMessage);
 	}
 }
 
@@ -29,6 +38,58 @@ function register(prefixPath){
 	
 	window.location = prefixPath + "contrato/novo-contrato";
 	return false;
+}
+
+function checarSenha(){
+	var password = $("#password").val();
+	var passwordConfirmation = $("#password-confirmation").val();
+	var equals = (password == passwordConfirmation);
+	if( !equals){
+		$("#password").addClass("input-error");
+		$("#password-confirmation").addClass("input-error");
+		$("#register-button").hide();
+		openRedPopup("Aten&ccedil;&atilde;o: ", "Senha e confirma&ccedil;&atilde;o de senha informados n&atilde;o conferem!");
+	}else{
+		$("#register-button").show();
+		$("#password").removeClass("input-error");
+		$("#password-confirmation").removeClass("input-error");
+	}
+}
+
+function checarCpf(input){
+	
+	var cpf = $("#input-cpf").val();
+	var cnpj = $("#input-cnpj").val();
+	
+	var goon = false;
+	
+	if( cpf && valida_cpf() ){
+		goon = true;
+	}else if( cnpj && valida_cnpj() ){
+		goon = true;
+	}else{
+		openRedPopup("Aten&ccedil;&atilde;o: ", "Documento inv&aacute;lido.");
+		$(input).addClass("input-error");
+	}
+	
+	if( goon ){
+		$.ajax({
+			url: 'checar-cpf',
+			data: {
+				'cpf' : $(input).val()
+			},
+			success: function (data){
+				if(data.long > 0 ){
+					$(input).addClass("input-error");
+					$("#register-button").hide();
+					openRedPopup("Aten&ccedil;&atilde;o: ", "O documento informado j&aacute; est&aacute; cadastrado na Shop M&aacute;quinas!");
+				}else{
+					$("#register-button").show();
+					$(input).removeClass("input-error");
+				}
+		}
+	});
+	}
 }
 
 /** ---------------- LOGIN ----------------**/
@@ -57,7 +118,7 @@ function openLogin(prefixPath){
 					
 					var restricted = $("#page-restricted").html();
 					if( restricted ){
-						pathPrefix = $("#pathPrefix").html();
+						var pathPrefix = $("#pathPrefix").html();
 						window.location = pathPrefix;
 					}
 				}
@@ -105,6 +166,8 @@ function login(prefixPath){
 				$("#login-button").html("Entrar");
 			}
 		});
+	}else{
+		$("#login-button").html("Entrar");
 	}
 	return false;
 }
@@ -167,6 +230,12 @@ function formatDates(){
  ==================================================================**/
 
 function restricted(link){
+	
+	var errorMessage = $(link).attr("data-error-message");
+	if(errorMessage){
+		openRedPopup("Aten&ccedil;&atilde;o!", errorMessage);
+		return false;
+	}
 	
 	var href = $(link).attr("href");
 	
@@ -278,10 +347,15 @@ function hideNotMiniImageLink(){
 	$(".photos-list img[src*='mini']").parent().parent().show();
 }
 
+function showFirst(){
+	$("#mini-image-link").click();
+}
+
 function showImage(elem){
-	var imageSrc = $(elem).attr('src');
+	var imageSrc = $(elem).attr('data-name');
 	imageSrc = imageSrc.replace('mini-', '');
-	$(".image-holder img").attr('src', imageSrc);
+	$(".image-holder img").hide();
+	$(".image-holder img[data-name='"+imageSrc+"']").show();
 	
 	return false;
 }
@@ -300,25 +374,21 @@ function putSymbol(elem){
 
 var typeJson = [
 	{
-		'id' : '',
-		'name' : 'Selecione'
-	},
-	{
-		'id' : '1',
-		'name' : 'Ve&iacute;culos'
-	},
-	{
-		'id' : '2',
-		'name' : 'M&aacute;quinas'
-	},
-	{
 		'id' : '3',
 		'name' : 'Implementos'
 	},
 	{
 		'id' : '4',
 		'name' : 'Industriais'
-	}
+	},
+	{
+		'id' : '2',
+		'name' : 'M&aacute;quinas'
+	},
+	{
+		'id' : '1',
+		'name' : 'Pesados'
+	},
 ];
 
 function loadOptions(){
@@ -406,6 +476,40 @@ function loadOptions(){
 	
 }
 
+function validateAdvancedSearch(){
+	
+	var yearMin = $("#year-min").val();
+	var yearMax = $("#year-max").val();
+	
+	if( yearMin > yearMax ){
+		openRedPopup("Aten&ccedil;&atilde;o!", "Por favor, verifique os valores informados com m&iacute;nimo e m&aacute;ximo para o Ano.");
+		return false;
+	}
+	
+	var hourMin = $("#hour-min").val();
+	var hourMax = $("#hour-max").val();
+	
+	if( hourMin > hourMax ){
+		openRedPopup("Aten&ccedil;&atilde;o!", "Por favor, verifique os valores informados com m&iacute;nimo e m&aacute;ximo para o Horas/Km.");
+		return false;
+	}
+	
+	var priceMin = $("#price-min").val();
+	var priceMax = $("#price-max").val();
+	
+	if( priceMin > priceMax ){
+		openRedPopup("Aten&ccedil;&atilde;o!", "Por favor, verifique os valores informados com m&iacute;nimo e m&aacute;ximo para o Pre&ccedil;o.");
+		return false;
+	}
+	
+	if( priceMin == "0,00" && priceMin == priceMax ){
+		$("#price-min").attr('disabled', 'disabled');
+		$("#price-max").attr('disabled', 'disabled');
+	}
+	
+	return true;
+}
+
 function load( url , target ){
 	$('' + target + ' option').html('Carregando');
 	$.ajax({
@@ -470,7 +574,7 @@ function buscarCEP(){
 
 function receiveCEP(cep){
 	if( cep.uf == "" ){
-		alert("Cep não encontrado");
+		openRedPopup("Aten&ccedil;&atilde;o!", "Cep n&atilde;o encontrado");
 	}else{			
 		$("#uf").val(cep.uf);
 		$("#cidade").val(cep.cidade);
@@ -480,3 +584,127 @@ function receiveCEP(cep){
 	
 }
 
+/** ===============================================================
+ * BILLINGS
+ ==================================================================**/
+
+function gerarBoleto(billingID){
+	
+	var payer = PagSeguroDirectPayment.getSenderHash();	
+	if( payer ){
+		window.open("gerar-boleto?billingID=" + billingID + "&payer=" + payer, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, top=0, left=0, width=700, height=500");
+	}else{
+		openRedPopup("Aten&ccedil;&atilde;o!", "Por favor, aguarde o total carregamento da p&aacute;gina antes de acionar esse bot&atilde;o." );
+	}
+
+	return false;
+}
+
+function valida_cnpj(){
+	 
+    var pri = $("#input-cnpj").val().substring(0,2);
+    var seg = $("#input-cnpj").val().substring(2,5);
+    var ter = $("#input-cnpj").val().substring(5,8);
+    var qua = $("#input-cnpj").val().substring(8,12);
+    var qui = $("#input-cnpj").val().substring(12,14);
+
+    var i;
+    var numero;
+    var situacao = '';
+
+    numero = (pri+seg+ter+qua+qui);
+
+    var s = numero;
+
+
+    var c = s.substr(0,12);
+    var dv = s.substr(12,2);
+    var d1 = 0;
+
+    for (i = 0; i < 12; i++){
+       d1 += c.charAt(11-i)*(2+(i % 8));
+    }
+
+    if (d1 == 0){
+       var result = "falso";
+    }
+       d1 = 11 - (d1 % 11);
+
+    if (d1 > 9) d1 = 0;
+
+       if (dv.charAt(0) != d1){
+          var result = "falso";
+       }
+
+    d1 *= 2;
+    for (i = 0; i < 12; i++){
+       d1 += c.charAt(11-i)*(2+((i+1) % 8));
+    }
+
+    d1 = 11 - (d1 % 11);
+    if (d1 > 9) d1 = 0;
+
+       if (dv.charAt(1) != d1){
+          var result = "falso";
+       }
+
+
+    if (result == "falso") {
+       return false;
+    }
+    
+    return true;
+}
+
+
+function valida_cpf(){
+
+    var pri = $("#input-cpf").val().substring(0,3);
+    var seg = $("#input-cpf").val().substring(3,6);
+    var ter = $("#input-cpf").val().substring(6,9);
+    var qua = $("#input-cpf").val().substring(9,11);
+
+    var i;
+    var numero;
+
+    numero = (pri+seg+ter+qua);
+
+    var s = numero;
+    var c = s.substr(0,9);
+    var dv = s.substr(9,2);
+    var d1 = 0;
+
+    for (i = 0; i < 9; i++){
+       d1 += c.charAt(i)*(10-i);
+    }
+
+    if (d1 == 0){
+       var result = "falso";
+    }
+
+    d1 = 11 - (d1 % 11);
+    if (d1 > 9) d1 = 0;
+
+    if (dv.charAt(0) != d1){
+       var result = "falso";
+    }
+
+    d1 *= 2;
+    for (i = 0; i < 9; i++){
+       d1 += c.charAt(i)*(11-i);
+    }
+
+    d1 = 11 - (d1 % 11);
+    if (d1 > 9) d1 = 0;
+
+    if (dv.charAt(1) != d1){
+       var result = "falso";
+    }
+
+
+    if (result == "falso") {
+       return false;
+    }
+    
+    return true;
+}

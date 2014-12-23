@@ -17,6 +17,7 @@ import org.jinq.orm.stream.JinqStream;
 import br.diastecnologia.shopmaquinas.bean.Ad;
 import br.diastecnologia.shopmaquinas.bean.AdProperty;
 import br.diastecnologia.shopmaquinas.bean.AdPropertyValue;
+import br.diastecnologia.shopmaquinas.bean.Billing;
 import br.diastecnologia.shopmaquinas.bean.Brand;
 import br.diastecnologia.shopmaquinas.bean.Category;
 import br.diastecnologia.shopmaquinas.bean.Contract;
@@ -72,6 +73,53 @@ public class AdDao {
 						p-> p.getValue().toUpperCase().contains( search )
 					).count() > 0
 				);
+			}
+		}
+		
+		stream = stream.skip(skip).limit(adPageSize);
+		ads = stream.toList();
+		
+		return ads;
+	}
+	
+	public List<Ad> listAds( List<AdPropertyValue> props , List<AdPropertyValue> otherProps, int pageNumber ){
+		
+		long skip = (pageNumber -1) * adPageSize;
+		
+		List<Ad> ads = new ArrayList<Ad>();
+		
+		JinqStream<Ad> stream = ads();
+		if( props != null && props.size() > 0 ){
+			for( AdPropertyValue prop : props ){
+				stream = stream.where( a -> a.getAdPropertyValues().stream().filter( 
+						p-> p.getAdPropertyID() == prop.getAdPropertyID() && 
+					    p.getValue().equals( prop.getValue() )
+					).count() > 0
+				);
+			}
+		}
+		
+		if( otherProps != null && otherProps.size() > 0 ){
+			for( AdPropertyValue prop : otherProps ){
+				
+				boolean min = true;
+				if( prop.getAdProperty().getName().indexOf("MAX") != -1){
+					min = false;
+				}
+				
+				if( min ){
+					stream = stream.where( a -> a.getAdPropertyValues().stream().filter( 
+							p-> p.getAdPropertyID() == prop.getAdPropertyID() && 
+						    p.getDoubleValue() >= prop.getDoubleValue()
+						).count() > 0
+					);
+				}else{
+					stream = stream.where( a -> a.getAdPropertyValues().stream().filter( 
+							p-> p.getAdPropertyID() == prop.getAdPropertyID() && 
+						    p.getDoubleValue() <= prop.getDoubleValue()
+						).count() > 0
+					);
+				}
 			}
 		}
 		
@@ -238,5 +286,10 @@ public class AdDao {
 	public JinqStream<Model> models(){
 		init();
 		return streams.streamAll(em, Model.class);
+	}
+	
+	public JinqStream<Billing> billings(){
+		init();
+		return streams.streamAll(em, Billing.class);
 	}
 }

@@ -48,7 +48,7 @@ public class NewAdController{
 		Contract contract = ContractUtils.getValidContract(person.getContracts());
 		if( contract == null ){
 			result.include("ErrorMessage", "Somente anunciantes ativos podem anunciar. Para anunciar contrate um de nossos planos.");
-			result.redirectTo( HomeController.class ).index();
+			result.redirectTo( ContractController.class ).contracts();
 		}
 		session.setUploadedImages( new ArrayList<String>() );
 		result.include("Contract", contract);

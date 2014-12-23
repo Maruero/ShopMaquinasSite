@@ -37,7 +37,7 @@ public class HomeController implements Serializable{
 	
 	@Get("/")
 	public void index(){
-		List<Ad> ads = adDao.listAds( Arrays.asList(AdPropertyUtils.getInstance(adDao).getHighlightProperty()), null, 1);
+		List<Ad> ads = adDao.listAds( Arrays.asList(AdPropertyUtils.getInstance(adDao).getHighlightProperty()), (String)null, 1);
 		result.include("ads", ads);
 	}
 	

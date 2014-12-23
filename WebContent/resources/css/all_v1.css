@@ -1065,3 +1065,22 @@ h2 {
 .new-contract .title{
 	text-align: right;
 }
+
+.side-by-side{
+	float: left;
+	min-width: 440px;
+}
+.side-by-side tbody tr{
+	border-top: 1px solid black;
+}
+.side-by-side tbody td{
+	padding: 5px 0;
+}
+.input-error{
+	border: 1px solid red !important;
+}
+.two-in-a-row{
+	float: left !important;
+	width: 40% !important;
+	margin: 0 31px 10px 0 !important;
+}

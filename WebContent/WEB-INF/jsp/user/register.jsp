@@ -20,13 +20,13 @@
 								<input type="hidden" name="person.personType" value="COMPANY"/>
 								<input type="hidden" name="person.documents[0].documentType" value="CNPJ"/>
 								<label for="name">CNPJ*</label>
-								<input type="text" class="form-control" placeholder="CNPJ -  somente números" name="person.documents[0].documentNumber" value="" alt="99999999999999" requiredLength="14" requiredMessage="CNPJ inválido."/>
+								<input id="input-cnpj" onblur="checarCpf(this);" type="text" class="form-control" placeholder="CNPJ -  somente números" name="person.documents[0].documentNumber" value="" alt="99999999999999" requiredLength="14" requiredMessage="CNPJ inválido."/>
 							</c:when>
 							<c:otherwise>
 							<input type="hidden" name="person.personType" value="HUMAN"/>
 							<input type="hidden" name="person.documents[0].documentType" value="CPF"/>
 								<label for="name">CPF*</label>
-								<input type="text" class="form-control" placeholder="CPF -  somente números" name="person.documents[0].documentNumber" value="" alt="99999999999" requiredLength="11" requiredMessage="CPF inválido."/>
+								<input id="input-cpf" onblur="checarCpf(this);" type="text" class="form-control" placeholder="CPF -  somente números" name="person.documents[0].documentNumber" value="" alt="99999999999" requiredLength="11" requiredMessage="CPF inválido."/>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -69,7 +69,7 @@
 					
 					<div class="form-group">
 						<label for="name">Confirmação de senha*</label>
-						<input type="password" class="form-control" name="" placeholder="Confirmação de senha" id="password-confirmation" value="" requiredLength="1" requiredMessage="Confirmação de senha é obrigatório."/><br/>
+						<input onblur="checarSenha();" type="password" class="form-control" name="" placeholder="Confirmação de senha" id="password-confirmation" value="" requiredLength="1" requiredMessage="Confirmação de senha é obrigatório."/><br/>
 					</div>
 					
 					<c:if test="${!isCompanyContract}">
@@ -179,7 +179,7 @@
 				</c:if>
 				<div class="description" style="margin-top:15px;">
 					<div class="text-wrap" style="width:835px;">
-						<input type="submit" class="btn btn-danger" style="float:right;" value="Salvar" onclick="$('#register-form').submit();"/>
+						<input id="register-button" type="submit" class="btn btn-danger" style="float:right;" value="Salvar" onclick="$('#register-form').submit();"/>
 					</div>
 				</div>
 						

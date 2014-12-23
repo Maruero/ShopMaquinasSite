@@ -103,28 +103,29 @@
 						<section class="stock-block">
 							<h2><a href="#">Bolsa de valores</a></h2>
 							<div class="holder">
-								<img src="resources/images/img02.jpg" alt="image description" width="267" height="157">
+								<iframe id="frmPreview" frameborder="0" scrolling="no" src="http://www.agrolink.com.br/clientes/selos/selo.aspx?servico=cotacoes&uf=9830,9833,9834&p=9,11,1090,17&l=-1&esp=-1&cor=azul&w=266&h=178" width="266" height="178" style="border:none;"></iframe>
+								
 							</div>
 						</section>
 						<section class="stock-block">
-							<h2><a href="#">Bolsa de valores</a></h2>
+							<h2>Notícias</h2>
 							<div class="holder">
-								<img src="resources/images/img03.jpg" alt="image description" width="266" height="178">
+								<iframe id="frmPreview" frameborder="0" scrolling="no" src="http://www.agrolink.com.br/clientes/selos/selo.aspx?servico=noticias&uf=9830,9833,9834&p=9,11,1090,17&l=-1&esp=1379,3218,4394,3508,3175&cor=verde&w=300&h=200" width="300" height="200" style="border:none;"></iframe>
 							</div>
 						</section>
 					</div>
 					<div class="col-xs-3">
 						<section class="notice-holder">
-							<h2>Previsão de preciptação</h2>
+							<h2>Bolsa de valores</h2>
 							<div class="holder">
-								<img src="resources/images/img04.jpg" alt="image description" width="266" height="178">
+								<iframe id="frmPreview" frameborder="0" scrolling="no" src="http://www.agrolink.com.br/clientes/selos/selo.aspx?servico=financas&uf=9830,9833,9834&p=9,11,1090,17&l=-1&esp=-1&cor=azul&w=200&h=115" width="200" height="115" style="border:none;"></iframe>
 							</div>
 						</section>
 					</div>
 					<div class="col-xs-3">
 						<div class="ad-holder">
 							<img src="resources/images/img06.png" alt="image description" width="257" height="306">
-							<a href="#" class="btn-ad">clique aqui</a>
+							<a class="btn-ad" href="contratos" onClick="return restricted(this);">clique aqui</a>
 						</div>
 					</div>
 				</div>
@@ -136,7 +137,7 @@
 	<!-- POPUPs e demais recursos para colocar escondido. -->
 	<tiles:putAttribute name="afterFooter">
 	
-		<<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModal2" aria-hidden="true">
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModal2" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<button type="button" class="close" data-dismiss="modal"><span class="icon-close"></span></button>

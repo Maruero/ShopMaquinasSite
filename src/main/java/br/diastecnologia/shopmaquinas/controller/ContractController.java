@@ -29,7 +29,8 @@ public class ContractController {
 			return;
 		}
 		
-		Person person = dao.getEM().merge(session.getUser().getPerson());
+		Person person = dao.persons().where( p-> p.getPersonID() == session.getUser().getPerson().getPersonID() ).findFirst().get();
+		//Person person = dao.getEM().merge(session.getUser().getPerson());
 		
 		result.include("restricted", true);
 		result.include("contracts", person.getContracts());

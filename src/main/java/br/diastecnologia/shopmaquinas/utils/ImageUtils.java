@@ -69,8 +69,8 @@ public class ImageUtils {
 			Graphics g = combined.getGraphics();
 			g.drawImage(image, 0, 0, null);
 			
-			int x = w - overlay.getWidth() - 20;
-			int y = 20;
+			int x = 20;
+			int y = h - overlay.getHeight() - 20;
 			
 			if( mini ){
 				x = (int)((image.getWidth() - overlay.getWidth()) / (double)2);

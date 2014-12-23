@@ -13,7 +13,9 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.environment.Property;
 import br.com.caelum.vraptor.view.Results;
+import br.diastecnologia.shopmaquinas.bean.Billing;
 import br.diastecnologia.shopmaquinas.bean.Contract;
 import br.diastecnologia.shopmaquinas.bean.ContractDefinition;
 import br.diastecnologia.shopmaquinas.bean.ContractDefinitionPropertyValue;
@@ -21,6 +23,7 @@ import br.diastecnologia.shopmaquinas.bean.Image;
 import br.diastecnologia.shopmaquinas.bean.Person;
 import br.diastecnologia.shopmaquinas.bean.User;
 import br.diastecnologia.shopmaquinas.daos.AdDao;
+import br.diastecnologia.shopmaquinas.enums.BillingStatus;
 import br.diastecnologia.shopmaquinas.session.SessionBean;
 
 @Controller
@@ -34,6 +37,10 @@ public class UserController{
 	
 	@Inject
 	private AdDao dao;
+	
+	//@Inject
+	//@Property("billing.days")
+	private Integer billingDays = 5;
 	
 	@Get("/contrato/novo-contrato")
 	public void newContract(){
@@ -90,6 +97,19 @@ public class UserController{
 			contract.setPerson(person);
 			contract.setContractDefinition(def);
 			contract.setStartDate( Calendar.getInstance().getTime() );
+			
+			double amount = def.getContractDefinitionPropertyValues().stream().filter( p-> p.getContractDefinitionProperty().getName().equals("PRICE")).findFirst().get().getDoubleValue();
+			Billing billing = new Billing();
+			billing.setAmount(amount);
+			billing.setContract(contract);
+			
+			Calendar dueDate = Calendar.getInstance();
+			dueDate.add( Calendar.DAY_OF_MONTH, billingDays);
+			billing.setDueDate(dueDate.getTime());
+			billing.setStatus(BillingStatus.PENDING);
+			
+			contract.setBillings(new ArrayList<Billing>());
+			contract.getBillings().add(billing);
 			
 			person.setContracts( Arrays.asList(contract) );
 			user.setPerson( person );
