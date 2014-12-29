@@ -37,7 +37,7 @@
         <appender-ref ref="queriesAppender" />
     </category>
     <category name="org.hibernate.type">
-        <priority value="INFO" /> 
+        <priority value="TRACE" /> 
         <appender-ref ref="queriesAppender" />
     </category>
     <category name="br.com.caelum.vraptor">

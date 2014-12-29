@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
 <!DOCTYPE html>
 <html lang="pt">
 	<head>
-		<meta charset="ISO-8859-1">
+		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Shop Maquinas</title>
 		
@@ -40,7 +40,7 @@
 										<div class="logo">
 											<a href="<tiles:getAsString name="pathPrefix"/>"><img src="<tiles:getAsString name="pathPrefix"/>resources/images/logo.png" alt="Shop Maquinas" width="178" height="140"></a>
 										</div>
-										<span class="slogan">"Agora ficou fácil comprar e vender máquinas e implementos agrícolas"</span>
+										<span class="slogan">"Agora ficou fÃ¡cil comprar e vender mÃ¡quinas e implementos agrÃ­colas"</span>
 									</div>
 									<nav id="nav" class="navbar navbar-default" role="navigation">
 										<div class="container-fluid">
@@ -49,7 +49,7 @@
 													<li><a href="<tiles:getAsString name="pathPrefix"/>">home</a></li>
 													<li><a href="#">compre</a></li>
 													<li><a href="<tiles:getAsString name="pathPrefix"/>contratos" onClick="return restricted(this);">venda</a></li>
-													<li><a href="#">acessórios</a></li>
+													<li><a href="<tiles:getAsString name="pathPrefix"/>area-do-cliente" onClick="return restricted(this);">Ãrea do cliente</a></li>
 												</ul>
 											</div>
 										</div>
@@ -172,7 +172,7 @@
 												<a href="#">Banco de pedidos</a>
 											</li>
 											<li>
-												<a href="#">Área do cliente</a>
+												<a href="#">Ãrea do cliente</a>
 											</li>
 										</ul>
 									</div>
@@ -183,12 +183,12 @@
 												<a href="#">Anunciar</a>
 											</li>
 											<li>
-												<a href="#">Adesão de empresas</a>
+												<a href="#">AdesÃ£o de empresas</a>
 											</li>
 										</ul>
 									</div>
 									<div class="box">
-										<h4>acessórios</h4>
+										<h4>acessÃ³rios</h4>
 										<ul>
 											<li>
 												<a href="#">Destaques</a>
@@ -197,7 +197,7 @@
 												<a href="#">Anunciar</a>
 											</li>
 											<li>
-												<a href="#">Adesão de empresas</a>
+												<a href="#">AdesÃ£o de empresas</a>
 											</li>
 										</ul>
 									</div>
@@ -221,7 +221,7 @@
 					<tiles:insertAttribute name="afterFooter" />
 					
 					<a href="#" id="popup-opener" data-toggle="modal" data-target="#myModal10" style="display:none;"></a>
-					<div class="modal modal1 fade" id="myModal10" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" style="z-index:1000;">
+					<div class="modal modal1 fade" id="myModal10" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" style="z-index:10000;">
 						<div class="modal-dialog modal-dialog-popup">
 							<div class="modal-content">
 								<div class="row">
@@ -229,8 +229,10 @@
 										<section class="contact-form">
 											<h2 id="h2-popup">Aguarde</h2>
 											<form class="form" role="form">
-												<div class="form-group">
+												<div class="form-group" id="div-label-popup">
 													<label for="name" id="label-popup">Carregando</label>
+												</div>
+												<div class="form-group" id="div-content-popup">
 												</div>
 												<a type="submit" class="btn btn-danger" data-toggle="modal" data-target="#myModal10">fechar</a>
 											</form>
@@ -252,11 +254,11 @@
 											<form class="form" role="form" id="login-group">
 												<div class="form-group">
 													<label for="name" id="label-popup">CPF/CNPJ</label>
-													<input type="text" class="form-control" id="username" name="username" requiredLength="1" alt="99999999999999" requiredMessage="O campo CPF/CNPJ é obrigatório!">
+													<input type="text" class="form-control" id="logon-username" name="username" requiredLength="1" alt="99999999999999" requiredMessage="O campo CPF/CNPJ Ã© obrigatÃ³rio!">
 												</div>
 												<div class="form-group">
 													<label for="name" id="label-popup">Senha</label>
-													<input type="password" class="form-control" data-id="login-password" id="password" name="password" requiredLength="1" requiredMessage="O campo senha é obrigatório!">
+													<input type="password" class="form-control" data-id="login-password" id="logon-password" name="password" requiredLength="1" requiredMessage="O campo senha Ã© obrigatÃ³rio!">
 												</div>
 												<a type="submit" class="btn btn-danger left" onclick="return register('<tiles:getAsString name="pathPrefix"/>');">cadastre-se</a>
 												<a type="submit" class="btn btn-danger" onclick="return login('<tiles:getAsString name="pathPrefix"/>');" id="login-button">entrar</a>

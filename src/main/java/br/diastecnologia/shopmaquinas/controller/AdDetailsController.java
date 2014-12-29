@@ -21,6 +21,7 @@ import br.diastecnologia.shopmaquinas.daos.AdDao;
 import br.diastecnologia.shopmaquinas.email.EmailConfiguration;
 import br.diastecnologia.shopmaquinas.email.EmailSender;
 import br.diastecnologia.shopmaquinas.enums.JsonResponseCode;
+import br.diastecnologia.shopmaquinas.enums.MessageStatus;
 import br.diastecnologia.shopmaquinas.session.SessionBean;
 
 @Controller
@@ -59,6 +60,21 @@ public class AdDetailsController{
 		result.include("ad", adToShow);
 	}
 	
+	@Get
+	@Path("/anuncios/detalhes-do-anuncio-json")
+	public void getAdDetailsJson( @Named("adID") Integer adID ){
+		Ad adToShow = adDao.getDetachedAd(adID);
+		if( adToShow == null ){
+			JsonResponse response = new JsonResponse(JsonResponseCode.ERROR, "Anúncio não encontrado.");
+			this.result.use( Results.json() ).from(response).recursive().serialize();
+			return;
+		}
+	
+		JsonResponse response = new JsonResponse("Anúncio carregado com sucesso.");
+		response.setData( adToShow );
+		this.result.use( Results.json() ).from(response).recursive().serialize();
+	}
+	
 	@Get("/anuncios/nao-encontrado")
 	public void notFound( )
 	{
@@ -79,6 +95,7 @@ public class AdDetailsController{
 			message.setFromPerson( person );
 			message.setToPerson( ad.getPerson() );
 			message.setText( "Proposta: " + text );
+			message.setStatus( MessageStatus.NEW );
 			
 			if( person.getPersonID() < 1 ){
 				adDao.getEM().persist(person);

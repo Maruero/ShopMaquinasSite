@@ -15,7 +15,7 @@ $(document).ready(function() {
 });
 
 function bindEvents(){
-	$('#password[data-id="login-password"]').keypress(function (e) {
+	$('#logon-password[data-id="login-password"]').keypress(function (e) {
 	  if (e.which == 13) {
 	    $('#login-button').click();
 	    return false;    
@@ -104,6 +104,7 @@ function openLogin(prefixPath){
 	var username = $("#user-logged").html();
 	
 	if( username.length < 1){
+		loginNextPage = prefixPath + 'area-do-cliente';
 		$("#popup-login-opener").click();
 	}else{
 		$.ajax({
@@ -124,7 +125,7 @@ function openLogin(prefixPath){
 				}
 			},
 			error: function(data){
-				openRedPopup("Aten&ccedil;&atilde;o!", data.jsonResponse.message );
+				openRedPopup("Aten&ccedil;&atilde;o!", data );
 			}
 		});
 	}
@@ -144,8 +145,8 @@ function login(prefixPath){
 			url: prefixPath + 'logon',
 			method: 'POST',
 			data : {
-				'username' : $("#username").val(),
-				'password' : $("#password").val()
+				'username' : $("#logon-username").val(),
+				'password' : $("#logon-password").val()
 			},
 			success: function(data){
 				if( data.jsonResponse.code == "ERROR"){
@@ -179,6 +180,8 @@ function sendProposal(){
 	
 	if( validate("proposal-group") ){
 		
+		$("#send-proposal-button").html('enviando...');
+		
 		$.ajax({
 			url: '../salvar-proposta',
 			method: 'POST',
@@ -195,10 +198,12 @@ function sendProposal(){
 				}else{
 					openGreenPopup("Sucesso!", data.jsonResponse.message );
 				}
+				$("#send-proposal-button").html('enviar');
 				
 			},
 			error: function(data){
 				openRedPopup("Aten&ccedil;&atilde;o!", data.jsonResponse.message );
+				$("#send-proposal-button").html('enviar');
 			}
 		});
 		
@@ -277,12 +282,18 @@ function openRedPopup( title, message ){
 	$("#h2-popup").removeClass("green");
 	$("#h2-popup").addClass("red");
 	
+	$("#div-label-popup").show();
+	$("#div-content-popup").hide();
+	
 	openPopup(title, message);
 }
 
 function openGreenPopup( title, message ){
 	$("#h2-popup").addClass("green");
 	$("#h2-popup").removeClass("red");
+	
+	$("#div-label-popup").show();
+	$("#div-content-popup").hide();
 	
 	openPopup(title, message);
 }
@@ -315,7 +326,11 @@ function sendImage(button){
 
 function saveAd(){
 	if( validate("form-new-ad")){
-		$('#form-new-ad').attr('action', 'novo-anuncio');
+		if( $('#form-new-ad').attr('data-update') != "true"){
+			$('#form-new-ad').attr('action', 'novo-anuncio');
+		}else{
+			$('#form-new-ad').attr('action', 'salvar-anuncio');	
+		}
 		$('#form-new-ad').prop('target', '');
 		$('#form-new-ad').submit();
 	}
@@ -405,7 +420,7 @@ function loadOptions(){
 	$('#brand-home-select').prop('disabled', true);
 	$('#model-home-select').prop('disabled', true);
 	
-	$("#type-select").html('');
+	$("#type-select").html('<option value="" data-id="0">Selecione</option>');
 	$(typeJson).each(function (option){
 		$('#type-select').append(
 			'<option value="'+this.name+'" data-id="'+this.id+'">'+this.name+'</option>'
@@ -522,6 +537,7 @@ function load( url , target ){
 					'<option value="'+this.name+'" data-id="'+this.id+'">'+this.name+'</option>'
 				);
 			});
+			$('' + target).trigger('optionsChanged');
 		},
 		error: function(data){
 			
@@ -540,6 +556,20 @@ function setMasks() {
 	
 	$('#celular').setMask("(99) 9999-99999");
 	$('#celular').on('blur', function(event) {
+	    var target, phone, element;
+	    target = (event.currentTarget) ? event.currentTarget : event.srcElement;
+	    phone = target.value.replace(/\D/g, '');
+	    element = $(target);
+	    element.unsetMask();
+	    if(phone.length > 10) {
+	        element.setMask("(99) 99999-9999");
+	    } else {
+	        element.setMask("(99) 9999-99999");
+	    }
+	});
+	
+	$('#proposal-phone').setMask("(99) 9999-99999");
+	$('#proposal-phone').on('blur', function(event) {
 	    var target, phone, element;
 	    target = (event.currentTarget) ? event.currentTarget : event.srcElement;
 	    phone = target.value.replace(/\D/g, '');
@@ -708,3 +738,204 @@ function valida_cpf(){
     
     return true;
 }
+
+
+/****************************** AREA DO CLIENTE **************************/
+function removeMessage( messageID ){
+	
+	var remove = confirm('Deseja realmente remover a mensagem?');
+	if( remove ){
+		$.ajax({
+			url : 'excluir-mensagem',
+			method: 'POST',
+			data : {
+				messageID : messageID
+			},
+			success : function(data){
+				if( data.jsonResponse.code == "ERROR"){
+					openRedPopup("Aten&ccedil;&atilde;o!", data.jsonResponse.message );
+				}else{
+					openGreenPopup("Sucesso!", data.jsonResponse.message );
+					window.location.reload();
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown ){
+				openRedPopup("Aten&ccedil;&atilde;o!", textStatus );
+			}
+		});
+		
+	}
+	return false;
+}
+
+function openMessage(messageID ){
+	$.ajax({
+		url : 'obter-mensagem',
+		data : {
+			messageID : messageID
+		},
+		success : function(data){
+			if( data.jsonResponse.code == "ERROR"){
+				openRedPopup("Aten&ccedil;&atilde;o!", data.jsonResponse.message );
+			}else{
+				
+				$("#div-label-popup").hide();
+				$("#div-content-popup").show();
+				$("#div-content-popup").html('');
+				
+				$("#div-content-popup").append(
+					"<strong>Nome: </strong>" + data.jsonResponse.data.senderName +
+					"<br><strong>Telefone: </strong>" + data.jsonResponse.data.senderPhone +
+					"<br><strong>Email: </strong>" + data.jsonResponse.data.senderEmail +
+					"<br><strong>Anuncio: </strong>" + data.jsonResponse.data.adDescription +
+					"<br><br>" + data.jsonResponse.data.text
+				);
+				
+				openPopup('Proposta', '');
+				
+				$(".glyphicon[id='"+messageID+"']").removeClass("glyphicon-envelope");
+				$(".glyphicon[id='"+messageID+"']").addClass("glyphicon-ok");
+				
+			}
+		},
+		error : function(jqXHR, textStatus, errorThrown ){
+			openRedPopup("Aten&ccedil;&atilde;o!", textStatus );
+		}
+	});
+	
+	return false;
+}
+
+function removeAd( adID ){
+	
+	var remove = confirm('Deseja realmente remove-lo?');
+	if( remove ){
+		$.ajax({
+			url : 'excluir-anuncio',
+			method: 'POST',
+			data : {
+				adID : adID
+			},
+			success : function(data){
+				if( data.jsonResponse.code == "ERROR"){
+					openRedPopup("Aten&ccedil;&atilde;o!", data.jsonResponse.message );
+				}else{
+					openGreenPopup("Sucesso!", data.jsonResponse.message );
+					window.location.reload();
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown ){
+				openRedPopup("Aten&ccedil;&atilde;o!", textStatus );
+			}
+		});
+		
+	}
+	return false;
+}
+
+
+function changePassword(){
+	
+	var oldPassword = $("#old-password").val();
+	var newPassword = $("#new-password").val();
+	var newRePassword = $("#new-repassword").val();
+	
+	if( newPassword != newRePassword ){
+		openRedPopup("Aten&ccedil;&atilde;o: ", "Senha e confirma&ccedil;&atilde;o de senha informados n&atilde;o conferem!");
+	}else if( oldPassword.length < 1 ){
+		openRedPopup("Aten&ccedil;&atilde;o: ", "Senha atual &eacute; obrigat&oacute;ria!");
+	}else if( newPassword.length < 1 ){
+		openRedPopup("Aten&ccedil;&atilde;o: ", "Nova senha &eacute; obrigat&oacute;ria!");
+	}else{
+		
+		$("#change-password-button").html('trocando...');
+		
+		$.ajax({
+			url : 'trocar-senha',
+			method : 'POST',
+			data: {
+				password: oldPassword,
+				newPassword: newPassword
+			},
+			success: function(data){
+				if( data.jsonResponse.code == "ERROR"){
+					openRedPopup("Aten&ccedil;&atilde;o!", data.jsonResponse.message );
+				}else{
+					openGreenPopup("Sucesso!", data.jsonResponse.message );
+				}
+				$("#change-password-button").html('trocar');
+			},
+			error : function(jqXHR, textStatus, errorThrown ){
+				openRedPopup("Aten&ccedil;&atilde;o!", textStatus );
+				$("#change-password-button").html('trocar');
+			}
+		});
+		
+	}
+	
+	return false;
+}
+
+
+function getAd( adID ){
+	$.ajax({
+		url: '../anuncios/detalhes-do-anuncio-json',
+		data:{
+			'adID' : adID
+		},
+		success: function(data){
+			loadAdToEdit(data);
+		},
+		error : function(jqXHR, textStatus, errorThrown ){
+			openRedPopup("Aten&ccedil;&atilde;o!", textStatus );
+			$("#change-password-button").html('trocar');
+		}
+	});
+}
+
+function loadAdToEdit( data ){
+	var notInputProperties = ["TYPE", "GROUP", "CATEGORY", "BRAND", "MODEL"];
+	var notInputValues = []; 
+	
+	$(data.jsonResponse.data.adPropertyValues).each(function(prop){
+		if( $.inArray( this.adProperty.name, notInputProperties) == -1 ){
+			$("[data-prop-name='"+ this.adProperty.name +"']").val( this.value );
+		}else{
+			notInputValues.push(this.value);
+		}
+	});
+	
+	bindEventsToLoadAd(notInputValues);
+}
+
+function bindEventsToLoadAd( values ){
+	
+	$("#group-select").on("optionsChanged", function(){
+		if( values.length > 3 ){
+			$("#group-select").val(values[0]).change();
+			values = values.slice(1, 10);
+		}
+	});
+	$("#category-select").on("optionsChanged", function(){
+		if( values.length > 2 ){
+			$("#category-select").val(values[0]).change();
+			values = values.slice(1, 10);
+		}
+	});
+	$("#brand-select").on("optionsChanged", function(){
+		if( values.length > 1 ){
+			$("#brand-select").val(values[0]).change();
+			values = values.slice(1, 10);
+		}
+	});
+	$("#model-select").on("optionsChanged", function(){
+		if( values.length > 0 ){
+			$("#model-select").val(values[0]).change();
+			values = values.slice(1, 10);
+		}
+	});
+	
+	$("#type-select").val(values[0]).change();
+	values = values.slice(1, 10);
+}
+

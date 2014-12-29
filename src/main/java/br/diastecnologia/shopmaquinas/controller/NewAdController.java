@@ -43,7 +43,7 @@ public class NewAdController{
 	@Get("/anunciar/novo-anuncio")
 	public void newAd(){
 	
-		Person person = adDao.getEM().merge(session.getUser().getPerson());
+		Person person = adDao.persons().where( p-> p.getPersonID() == session.getUser().getPerson().getPersonID() ).findFirst().get();
 		
 		Contract contract = ContractUtils.getValidContract(person.getContracts());
 		if( contract == null ){
@@ -52,6 +52,24 @@ public class NewAdController{
 		}
 		session.setUploadedImages( new ArrayList<String>() );
 		result.include("Contract", contract);
+		result.include("ad", new Ad());
+	}
+	
+	@Get("/anunciar/editar-anuncio")
+	public void editAd( @Named("adID") int adID ){
+		
+		Ad ad = adDao.getAd(adID);
+		if( session.getUser() == null || session.getUser().getPerson() == null || ad.getPerson().getPersonID() != session.getUser().getPerson().getPersonID() ){
+			result.include("ErrorMessage", "Sessão expirada, comece novamente.");
+			result.redirectTo(HomeController.class).index();
+			return;
+		}
+		session.setUploadedImages( new ArrayList<String>() );
+		
+		result.include("ad", ad);
+		result.include("update", true);
+		
+		result.forwardTo("/WEB-INF/jsp/newAd/newAd.jsp");
 	}
 	
 	@Post("/anunciar/novo-anuncio")
@@ -67,6 +85,32 @@ public class NewAdController{
 			ex.printStackTrace();
 			result.include("ErrorMessage", ex.getMessage());
 			result.redirectTo( NewAdController.class ).newAd();
+		}
+	}
+	
+	@Post("/anunciar/salvar-anuncio")
+	@Transactional(rollbackOn=Exception.class)
+	public void saveExistingAd(@Named("ad")Ad ad, @Named("otherProperties")List<AdPropertyValue> otherProperties){
+		try{
+			Ad exisingAd = adDao.getAd(ad.getAdID());
+			adDao.getEM().detach(exisingAd);
+			
+			ad.getAdPropertyValues().addAll(otherProperties);
+			
+			for( AdPropertyValue value : exisingAd.getAdPropertyValues() ){
+				adDao.getEM().remove(value);
+			}
+			adDao.getEM().flush();
+			
+			exisingAd.getAdPropertyValues().clear();
+			exisingAd.getAdPropertyValues().addAll(ad.getAdPropertyValues());
+			
+			exisingAd = adDao.saveAd(exisingAd, session.getUploadedImages());
+			result.redirectTo(AdDetailsController.class).getAdDetails( exisingAd.getAdID() );
+		}catch(Exception ex){
+			ex.printStackTrace();
+			result.include("ErrorMessage", ex.getMessage());
+			result.redirectTo( NewAdController.class ).editAd(ad.getAdID());
 		}
 	}
 	

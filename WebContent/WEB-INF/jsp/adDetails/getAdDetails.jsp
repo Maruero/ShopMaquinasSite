@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
@@ -19,7 +19,7 @@
 						<div class="item active image-holder">
 							<c:forEach items="${ad.images}" var="image">
 								<c:if test="${image.indexOf('mini') == -1 }">
-									<img src="../../${image}" alt="image description" width="400" height="341" data-name="${image}" style="display:none;">
+									<img src="../../..${image}" alt="image description" width="400" height="341" data-name="${image}" style="display:none;">
 								</c:if>
 							</c:forEach>
 						</div>
@@ -29,7 +29,7 @@
 						<c:forEach items="${ad.images}" var="image">
 							<c:if test="${image.indexOf('mini') != -1 }">
 								<li>
-									<a href="#"><img id="mini-image-link" src="../../${image}" alt="image description" width="95" height="81" onclick="return showImage(this);" data-name="${image}"></a>
+									<a href="#"><img id="mini-image-link" src="../../..${image}" alt="image description" width="95" height="81" onclick="return showImage(this);" data-name="${image}"></a>
 								</li>
 							</c:if>
 						</c:forEach>
@@ -60,7 +60,7 @@
 					
 				</ul>
 				<div class="text-wrap">
-					<strong class="title">Descrição:</strong>
+					<strong class="title">DescriÃ§Ã£o:</strong>
 					<p>${ad.longDescription}</p>
 					<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal1">fazer proposta</button>
 				</div>
@@ -151,21 +151,21 @@
 									<input type="hidden" id="proposal-adID" value="${ad.adID}">
 									<div class="form-group">
 										<label for="name">Nome*</label>
-										<input type="text" class="form-control" id="proposal-name" requiredLength="1" requiredMessage="O campo nome é obrigatório">
+										<input type="text" class="form-control" id="proposal-name" requiredLength="1" requiredMessage="O campo nome Ã© obrigatÃ³rio">
 									</div>
 									<div class="form-group">
 										<label for="Email">e-mail*</label>
-										<input type="email" class="form-control" id="proposal-email" requiredLength="1" requiredMessage="O campo e-mail é obrigatório">
+										<input type="email" class="form-control" id="proposal-email" requiredLength="1" requiredMessage="O campo e-mail Ã© obrigatÃ³rio">
 									</div>
 									<div class="form-group">
 										<label for="phone">Telefone*</label>
-										<input type="tel" class="form-control" id="proposal-phone" requiredLength="1" requiredMessage="O campo telefone é obrigatório">
+										<input type="tel" class="form-control" id="proposal-phone" requiredLength="1" requiredMessage="O campo telefone Ã© obrigatÃ³rio">
 									</div>
 									<div class="form-group">
 										<label for="phone">mensagem*</label>
-										<textarea class="form-control" id="proposal-text" rows="3" requiredLength="1" requiredMessage="O campo mensagem é obrigatória"></textarea>
+										<textarea class="form-control" id="proposal-text" rows="3" requiredLength="1" requiredMessage="O campo mensagem Ã© obrigatÃ³ria"></textarea>
 									</div>
-									<a type="submit" class="btn btn-danger" onclick="sendProposal();">enviar</a>
+									<a type="submit" id="send-proposal-button" class="btn btn-danger" onclick="sendProposal();">enviar</a>
 								</form>
 							</section>
 						</div>

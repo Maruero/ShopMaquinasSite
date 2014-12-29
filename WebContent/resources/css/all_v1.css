@@ -1027,6 +1027,10 @@ h2 {
   margin-left: 0px;
 }
 
+#h3-popup{ 
+  margin-left: 0px;
+}
+
 #h2-popup.green{
 	background: #04939c;
 }
@@ -1083,4 +1087,8 @@ h2 {
 	float: left !important;
 	width: 40% !important;
 	margin: 0 31px 10px 0 !important;
+}
+.product-details .info li .small-title {
+  float: left;
+  margin-right: 11px;
 }

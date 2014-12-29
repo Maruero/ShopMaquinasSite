@@ -54,7 +54,11 @@ public class AdDao {
 		
 		List<Ad> ads = new ArrayList<Ad>();
 		
-		JinqStream<Ad> stream = ads();
+		JinqStream<Ad> stream = ads().where( a-> 
+			a.getEndDate() == null || 
+			Calendar.getInstance().getTime().before( a.getEndDate())
+		);
+		
 		if( props != null && props.size() > 0 ){
 			for( AdPropertyValue prop : props ){
 				stream = stream.where( a -> a.getAdPropertyValues().stream().filter( 
@@ -138,6 +142,17 @@ public class AdDao {
 		}
 	}
 	
+	public Ad getDetachedAd(int adID){
+		Ad ad = getAd(adID);
+		if( ad != null ){
+			em.detach(ad);
+			
+			ad.setContract(null);
+			ad.setPerson(null);
+		}
+		return ad;
+	}
+	
 	public Ad saveAd( Ad ad, List<String> images ) throws Exception{
 		if( ad.getAdPropertyValues() == null ){
 			ad.setAdPropertyValues(new ArrayList<AdPropertyValue>());
@@ -161,11 +176,20 @@ public class AdDao {
 			propValue.setAdProperty(prop);
 		}
 		
-		Contract contract = this.contracts().where( c-> c.getContractID() == ad.getContract().getContractID() ).findFirst().get();
-		ad.setContract(contract);
+		if( ad.getContract().getContractDefinition() == null ){
+			Contract contract = this.contracts().where( c-> c.getContractID() == ad.getContract().getContractID() ).findFirst().get();
+			ad.setContract(contract);
+		}
 		
 		if( ad.getAdID() > 0 ){
-			em.merge(ad);
+			for( AdPropertyValue value : ad.getAdPropertyValues() ){
+				if( value.getAdID() < 1 ){
+					value.setAdID(ad.getAdID());
+					em.persist(value);
+				}else{
+					em.merge(value);
+				}
+			}
 		}else{
 			em.persist(ad);
 			for( AdPropertyValue value : ad.getAdPropertyValues() ){
@@ -178,12 +202,16 @@ public class AdDao {
 	}
 
 	public User saveNewUser(User user){
-		em.persist( user );
-		if( user.getPerson().getDocuments() != null ){
-			for( Document doc : user.getPerson().getDocuments() ){
-				doc.setPersonID( user.getPerson().getPersonID() );
-				em.persist( doc);
+		if( user.getUserID() < 1 ){
+			em.persist( user );
+			if( user.getPerson().getDocuments() != null ){
+				for( Document doc : user.getPerson().getDocuments() ){
+					doc.setPersonID( user.getPerson().getPersonID() );
+					em.persist( doc);
+				}
 			}
+		}else{
+			em.merge(user);
 		}
 		return user;
 	}
