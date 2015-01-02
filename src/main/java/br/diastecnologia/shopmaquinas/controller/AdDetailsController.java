@@ -58,6 +58,7 @@ public class AdDetailsController{
 		}
 		
 		result.include("ad", adToShow);
+		result.include("otherAds", adToShow.getPerson().getAds(adToShow.getAdID() ) );
 	}
 	
 	@Get

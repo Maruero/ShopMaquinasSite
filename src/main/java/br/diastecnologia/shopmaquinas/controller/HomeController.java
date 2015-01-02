@@ -2,8 +2,10 @@ package br.diastecnologia.shopmaquinas.controller;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -39,6 +41,16 @@ public class HomeController implements Serializable{
 	public void index(){
 		List<Ad> ads = adDao.listAds( Arrays.asList(AdPropertyUtils.getInstance(adDao).getHighlightProperty()), (String)null, 1);
 		result.include("ads", ads);
+	}
+	
+	@Get("/anuncios-favoritos")
+	public void getFavorites( @Named("adIDs") Integer[] adIDs ){
+		
+		List<Integer> ids = Arrays.asList(adIDs);
+		List<Ad> ads = adDao.ads().where( a-> ids.contains( a.getAdID())).collect(Collectors.toList());
+		this.result.include("ads", ads);
+		this.result.include("favorite", true);
+		this.result.forwardTo("/WEB-INF/jsp/adSearch/search.jsp");
 	}
 	
 	@Post("/logon")

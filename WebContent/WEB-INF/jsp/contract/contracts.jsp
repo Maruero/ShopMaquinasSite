@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -17,7 +17,7 @@
 				<c:forEach items="${contracts}" var="contract">
 					<ul class="info">
 						<li>
-							<strong class="title">Número do contrato</strong>
+							<strong class="title">NÃºmero do contrato</strong>
 							<span class=""><fmt:formatNumber type="number" pattern="000000" value="${contract.contractID}" /></span>
 						</li>
 						<li>
@@ -25,7 +25,7 @@
 							<span>${contract.contractDefinition.name}</span>
 						</li>
 						<li>
-							<strong class="title">Situação</strong>
+							<strong class="title">SituaÃ§Ã£o</strong>
 							<span class="value price">
 								
 								<c:choose>
@@ -46,7 +46,7 @@
 							</span>
 						</li>
 						<li>
-							<strong class="title">Data da contratação</strong>
+							<strong class="title">Data da contrataÃ§Ã£o</strong>
 							<span class="value date-label">
 								<fmt:formatDate value="${contract.startDate}" pattern="dd/MM/yyyy" />
 							</span>
@@ -54,7 +54,7 @@
 						
 						<c:if test="${contract.endDate != null}">
 							<li>
-								<strong class="title">Data de expiração</strong>
+								<strong class="title">Data de expiraÃ§Ã£o</strong>
 								<span class="value date-label">
 									<fmt:formatDate value="${contract.endDate}" pattern="dd/MM/yyyy" />
 								</span>
@@ -62,7 +62,7 @@
 						</c:if>
 						
 						<li>
-							<strong class="title">Anúncios cadastrados</strong>
+							<strong class="title">AnÃºncios cadastrados</strong>
 							<span class="value">
 							
 								<c:forEach items="${contract.ads}" var="ad">
@@ -78,16 +78,16 @@
 					
 						<c:choose>
 							<c:when test="${contract.contractStatus == 'ACTIVE'}">
-								<button type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anúncio</button>
+								<button type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anÃºncio</button>
 							</c:when>
 							<c:when test="${contract.contractStatus == 'EXPIRED'}">
-								<button data-error-message="Este contrato está expirado." type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anúncio</button>
+								<button data-error-message="Este contrato estÃ¡ expirado." type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anÃºncio</button>
 							</c:when>
 							<c:when test="${contract.contractStatus == 'NOT_PAID'}">
-								<button data-error-message="Ainda não identificamos o pagamento desse contrato." type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anúncio</button>
+								<button data-error-message="Ainda nÃ£o identificamos o pagamento desse contrato." type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anÃºncio</button>
 							</c:when>
 							<c:otherwise>
-								<button data-error-message="Este contrato está inativo." type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anúncio</button>
+								<button data-error-message="Este contrato estÃ¡ inativo." type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anÃºncio</button>
 							</c:otherwise>
 						</c:choose>
 					
@@ -110,7 +110,7 @@
 							<th>#</th>
 							<th>Vencimento</th>
 							<th>Valor</th>
-							<th>Situação<th>
+							<th>SituaÃ§Ã£o<th>
 						</tr>
 					</thead>
 					<tbody>

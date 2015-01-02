@@ -298,6 +298,10 @@ function openGreenPopup( title, message ){
 	openPopup(title, message);
 }
 
+openSuccessPopup = function( title, message ){
+	openGreenPopup(title, message);
+}
+
 function openPopup( title, message ){
 	$("#h2-popup").html('');
 	$("#label-popup").html('');
@@ -349,10 +353,24 @@ function previewAd(){
 function incrementImageSentCount(){
 	var val = $("#imageSentCount").val();
 	if( !val || val == "" ){
-		val = 1;
+		val = 0;
 	}
 	
-	val += 1;
+	val++;
+	$("#imageSentCount").val(val)
+	
+	if( val > 4){
+		$("#images-div-holder").css('overflow', 'auto');
+	}
+}
+
+decrementImageSentCount = function(){
+	var val = $("#imageSentCount").val();
+	if( !val || val == "" ){
+		val = 0;
+	}
+	
+	val--;
 	$("#imageSentCount").val(val)
 }
 
@@ -899,7 +917,18 @@ function loadAdToEdit( data ){
 	
 	$(data.jsonResponse.data.adPropertyValues).each(function(prop){
 		if( $.inArray( this.adProperty.name, notInputProperties) == -1 ){
-			$("[data-prop-name='"+ this.adProperty.name +"']").val( this.value );
+			if( this.adProperty.name != "IMAGE"){
+				$("[data-prop-name='"+ this.adProperty.name +"']").val( this.value );
+			}else{
+				if( this.value.indexOf("mini") != -1 ){
+					var count = $("#imageSentCount").val();
+					count++;
+					$("#imageSentCount").val(count);
+					
+					$("#iframe-image-" + count).attr('src', '../imagem-frame?imageName=' + this.value );
+				}
+			}
+			
 		}else{
 			notInputValues.push(this.value);
 		}
@@ -939,3 +968,60 @@ function bindEventsToLoadAd( values ){
 	values = values.slice(1, 10);
 }
 
+/******************** COOKIES *********************/
+function setCookie( cname , cvalue , exdays ) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname+"="+cvalue+"; "+expires;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    
+    var co = [];
+    
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length) ;
+        }
+    }
+    return "";
+}
+
+function setFavorite( adID ){
+	var cookieValue = getCookie('favoriteAd');
+	if( cookieValue.length > 0 ){
+		cookieValue = cookieValue + "," + adID
+	}else{
+		cookieValue = adID;
+	}
+	setCookie( 'favoriteAd' , cookieValue, 90 );
+	
+	openGreenPopup("Sucesso!", "An&uacute;ncio adicionado como favorito com sucesso." );
+	
+	return false;
+}
+
+function getFavorites(prefixPath){
+	
+	if(!prefixPath){
+		prefixPath = "";
+	}
+	
+	var cookieValue = getCookie('favoriteAd');
+	var values = cookieValue.split(',');
+	var queries = "";
+	for(var i=0; i<values.length; i++) {
+		if( queries.length > 0 ){
+			queries += "&";
+		}
+		queries += "adIDs[]=" + values[i];
+	}
+	
+	window.location = prefixPath + 'anuncios-favoritos?' + queries ;
+	return false;
+}

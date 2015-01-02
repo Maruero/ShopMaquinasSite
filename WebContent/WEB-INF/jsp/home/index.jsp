@@ -1,10 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
 <tiles:insertDefinition name="shopmaquinas.template">
 
-	<tiles:putAttribute name="pageName">M·quinas em Destaque</tiles:putAttribute>
+	<tiles:putAttribute name="pathPrefix">./</tiles:putAttribute>
+	<tiles:putAttribute name="pageName">
+		<c:choose>
+			<c:when test="${ favorite }">
+				An√∫ncios favoritos
+			</c:when>
+			<c:otherwise>
+				M√°quinas em Destaque
+			</c:otherwise>
+		</c:choose>
+		
+	</tiles:putAttribute>
 	
 	<tiles:putAttribute name="content">
 		<ul class="feature-list">
@@ -15,7 +26,7 @@
 							<img src="${ad.image}" alt="image description" width="108" height="77">
 							<div class="hover-content">
 								<a href="anuncios/detalhes-do-anuncio/${ad.adID}" class="btn-more">saiba mais</a>
-								<a href="#" class="btn-favroite icon-star"></a>
+								<a href="#" onclick="setFavorite(${ad.adID})" class="btn-favroite icon-star"></a>
 							</div>									
 						</div>
 						<strong class="title"><a href="#">${ad.description}</a></strong>
@@ -39,7 +50,7 @@
 				<div class="row">
 					<div class="col-xs-3">
 						<section class="gallery-holder">
-							<h2><a href="#">Previs„o de preciptaÁ„o</a></h2>
+							<h2><a href="#">Previs√£o de precipta√ß√£o</a></h2>
 							<div class="holder">
 								<div id="carousel-generic1" class="carousel slide" data-ride="carousel" data-interval="false">
 									<div class="carousel-inner" role="listbox">
@@ -108,7 +119,7 @@
 							</div>
 						</section>
 						<section class="stock-block">
-							<h2>NotÌcias</h2>
+							<h2>Not√≠cias</h2>
 							<div class="holder">
 								<iframe id="frmPreview" frameborder="0" scrolling="no" src="http://www.agrolink.com.br/clientes/selos/selo.aspx?servico=noticias&uf=9830,9833,9834&p=9,11,1090,17&l=-1&esp=1379,3218,4394,3508,3175&cor=verde&w=300&h=200" width="300" height="200" style="border:none;"></iframe>
 							</div>

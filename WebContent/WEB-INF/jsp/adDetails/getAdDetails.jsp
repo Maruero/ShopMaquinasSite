@@ -11,7 +11,7 @@
 	<tiles:putAttribute name="content">
 	
 		<article class="product-details">
-			<a href="#" class="btn-favourite"><span class="icon-star"></span></a>
+			<a href="#" onclick="return setFavorite(${ad.adID});" class="btn-favourite"><span class="icon-star"></span></a>
 			<div class="gallery-block">
 			
 				<div id="carousel-generic1" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -63,6 +63,7 @@
 					<strong class="title">Descrição:</strong>
 					<p>${ad.longDescription}</p>
 					<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal1">fazer proposta</button>
+					<button type="button" style="float:right;" class="btn btn-danger" data-toggle="modal" data-target="#myModal1">anunciante</button>
 				</div>
 			</div>
 		</article>
@@ -74,18 +75,19 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<button type="button" class="close" data-dismiss="modal"><span class="icon-close"></span></button>
-					<div class="row">
+					<div class="row" style="height:525px;">
 						<div class="col-md-6">
 							<section class="advertiser-block">
 								<h2>anunciante</h2>
 								<div class="block-holder">
 									<div class="details">
 									
-										<!-- 
-										<div class="img-holder">
-											<a href="#"><img src="images/img09.jpg" alt="image description" width="100" height="133"></a>
-										</div>
-										 -->
+										<c:if test="${ ad.person.personType == 'COMPANY' && ad.person.firstImage != null }"> 
+											<div class="img-holder">
+												<a href="javascript:;"><img src="../../..${ad.person.firstImage}" alt="image description" width="100" height="133"></a>
+											</div>
+										</c:if>
+										
 										 
 										<div class="address-holder">
 											<h3>${ad.person.firstname} ${ad.person.lastname}</h3>
@@ -98,50 +100,29 @@
 										</div>
 									</div>
 									
-									<!-- 
+									 
 									<div class="other-product">
-										<h3>Outros Produtos:</h3>
+										<h3>Outros Anúncios:</h3>
 										<ul class="feature-list">
-											<li>
-												<div class="holder">
-													<div class="img-holder">
-														<img src="images/img01.jpg" alt="image description" width="108" height="77">
-														<div class="hover-content">
-															<a href="#" class="btn-more">detalhes</a>
-														</div>									
+											<c:forEach items="${otherAds}" var="ad">
+												<li>
+													<div class="holder">
+														<div class="img-holder">
+															<img src="${ad.image}" alt="image description" width="108" height="77">
+															<div class="hover-content">
+																<a href="${ad.adID}" class="btn-more">saiba mais</a>
+																<a href="#" onclick="setFavorite(${ad.adID})" class="btn-favroite icon-star"></a>
+															</div>									
+														</div>
+														<strong class="title"><a href="#">${ad.description}</a></strong>
+														<span class="counter">ano ${ad.year}</span>
 													</div>
-													<strong class="title"><a href="#">John deere 7330</a></strong>
-													<span class="counter">11/11</span>
-												</div>
-											</li>
-											<li>
-												<div class="holder">
-													<div class="img-holder">
-														<img src="images/img01.jpg" alt="image description" width="108" height="77">
-														<div class="hover-content">
-															<a href="#" class="btn-more">detalhes</a>
-														</div>									
-													</div>
-													<strong class="title"><a href="#">John deere 7330</a></strong>
-													<span class="counter">11/11</span>
-												</div>
-											</li>
-											<li>
-												<div class="holder">
-													<div class="img-holder">
-														<img src="images/img01.jpg" alt="image description" width="108" height="77">
-														<div class="hover-content">
-															<a href="#" class="btn-more">detalhes</a>
-														</div>									
-													</div>
-													<strong class="title"><a href="#">John deere 7330</a></strong>
-													<span class="counter">11/11</span>
-												</div>
-											</li>
+												</li>
+											</c:forEach>
 										</ul>
 									</div>
-									-->
-								</holder>
+									
+								</div>
 							</section>
 						</div>
 						<div class="col-md-6">
@@ -163,7 +144,7 @@
 									</div>
 									<div class="form-group">
 										<label for="phone">mensagem*</label>
-										<textarea class="form-control" id="proposal-text" rows="3" requiredLength="1" requiredMessage="O campo mensagem é obrigatória"></textarea>
+										<textarea style="min-height:170px !important;" class="form-control" id="proposal-text" rows="3" requiredLength="1" requiredMessage="O campo mensagem é obrigatória"></textarea>
 									</div>
 									<a type="submit" id="send-proposal-button" class="btn btn-danger" onclick="sendProposal();">enviar</a>
 								</form>

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
@@ -6,7 +6,7 @@
 	
 	<tiles:putAttribute name="pathPrefix">../</tiles:putAttribute>
 	<tiles:putAttribute name="pageName">
-		Dados do Usu·rio
+		Dados do Usu√°rio
 	</tiles:putAttribute>
 	
 	<tiles:putAttribute name="content">
@@ -32,10 +32,10 @@
 								
 								<c:choose>
 									<c:when test="${update}">
-										<input id="input-cnpj" onblur="checarCpf(this);" type="text" class="form-control" placeholder="CNPJ -  somente n˙meros" name="person.documents[0].documentNumber" value="${person.documents[0].documentNumber}" alt="99999999999999" requiredLength="14" requiredMessage="CNPJ inv·lido."/>
+										<input id="input-cnpj" onblur="checarCpf(this);" type="text" class="form-control" placeholder="CNPJ -  somente n√∫meros" name="person.documents[0].documentNumber" value="${person.documents[0].documentNumber}" alt="99999999999999" requiredLength="14" requiredMessage="CNPJ inv√°lido."/>
 									</c:when>
 									<c:otherwise>
-										<input id="input-cnpj" onblur="checarCpf(this);" type="text" class="form-control" placeholder="CNPJ -  somente n˙meros" name="person.documents[0].documentNumber" value="" alt="99999999999999" requiredLength="14" requiredMessage="CNPJ inv·lido."/>
+										<input id="input-cnpj" onblur="checarCpf(this);" type="text" class="form-control" placeholder="CNPJ -  somente n√∫meros" name="person.documents[0].documentNumber" value="" alt="99999999999999" requiredLength="14" requiredMessage="CNPJ inv√°lido."/>
 									</c:otherwise>
 								</c:choose>
 							</c:when>
@@ -46,10 +46,10 @@
 								
 									<c:choose>
 										<c:when test="${update}">
-											<input id="input-cpf" onblur="checarCpf(this);" type="text" class="form-control" placeholder="CPF -  somente n˙meros" name="person.documents[0].documentNumber" value="${person.documents[0].documentNumber}" alt="99999999999" requiredLength="11" requiredMessage="CPF inv·lido."/>
+											<input id="input-cpf" onblur="checarCpf(this);" type="text" class="form-control" placeholder="CPF -  somente n√∫meros" name="person.documents[0].documentNumber" value="${person.documents[0].documentNumber}" alt="99999999999" requiredLength="11" requiredMessage="CPF inv√°lido."/>
 										</c:when>
 										<c:otherwise>
-											<input id="input-cpf" onblur="checarCpf(this);" type="text" class="form-control" placeholder="CPF -  somente n˙meros" name="person.documents[0].documentNumber" value="" alt="99999999999" requiredLength="11" requiredMessage="CPF inv·lido."/>
+											<input id="input-cpf" onblur="checarCpf(this);" type="text" class="form-control" placeholder="CPF -  somente n√∫meros" name="person.documents[0].documentNumber" value="" alt="99999999999" requiredLength="11" requiredMessage="CPF inv√°lido."/>
 										</c:otherwise>
 									</c:choose>
 								
@@ -59,18 +59,18 @@
 					
 					<div class="form-group">
 						<label for="name">Email*</label>
-						<input type="text" id="input-email" class="form-control" placeholder="E-mail" name="person.email" value="${person.email}" requiredLength="1" requiredMessage="O e-mail È obrigatÛrio"/>
+						<input type="text" id="input-email" class="form-control" placeholder="E-mail" name="person.email" value="${person.email}" requiredLength="1" requiredMessage="O e-mail √© obrigat√≥rio"/>
 					</div>
 					
 					<div class="form-group">
 						<c:choose>
 							<c:when test="${isCompanyContract}">
 								<label for="name">Nome fantasia*</label>
-								<input type="text" class="form-control" placeholder="Nome fantasia" name="person.firstname" value="${person.firstname}" requiredLength="1" requiredMessage="O nome fantasia È obrigatÛrio"/>
+								<input type="text" class="form-control" placeholder="Nome fantasia" name="person.firstname" value="${person.firstname}" requiredLength="1" requiredMessage="O nome fantasia √© obrigat√≥rio"/>
 							</c:when>
 							<c:otherwise>
 								<label for="name">Nome*</label>
-								<input type="text" class="form-control" placeholder="Nome" name="person.firstname" value="${person.firstname}" requiredLength="1" requiredMessage="O nome È obrigatÛrio"/>
+								<input type="text" class="form-control" placeholder="Nome" name="person.firstname" value="${person.firstname}" requiredLength="1" requiredMessage="O nome √© obrigat√≥rio"/>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -78,12 +78,12 @@
 					<div class="form-group">
 						<c:choose>
 							<c:when test="${isCompanyContract}">
-								<label for="name">Raz„o Social*</label>
-								<input type="text" class="form-control" placeholder="Sobrenome" name="person.lastname" value="${person.lastname}" requiredLength="1" requiredMessage="A raz„o social È obrigatÛria"/>
+								<label for="name">Raz√£o Social*</label>
+								<input type="text" class="form-control" placeholder="Sobrenome" name="person.lastname" value="${person.lastname}" requiredLength="1" requiredMessage="A raz√£o social √© obrigat√≥ria"/>
 							</c:when>
 							<c:otherwise>
 								<label for="name">Sobrenome*</label>
-								<input type="text" class="form-control" placeholder="Sobrenome" name="person.lastname" value="${person.lastname}" requiredLength="1" requiredMessage="O sobrenome È obrigatÛrio"/>
+								<input type="text" class="form-control" placeholder="Sobrenome" name="person.lastname" value="${person.lastname}" requiredLength="1" requiredMessage="O sobrenome √© obrigat√≥rio"/>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -91,12 +91,12 @@
 					<c:if test="${ !update }">
 						<div class="form-group">
 							<label for="name">Senha*</label>
-							<input type="password" class="form-control" name="user.password" placeholder="Senha" id="password" value="" requiredLength="1" requiredMessage="Senha È obrigatÛrio."/>
+							<input type="password" class="form-control" name="user.password" placeholder="Senha" id="password" value="" requiredLength="1" requiredMessage="Senha √© obrigat√≥rio."/>
 						</div>
 						
 						<div class="form-group">
-							<label for="name">ConfirmaÁ„o de senha*</label>
-							<input onblur="checarSenha();" type="password" class="form-control" name="" placeholder="ConfirmaÁ„o de senha" id="password-confirmation" value="" requiredLength="1" requiredMessage="ConfirmaÁ„o de senha È obrigatÛrio."/><br/>
+							<label for="name">Confirma√ß√£o de senha*</label>
+							<input onblur="checarSenha();" type="password" class="form-control" name="" placeholder="Confirma√ß√£o de senha" id="password-confirmation" value="" requiredLength="1" requiredMessage="Confirma√ß√£o de senha √© obrigat√≥rio."/><br/>
 						</div>
 					</c:if>
 					
@@ -116,23 +116,23 @@
 				<div class="description">
 					<div class="form-group">
 						<label for="name">Telefone*</label>
-						<input type="text" class="form-control" name="person.phone" placeholder="Telefone" id="celular" value="${person.phone}" requiredLength="1" requiredMessage="Telefone inv·lido."/><br/>
+						<input type="text" class="form-control" name="person.phone" placeholder="Telefone" id="celular" value="${person.phone}" requiredLength="1" requiredMessage="Telefone inv√°lido."/><br/>
 					</div>
 					<div class="form-group">
-						<label for="name">EndereÁo*</label>
+						<label for="name">Endere√ßo*</label>
 					</div>
 					<div class="form-group" style="display:inline-block;padding-bottom:40px;">
-						<input type="text" class="form-control" placeholder="CEP - somente n˙meros" name="person.address.cep" id="cep" value="${person.address.cep}" alt="99999999" requiredLength="8" requiredMessage="CEP inv·lido." style="display:inline-block; width:180px;"/> 
+						<input type="text" class="form-control" placeholder="CEP - somente n√∫meros" name="person.address.cep" id="cep" value="${person.address.cep}" alt="99999999" requiredLength="8" requiredMessage="CEP inv√°lido." style="display:inline-block; width:180px;"/> 
 						<button class="btn btn-danger" onclick="return buscarCEP();" type="button" style="display:inline-block; margin:0 40px;">Pesquisar</button>
 					</div>
 					
 					<div class="form-group">
-						<input type="text" class="form-control address-input" name="person.address.street" id="logradouro" value="${person.address.street}" placeholder="Logradouro" requiredLength="1" requiredMessage="Logradouro È obrigatÛrio."/><br/>
-						<input type="text" class="form-control" name="person.address.number" id="numero" value="${person.address.number}" placeholder="N˙mero" requiredLength="1" requiredMessage="N˙mero È obrigatÛrio."/><br/>
+						<input type="text" class="form-control address-input" name="person.address.street" id="logradouro" value="${person.address.street}" placeholder="Logradouro" requiredLength="1" requiredMessage="Logradouro √© obrigat√≥rio."/><br/>
+						<input type="text" class="form-control" name="person.address.number" id="numero" value="${person.address.number}" placeholder="N√∫mero" requiredLength="1" requiredMessage="N√∫mero √© obrigat√≥rio."/><br/>
 						<input type="text" class="form-control" name="person.address.complement" id="complemento" value="${person.address.complement}" placeholder="Complemento" /><br/>
-						<input type="text" class="form-control address-input" name="person.address.neighborhood" id="bairro" value="${person.address.neighborhood}" placeholder="Bairro" requiredLength="1" requiredMessage="Bairro È obrigatÛrio."/><br/>
-						<input type="text" class="form-control address-input" name="person.address.city" id="cidade" value="${person.address.city}" placeholder="Cidade" requiredLength="1" requiredMessage="Cidade È obrigatÛrio."/><br/>
-						<input type="text" class="form-control address-input" name="person.address.uf" placeholder="UF" id="uf" alt="**" value="${person.address.uf}" requiredLength="2" requiredMessage="UF È obrigatÛrio."/><br/>
+						<input type="text" class="form-control address-input" name="person.address.neighborhood" id="bairro" value="${person.address.neighborhood}" placeholder="Bairro" requiredLength="1" requiredMessage="Bairro √© obrigat√≥rio."/><br/>
+						<input type="text" class="form-control address-input" name="person.address.city" id="cidade" value="${person.address.city}" placeholder="Cidade" requiredLength="1" requiredMessage="Cidade √© obrigat√≥rio."/><br/>
+						<input type="text" class="form-control address-input" name="person.address.uf" placeholder="UF" id="uf" alt="**" value="${person.address.uf}" requiredLength="2" requiredMessage="UF √© obrigat√≥rio."/><br/>
 						
 						
 					</div>
@@ -144,9 +144,17 @@
 					<div class="description form" style="float:left; min-width:450px;">
 						<div class="form-group">
 							<label for="name">Imagem carregada</label>
-							<div class="form-control" style="min-height:110px;overflow:auto;">
-								<iframe name="iframeImage1" width="100" height="100" frameBorder="0">
-								</iframe>
+							<div class="form-control" style="min-height:110px;overflow:hidden;">
+								<c:choose>
+									<c:when test="${ update && person.firstImage != null }">
+										<iframe src="../imagem-frame?imageName=${person.firstImage}" name="iframeImage1" width="100" height="100" frameBorder="0">
+										</iframe>
+									</c:when>
+									<c:otherwise>
+										<iframe name="iframeImage1" width="100" height="100" frameBorder="0">
+										</iframe>
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 					</div>
@@ -164,7 +172,7 @@
 				
 				</c:if>
 				<div class="description" style="margin-top:15px;">
-					<div class="text-wrap" style="width:835px;">
+					<div class="text-wrap" style="width:390px;">
 						<input id="register-button" type="submit" class="btn btn-danger" style="float:right;" value="Salvar" onclick="$('#register-form').submit();"/>
 					</div>
 				</div>

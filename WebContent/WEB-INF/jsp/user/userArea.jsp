@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -6,7 +6,7 @@
 <tiles:insertDefinition name="shopmaquinas.template">
 	
 	<tiles:putAttribute name="pathPrefix">./</tiles:putAttribute>
-	<tiles:putAttribute name="pageName">¡rea do Cliente</tiles:putAttribute>
+	<tiles:putAttribute name="pageName">√Årea do Cliente</tiles:putAttribute>
 	
 	<tiles:putAttribute name="content">
 	
@@ -22,6 +22,13 @@
 									<strong class="small-title">CPF:</strong>	
 								</c:when>
 								<c:otherwise>
+									<c:if test="${ person.firstImage != null}">
+											<div class="img-holder">
+												<a href="javascript:;"><img src="${ person.firstImage }" alt="image description" width="100" height="133"></a>
+											</div>
+										</li>
+										<li>
+									</c:if>
 									<strong class="small-title">CNPJ:</strong>
 								</c:otherwise>
 							</c:choose>
@@ -49,7 +56,7 @@
 									<strong class="small-title">Sobrenome:</strong>	
 								</c:when>
 								<c:otherwise>
-									<strong class="small-title">Raz„o social:</strong>
+									<strong class="small-title">Raz√£o social:</strong>
 								</c:otherwise>
 							</c:choose>
 							<span class="value price">${person.lastname}</span>
@@ -59,7 +66,7 @@
 							<span class="value price">${person.phone}</span>
 						</li>
 						<li>
-							<strong class="small-title">EndereÁo:</strong>
+							<strong class="small-title">Endere√ßo:</strong>
 							<span class="value price">
 								${person.address.street} <br> 
 								${person.address.number} <br>
@@ -90,7 +97,7 @@
 							<th>#</th>
 							<th>Vencimento</th>
 							<th>Valor</th>
-							<th>SituaÁ„o<th>
+							<th>Situa√ß√£o<th>
 						</tr>
 					</thead>
 					<tbody>
@@ -142,8 +149,8 @@
 									
 			<div class="row">
 				<div class="col-xs-6 description side-by-side">
-					<h3>An˙ncios ativos</h3>
-					<table style="width:440px;">
+					<h3>An√∫ncios ativos</h3>
+					<table style="width:420px;">
 						<colgroup>
 							<col style="width:5%;">
 							<col style="width:20%;">
@@ -152,8 +159,8 @@
 						<thead>
 							<tr>
 								<th>Data</th>
-								<th>DescriÁ„o</th>
-								<th>AÁıes</th>
+								<th>Descri√ß√£o</th>
+								<th>A√ß√µes</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -169,6 +176,9 @@
 							</c:forEach>
 						</tbody>
 					</table>
+					<div class="text-wrap" style="padding-top:30px;">
+						<button type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo an√∫ncio</button>
+					</div>
 				</div>
 				<div class="col-xs-6 description side-by-side">
 					<h3>Mensagens</h3>
@@ -182,8 +192,8 @@
 						<thead>
 							<tr>
 								<th>Data</th>
-								<th>DescriÁ„o</th>
-								<th>AÁıes</th>
+								<th>Descri√ß√£o</th>
+								<th>A√ß√µes</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -234,15 +244,15 @@
 								<div role="form" class="form" id="proposal-group">
 									<div class="form-group">
 										<label for="name">Senha atual*</label>
-										<input type="password" class="form-control" id="old-password" requiredLength="1" requiredMessage="O campo nome È obrigatÛrio">
+										<input type="password" class="form-control" id="old-password" requiredLength="1" requiredMessage="O campo nome √© obrigat√≥rio">
 									</div>
 									<div class="form-group">
 										<label for="Email">Nova senha*</label>
-										<input type="password" class="form-control" id="new-password" requiredLength="1" requiredMessage="O campo e-mail È obrigatÛrio">
+										<input type="password" class="form-control" id="new-password" requiredLength="1" requiredMessage="O campo e-mail √© obrigat√≥rio">
 									</div>
 									<div class="form-group">
-										<label for="phone">ConfirmaÁ„o da nova senha*</label>
-										<input type="password" class="form-control" id="new-repassword" requiredLength="1" requiredMessage="O campo telefone È obrigatÛrio">
+										<label for="phone">Confirma√ß√£o da nova senha*</label>
+										<input type="password" class="form-control" id="new-repassword" requiredLength="1" requiredMessage="O campo telefone √© obrigat√≥rio">
 									</div>
 									<a type="submit" id="change-password-button" class="btn btn-danger" onclick="changePassword();">trocar</a>
 								</div>

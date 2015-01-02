@@ -145,22 +145,22 @@
 					
 					<div class="form-group">
 						<label for="name">Imagens carregadas</label>
-						<div class="form-control" style="min-height:110px;overflow:auto;">
-							<iframe id="iframe-image-1" name="iframeImage1" width="100" height="100" frameBorder="0">
+						<div class="form-control" style="min-height:110px;overflow:hidden;" id="images-div-holder">
+							<iframe id="iframe-image-1" name="iframeImage1" width="100" height="100" frameborder="0" scrolling="no" >
 							</iframe>
-							<iframe id="iframe-image-1" name="iframeImage2" width="100" height="100" frameBorder="0">
+							<iframe id="iframe-image-2" name="iframeImage2" width="100" height="100" frameBorder="0" scrolling="no">
 							</iframe>
-							<iframe id="iframe-image-1" name="iframeImage3" width="100" height="100" frameBorder="0">
+							<iframe id="iframe-image-3" name="iframeImage3" width="100" height="100" frameBorder="0" scrolling="no">
 							</iframe>
-							<iframe id="iframe-image-1" name="iframeImage4" width="100" height="100" frameBorder="0">
+							<iframe id="iframe-image-4" name="iframeImage4" width="100" height="100" frameBorder="0" scrolling="no">
 							</iframe>
-							<iframe id="iframe-image-1" name="iframeImage5" width="100" height="100" frameBorder="0">
+							<iframe id="iframe-image-5" name="iframeImage5" width="100" height="100" frameBorder="0" scrolling="no">
 							</iframe>
-							<iframe id="iframe-image-1" name="iframeImage6" width="100" height="100" frameBorder="0">
+							<iframe id="iframe-image-6" name="iframeImage6" width="100" height="100" frameBorder="0" scrolling="no">
 							</iframe>
-							<iframe id="iframe-image-1" name="iframeImage7" width="100" height="100" frameBorder="0">
+							<iframe id="iframe-image-7" name="iframeImage7" width="100" height="100" frameBorder="0" scrolling="no">
 							</iframe>
-							<iframe id="iframe-image-1" name="iframeImage8" width="100" height="100" frameBorder="0">
+							<iframe id="iframe-image-8" name="iframeImage8" width="100" height="100" frameBorder="0" scrolling="no">
 							</iframe>
 						</div>
 					</div>

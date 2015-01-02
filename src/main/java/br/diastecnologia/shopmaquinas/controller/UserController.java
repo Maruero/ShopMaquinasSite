@@ -108,6 +108,7 @@ public class UserController{
 		}
 	}
 	
+	/*
 	@Post("/remover-imagem")
 	public void removeImage(@Named("path") String path ){
 		if( session.getUploadedImages() != null && session.getUploadedImages().contains(path)){
@@ -115,6 +116,7 @@ public class UserController{
 		}
 		this.result.use( Results.json() ).from( new JsonResponse("Imagem removida") ).recursive().serialize();
 	}
+	*/
 	
 	@Get("/contrato/checar-cpf")
 	public void cpfCheck(@Named("cpf") String cpf){

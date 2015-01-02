@@ -10,7 +10,7 @@
 		<title>Shop Maquinas</title>
 		
 		<link type="text/css" rel="stylesheet" href="<tiles:getAsString name="pathPrefix"/>resources/css/bootstrap.min.css">
-		<link type="text/css" rel="stylesheet" href="<tiles:getAsString name="pathPrefix"/>resources/css/all_v1.css">
+		<link type="text/css" rel="stylesheet" href="<tiles:getAsString name="pathPrefix"/>resources/css/all_v3.css">
 		
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -47,7 +47,7 @@
 											<div class="collapse navbar-collapse">
 												<ul class="nav navbar-nav">
 													<li><a href="<tiles:getAsString name="pathPrefix"/>">home</a></li>
-													<li><a href="#">compre</a></li>
+													<li><a href="<tiles:getAsString name="pathPrefix"/>">compre</a></li>
 													<li><a href="<tiles:getAsString name="pathPrefix"/>contratos" onClick="return restricted(this);">venda</a></li>
 													<li><a href="<tiles:getAsString name="pathPrefix"/>area-do-cliente" onClick="return restricted(this);">Área do cliente</a></li>
 												</ul>
@@ -60,7 +60,7 @@
 								<div class="header-right">
 									<span id="user-logged" style="display:none">${session.user.username}</span>
 									<span id="page-restricted" style="display:none">${restricted}</span>
-									<a href="#" class="btn btn-default"><span class="icon-star"></span>Favoritos</a>
+									<a href="#" class="btn btn-default" onclick="return getFavorites('<tiles:getAsString name="pathPrefix"/>');"><span class="icon-star"></span>Favoritos</a>
 									<a href="#" class="btn btn-default" onclick="return openLogin('<tiles:getAsString name="pathPrefix"/>');"><span class="icon-user"></span>
 									<span id="login-label">
 										<c:choose>
@@ -157,22 +157,10 @@
 										<h4>Compre</h4>
 										<ul>
 											<li>
-												<a href="#">Busca detalhada</a>
+												<a href="<tiles:getAsString name="pathPrefix"/>busca-detalhada">Busca detalhada</a>
 											</li>
 											<li>
-												<a href="#">Busca por categoria</a>
-											</li>
-											<li>
-												<a href="#">Catalogo de produtos</a>
-											</li>
-											<li>
-												<a href="#">Destaques</a>
-											</li>
-											<li>
-												<a href="#">Banco de pedidos</a>
-											</li>
-											<li>
-												<a href="#">Área do cliente</a>
+												<a href="<tiles:getAsString name="pathPrefix"/>">Destaques</a>
 											</li>
 										</ul>
 									</div>
@@ -180,13 +168,17 @@
 										<h4>Venda</h4>
 										<ul>
 											<li>
-												<a href="#">Anunciar</a>
+												<a onClick="return restricted(this);" href="<tiles:getAsString name="pathPrefix"/>contratos">Anunciar</a>
 											</li>
 											<li>
-												<a href="#">Adesão de empresas</a>
+												<a onClick="return restricted(this);" href="<tiles:getAsString name="pathPrefix"/>contratos">Adesão de empresas</a>
+											</li>
+											<li>
+												<a onClick="return restricted(this);" href="<tiles:getAsString name="pathPrefix"/>area-do-cliente">Área do cliente</a>
 											</li>
 										</ul>
 									</div>
+									<!-- 
 									<div class="box">
 										<h4>acessórios</h4>
 										<ul>
@@ -201,6 +193,7 @@
 											</li>
 										</ul>
 									</div>
+									 -->
 								</div>
 							</div>
 							<div class="col-xs-4">
@@ -275,8 +268,19 @@
 		</div>
 		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/jquery-1.11.1.min.js"></script>
 		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/shopmaquinas_v1.js"></script>
+		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/shopmaquinas_v3.js"></script>
 		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/meiomask.js"></script>
+		
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		  ga('create', 'UA-51169385-2', 'auto');
+		  ga('send', 'pageview');
+		
+		</script>
 		
 		<tiles:insertAttribute name="scripts" />
 	</body>

@@ -9,6 +9,7 @@ import javax.inject.Named;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
 import br.diastecnologia.shopmaquinas.bean.Ad;
@@ -61,6 +62,7 @@ public class AdSearchController {
 	}
 	
 	@Get
+	@Post
 	@Path("/buscar-anuncions")
 	public void search( @Named("adPropertyValues") List<AdPropertyValue> props, @Named("description") String description ){
 		

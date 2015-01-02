@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -58,11 +58,11 @@
 						<div class="form-group">
 							<input type="hidden" name="otherProperties[4].adProperty.name" value="YEAR_MIN"/>
 							<input type="hidden" name="otherProperties[4].adProperty.adPropertyID" value="11"/>
-							<input type="text" id="year-min" class="form-control two-in-a-row" name="otherProperties[4].value" alt="9999" placeholder="Ano mínimo"/>
+							<input type="text" id="year-min" class="form-control two-in-a-row" name="otherProperties[4].value" alt="9999" placeholder="Ano mÃ­nimo"/>
 							
 							<input type="hidden" name="otherProperties[5].adProperty.name" value="YEAR_MAX"/>
 							<input type="hidden" name="otherProperties[5].adProperty.adPropertyID" value="11"/>
-							<input type="text" id="year-max" class="form-control two-in-a-row" name="otherProperties[5].value" alt="9999" placeholder="Ano máximo"/>
+							<input type="text" id="year-max" class="form-control two-in-a-row" name="otherProperties[5].value" alt="9999" placeholder="Ano mÃ¡ximo"/>
 						</div>
 						
 						<div class="form-group">
@@ -71,11 +71,11 @@
 						<div class="form-group">
 							<input type="hidden" name="otherProperties[0].adProperty.name" value="HOURS_MIN" />
 							<input type="hidden" name="otherProperties[0].adProperty.adPropertyID" value="15"/>
-							<input type="text" id="hour-min" class="form-control two-in-a-row" name="otherProperties[0].value" alt="999999" placeholder="Horas/Km mínimo"/>
+							<input type="text" id="hour-min" class="form-control two-in-a-row" name="otherProperties[0].value" alt="999999" placeholder="Horas/Km mÃ­nimo"/>
 							
 							<input type="hidden" name="otherProperties[1].adProperty.name" value="HOURS_MAX" />
 							<input type="hidden" name="otherProperties[1].adProperty.adPropertyID" value="15"/>
-							<input type="text" id="hour-max" class="form-control two-in-a-row" name="otherProperties[1].value" alt="999999" placeholder="Horas/Km máximo"/>
+							<input type="text" id="hour-max" class="form-control two-in-a-row" name="otherProperties[1].value" alt="999999" placeholder="Horas/Km mÃ¡ximo"/>
 						</div>
 						
 						
@@ -85,11 +85,11 @@
 						<div class="form-group">
 							<input type="hidden" name="otherProperties[2].adProperty.name" value="PRICE_MIN" />
 							<input type="hidden" name="otherProperties[2].adProperty.adPropertyID" value="9"/>
-							<input type="text" id="price-min" onblur="putSymbol(this);" class="form-control two-in-a-row" name="otherProperties[2].value" alt="decimal" placeholder="Valor mínimo"/>
+							<input type="text" id="price-min" onblur="putSymbol(this);" class="form-control two-in-a-row" name="otherProperties[2].value" alt="decimal" placeholder="Valor mÃ­nimo"/>
 							
 							<input type="hidden" name="otherProperties[3].adProperty.name" value="PRICE_MAX" />
 							<input type="hidden" name="otherProperties[3].adProperty.adPropertyID" value="9"/>
-							<input type="text" id="price-max" onblur="putSymbol(this);" class="form-control two-in-a-row" name="otherProperties[3].value" alt="decimal" placeholder="Valor máximo"/>
+							<input type="text" id="price-max" onblur="putSymbol(this);" class="form-control two-in-a-row" name="otherProperties[3].value" alt="decimal" placeholder="Valor mÃ¡ximo"/>
 						</div>
 						
 						<div class="form-group">
@@ -100,7 +100,7 @@
 						
 							<input type="hidden" name="adPropertyValues[8].adProperty.name" value="UNIQUE_OWNER"/>
 							<input type="hidden" name="adPropertyValues[8].adProperty.adPropertyID" value="13"/>
-							<input type="checkbox" name="adPropertyValues[8].value" value="true"/> Único dono
+							<input type="checkbox" name="adPropertyValues[8].value" value="true"/> Ãšnico dono
 						</div>
 						
 						<div class="form-group" style="text-align:center;"> 

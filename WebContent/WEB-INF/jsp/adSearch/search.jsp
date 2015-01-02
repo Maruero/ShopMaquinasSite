@@ -1,11 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
 <tiles:insertDefinition name="shopmaquinas.template">
 
 	<tiles:putAttribute name="pathPrefix">./</tiles:putAttribute>
-	<tiles:putAttribute name="pageName">Resultado da busca</tiles:putAttribute>
+	<tiles:putAttribute name="pageName">
+		<c:choose>
+			<c:when test="${ favorite }">
+				Anúncios favoritos
+			</c:when>
+			<c:otherwise>
+				Resultado da busca
+			</c:otherwise>
+		</c:choose>
+		
+	</tiles:putAttribute>
 	
 	<tiles:putAttribute name="content">
 		<ul class="feature-list">

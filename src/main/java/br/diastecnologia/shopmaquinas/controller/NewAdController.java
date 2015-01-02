@@ -152,9 +152,27 @@ public class NewAdController{
 			session.getUploadedImages().add(path);
 			
 			result.include("path", miniPath);
+			result.redirectTo(NewAdController.class).getImageFrame(miniPath);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			result.include("errorMessage", ex.getMessage());
+		}
+	}
+	
+	@Get("/imagem-frame")
+	public void getImageFrame( @Named("imageName") String imageName ){
+		result.include("path", imageName);
+	}
+	
+	@Post("/remover-imagem")
+	public void deleteImage( @Named("imageName") String imageName )
+	{
+		if( session.getUploadedImages() != null && session.getUploadedImages().contains( imageName )){
+			session.getUploadedImages().remove(imageName);
+		}
+		String path = imageName.replaceAll("mini-", "");
+		if( session.getUploadedImages() != null && session.getUploadedImages().contains( path )){
+			session.getUploadedImages().remove(path);
 		}
 	}
 	
