@@ -19,7 +19,8 @@
 		<article class="new-contract product-details">
 			<div class="row">
 			
-				<c:forEach items="${definitions}" var="def">
+				<c:forEach items="${definitions}" var="def" varStatus="counter">
+					
 					<div class="col-xs-6">
 						<h3 class="not-center">${def.description}</h3>
 						<ul class="info">
@@ -37,6 +38,12 @@
 							</div>
 						</form>
 					</div>
+					
+					<c:if test="${counter.index % 2 == 1 && !counter.last}">
+						<div class="col-xs-12 divisor">&nbsp
+						</div>
+					</c:if>
+					
 				</c:forEach>
 
 			</div>

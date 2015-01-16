@@ -2,6 +2,7 @@ package br.diastecnologia.shopmaquinas.controller;
 
 import java.util.Calendar;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -79,12 +80,14 @@ public class AdDetailsController{
 	@Get("/anuncios/nao-encontrado")
 	public void notFound( )
 	{
+		this.result.include("ErrorMessage", "O link em que você clicou está desatualizado. Para buscar outros anúncios use a busca ao lado.");
+		this.result.redirectTo(HomeController.class).index();
 	}
 	
 	@Post("/anuncios/salvar-proposta")
 	@Transactional
 	public void saveProposal( @Named("adID") int adID, @Named("text") String text, @Named("person") Person person){
-		JsonResponse response = new JsonResponse("Proposta realizada com sucesso.");
+		JsonResponse response = new JsonResponse("Proposta realizada com sucesso. Você receberá uma cópia do e-mail enviado ao anunciante.");
 		try{
 			
 			Ad ad = adDao.getAd(adID);
@@ -104,7 +107,9 @@ public class AdDetailsController{
 			
 			adDao.getEM().persist(message);
 			
-			emailSender.SendEmail(emailConfiguration.getProposalSubject(), body, body, person, ad.getPerson() );
+			if( body != null ){
+				emailSender.SendEmail(emailConfiguration.getProposalSubject(), body, ad.getPerson(),  person );
+			}
 			
 		}catch(Exception ex){
 			response.setCode( JsonResponseCode.ERROR.toString() );

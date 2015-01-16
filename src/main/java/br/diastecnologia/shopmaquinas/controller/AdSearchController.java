@@ -1,5 +1,6 @@
 package br.diastecnologia.shopmaquinas.controller;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,12 @@ public class AdSearchController {
 	@Path("/getGroups")
 	public void getTypes( @Named("typeId")int typeId ){
 		List<Type> groups = adDao.types().where( t-> t.getParentId() == typeId ).collect(Collectors.toList());
+		
+		Type other = new Type();
+		other.setId(-1);
+		other.setName("Outro");
+		groups.add(other);
+		
 		result.use( Results.json() ).from( groups ).recursive().serialize();
 	}
 	
@@ -44,6 +51,15 @@ public class AdSearchController {
 	@Path("/getCategories")
 	public void getSubtypes( @Named("groupId")int groupId ){
 		List<Subtype> categories = adDao.subtypes().where( t-> t.getParentId() == groupId ).collect(Collectors.toList());
+		
+		Comparator<Subtype> comparator = (c1, c2) -> c1.getName().compareTo(c2.getName());
+		categories = categories.stream().sorted(comparator).collect(Collectors.toList());
+		
+		Subtype other = new Subtype();
+		other.setId(-1);
+		other.setName("Outro");
+		categories.add(other);
+		
 		result.use( Results.json() ).from( categories ).recursive().serialize();
 	}
 	
@@ -51,6 +67,12 @@ public class AdSearchController {
 	@Path("/getBrands")
 	public void getBrands( @Named("categoryId")int categoryId ){
 		List<Brand> brands = adDao.brands().where( t-> t.getParentId() == categoryId ).collect(Collectors.toList());
+		
+		Brand other = new Brand();
+		other.setId(-1);
+		other.setName("Outro");
+		brands.add(other);
+		
 		result.use( Results.json() ).from( brands ).recursive().serialize();
 	}
 	
@@ -58,6 +80,12 @@ public class AdSearchController {
 	@Path("/getModels")
 	public void getModels( @Named("brandId")int brandId ){
 		List<Model> models = adDao.models().where( t-> t.getParentId() == brandId ).collect(Collectors.toList());
+		
+		Model other = new Model();
+		other.setId(-1);
+		other.setName("Outro");
+		models.add(other);
+		
 		result.use( Results.json() ).from( models ).recursive().serialize();
 	}
 	
@@ -69,6 +97,10 @@ public class AdSearchController {
 		props = props.stream().filter( p-> p.getValue() != null).collect(Collectors.toList());
 		
 		List<Ad> ads = adDao.listAds(props, description, 1);
+		if( ads.size() < 1){
+			result.include("ErrorMessage", "Não há resultados para os critérios selecionados.");
+		}
+		
 		result.include("ads", ads);
 	}
 	

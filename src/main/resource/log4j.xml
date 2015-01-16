@@ -40,6 +40,10 @@
         <priority value="DEBUG" /> 
         <appender-ref ref="queriesAppender" />
     </category>
+    <category name="org.hibernate">
+        <priority value="DEBUG" /> 
+        <appender-ref ref="queriesAppender" />
+    </category>
     <category name="br.com.caelum.vraptor">
         <priority value="INFO" /> 
         <appender-ref ref="stdout" />

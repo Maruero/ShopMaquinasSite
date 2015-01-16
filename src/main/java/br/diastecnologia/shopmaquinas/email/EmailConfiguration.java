@@ -1,11 +1,18 @@
 package br.diastecnologia.shopmaquinas.email;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Calendar;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.caelum.vraptor.environment.Property;
 import br.diastecnologia.shopmaquinas.bean.Ad;
 import br.diastecnologia.shopmaquinas.bean.Person;
+import br.diastecnologia.shopmaquinas.bean.User;
 
 @Named("EmailConfiguration")
 public class EmailConfiguration {
@@ -22,26 +29,77 @@ public class EmailConfiguration {
 	@Property("email.proposal.subject")
 	private String proposalSubject;
 	
+	@Inject
+	@Property("email.path")
+	private String emailPath;
+	
+	public String getRegisterHtml( User user , String token ){
+		try{
+			String body = getRegisterHtml();
+			
+			body = body.replace("[NAME]", user.getPerson().getFirstname() + " " + user.getPerson().getLastname());
+			body = body.replace("[DOCUMENT]", user.getUsername());
+			body = body.replace("[PASSWORD]", user.getPassword());
+			
+			body = body.replace("[LINK_PATH]", "http://www.shopmaquinas.com.br/acesso-direto?token=" + token);
+			
+			return body;
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
 	public String getProposalText( Person from, Person to, Ad ad, String text ){
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append(proposalTitle);
-		builder.append("Dados do interessado <br/>");
-		builder.append("Nome: " + from.getFirstname() + "<br/>");
-		builder.append("E-mail: " + from.getEmail() + "<br/>");
-		builder.append("Telefone: " + from.getPhone() + "<br/><br/>");
-		
-		builder.append("Dados do anunciante <br/>" );
-		builder.append("Nome: " + to.getFirstname() + " " + to.getLastname() + "<br/>");
-		builder.append("E-mail: " + to.getEmail() + "<br/>");
-		builder.append("Telefone: " + to.getPhone() + "<br/><br/>");
-		
-		builder.append("Produto de interesse: <b>" + ad.getDescription() + "</b><br/><br/>");
-		builder.append("Descrição: " + text);
-		
-		return builder.toString();
+		try{
+			String body = getProposalHtml();
+			
+			String fromName = from.getFirstname();
+			if( from.getLastname() != null ){
+				fromName += " " + from.getLastname(); 
+			}
+			body = body.replace("[FROM_NAME]", fromName);
+			body = body.replace("[FROM_EMAIL]", from.getEmail());
+			body = body.replace("[FROM_PHONE]", from.getPhone());
+			
+			body = body.replace("[AD_DESCRIPTION]", ad.getDescription());
+			body = body.replace("[PROPOSAL_TEXT]", text);
+			
+			body = body.replace("[TO_NAME]", ad.getPerson().getFirstname());
+			
+			body = body.replace("[LINK_PATH]", "http://www.shopmaquinas.com.br/anuncios/detalhes-do-anuncio/" + ad.getAdID());
+			
+			return body;
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}
 	}
 
+	private String getRegisterHtml() throws IOException{
+		String path = emailPath + "cadastro.html?data=" + Calendar.getInstance().getTimeInMillis();
+		return retrieve(path);
+	}
+	
+	private String getProposalHtml() throws IOException{
+		String path = emailPath + "proposta.html?data=" + Calendar.getInstance().getTimeInMillis();
+		return retrieve(path);
+	}
+	
+	private String retrieve( String path ) throws IOException{
+		URL url = new URL( path );
+		URLConnection connection = url.openConnection();
+		InputStream stream = connection.getInputStream();
+		
+		byte[] buffer = new byte[1024 * 1024];
+		String content = "";
+		int read = 0;
+		while( (read = stream.read(buffer, 0, buffer.length) ) != -1){
+			content += new String( buffer, 0 , read);
+		}
+		return content;
+	}
+	
 	public String getProposalSubject() {
 		return proposalSubject;
 	}

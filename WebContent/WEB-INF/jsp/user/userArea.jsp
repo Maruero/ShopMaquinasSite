@@ -22,13 +22,18 @@
 									<strong class="small-title">CPF:</strong>	
 								</c:when>
 								<c:otherwise>
-									<c:if test="${ person.firstImage != null}">
-											<div class="img-holder">
+									<div class="img-holder">
+										<c:choose>
+											<c:when test="${ person.firstImage != null}">
 												<a href="javascript:;"><img src="${ person.firstImage }" alt="image description" width="100" height="133"></a>
-											</div>
-										</li>
-										<li>
-									</c:if>
+											</c:when>
+											<c:otherwise>
+												<a href="javascript:;"><img src="resources/images/sem-imagem-x1.jpg" alt="image description" width="100" height="133"></a>
+											</c:otherwise>
+										</c:choose>
+									</div>
+									</li>
+									<li>
 									<strong class="small-title">CNPJ:</strong>
 								</c:otherwise>
 							</c:choose>
@@ -78,24 +83,25 @@
 							</span>
 						</li>
 					</ul>
-					<div class="text-wrap" style="width:200px;">
+					<div class="text-wrap" style="width:300px;">
 						<button type="button" class="btn btn-danger" style="float:left;" data-toggle="modal" data-target="#myModal22">Trocar senha</button>
-						<a class="btn btn-danger" style="float:right;" href="contrato/cadastro">Editar</a>
+						<a class="btn btn-danger" style="float:right;" href="contratos">Contratos</a>
+						<a class="btn btn-danger" style="float:right; margin-right:14px;" href="contrato/cadastro">Editar</a>
 					</div>
 				</div>
 				<div class="col-xs-6 description side-by-side">
 					<h3>Suas faturas</h3>
 					<table style="width:440px;">
 					<colgroup>
-						<col style="width:12%;">
-						<col style="width:12%;">
-						<col style="width:12%;">
-						<col style="width:12%;">
+						<col style="width: 24%;">
+						<col style="width: 24%;">
+						<col style="width: 24%;">
+						<col style="width: 24%;">
 					</colgroup>
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Vencimento</th>
+							<th>Criação</th>
 							<th>Valor</th>
 							<th>Situação<th>
 						</tr>
@@ -177,7 +183,9 @@
 						</tbody>
 					</table>
 					<div class="text-wrap" style="padding-top:30px;">
+					
 						<button type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anúncio</button>
+						
 					</div>
 				</div>
 				<div class="col-xs-6 description side-by-side">
@@ -264,6 +272,11 @@
 		</div>
 		
 		
+	</tiles:putAttribute>
+	
+	<tiles:putAttribute name="scripts">
+		<script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js">
+		</script>		
 	</tiles:putAttribute>
 	
 </tiles:insertDefinition>

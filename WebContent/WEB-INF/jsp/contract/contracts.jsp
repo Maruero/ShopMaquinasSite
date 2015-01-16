@@ -15,7 +15,7 @@
 				<h3>Seus contratos</h3>
 				
 				<c:forEach items="${contracts}" var="contract">
-					<ul class="info">
+					<ul class="info" style="padding-top:20px;">
 						<li>
 							<strong class="title">Número do contrato</strong>
 							<span class=""><fmt:formatNumber type="number" pattern="000000" value="${contract.contractID}" /></span>
@@ -40,6 +40,9 @@
 									</c:when>
 									<c:when test="${contract.contractStatus == 'EXPIRED'}">
 										Expirado
+									</c:when>
+									<c:when test="${contract.contractStatus == 'NO_MORE_ADS'}">
+										Esgotado
 									</c:when>
 								</c:choose>
 							
@@ -74,17 +77,35 @@
 						
 					</ul>
 					
-					<div class="text-wrap">
+					<div class="text-wrap divisor2">
 					
 						<c:choose>
 							<c:when test="${contract.contractStatus == 'ACTIVE'}">
 								<button type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anúncio</button>
+								
+								<form action="contrato/prorrogar-contrato" method="POST">
+									<input type="hidden" name="contractID" value="${contract.contractID}">
+									<button type="button" class="btn btn-danger" style="margin-top:5px;" onclick="return addBilling(this);">Prorrogar contrato</button>	
+								</form>
 							</c:when>
 							<c:when test="${contract.contractStatus == 'EXPIRED'}">
 								<button data-error-message="Este contrato está expirado." type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anúncio</button>
+								
+								<form action="contrato/prorrogar-contrato" method="POST">
+									<input type="hidden" name="contractID" value="${contract.contractID}">
+									<button type="button" class="btn btn-danger" style="margin-top:5px;" onclick="return addBilling(this);">Prorrogar contrato</button>	
+								</form>
 							</c:when>
 							<c:when test="${contract.contractStatus == 'NOT_PAID'}">
 								<button data-error-message="Ainda não identificamos o pagamento desse contrato." type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anúncio</button>
+							</c:when>
+							<c:when test="${contract.contractStatus == 'NO_MORE_ADS'}">
+								<button data-error-message="Você já cadastrou todos os anúncios que esse contrato te dá direito." type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anúncio</button>
+								
+								<form action="contrato/prorrogar-contrato" method="POST">
+									<input type="hidden" name="contractID" value="${contract.contractID}">
+									<button type="button" class="btn btn-danger" style="margin-top:5px;" onclick="return addBilling(this);">Prorrogar contrato</button>	
+								</form>
 							</c:when>
 							<c:otherwise>
 								<button data-error-message="Este contrato está inativo." type="button" class="btn btn-danger" href="anunciar/novo-anuncio" onClick="return restricted(this);">Novo anúncio</button>
@@ -95,20 +116,24 @@
 					</div>
 				</c:forEach>
 				
+				<div class="text-wrap" style="margin-top: 5px;">
+					<button type="button" class="btn btn-danger" href="contrato/novo-contrato" onClick="return restricted(this);">Contratar mais anúncios</button>
+				</div>
+				
 			</div>
 			<div class="description side-by-side">
 				<h3>Suas faturas</h3>
 				<table style="width:440px;">
 					<colgroup>
-						<col style="width:12%;">
-						<col style="width:12%;">
-						<col style="width:12%;">
-						<col style="width:12%;">
+						<col style="width: 24%;">
+						<col style="width: 24%;">
+						<col style="width: 24%;">
+						<col style="width: 24%;">
 					</colgroup>
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Vencimento</th>
+							<th>Cria&ccedil;&atilde;o</th>
 							<th>Valor</th>
 							<th>Situação<th>
 						</tr>
@@ -156,7 +181,7 @@
 	</tiles:putAttribute>
 	
 	<tiles:putAttribute name="scripts">
-		<script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js">
+		<script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js">
 		</script>		
 	</tiles:putAttribute>
 	

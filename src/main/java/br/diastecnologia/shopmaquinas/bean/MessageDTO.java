@@ -17,9 +17,18 @@ public class MessageDTO {
 	}
 	
 	public MessageDTO( Message message ){
+		
+		String name = "";
+		if( message.getFromPerson().getFirstname() != null ){
+			name += message.getFromPerson().getFirstname();
+		}
+		if( message.getFromPerson().getLastname() != null ){
+			name += " " + message.getFromPerson().getLastname();
+		}
+		
 		date = message.getDate();
 		text = message.getText();
-		senderName = message.getFromPerson().getFirstname() + " " + message.getFromPerson().getLastname();
+		senderName = name;
 		senderEmail = message.getFromPerson().getEmail();
 		senderPhone = message.getFromPerson().getPhone();
 		adDescription = message.getAd().getDescription();

@@ -21,6 +21,7 @@
 		<class>br.diastecnologia.shopmaquinas.bean.Brand</class>
 		<class>br.diastecnologia.shopmaquinas.bean.Model</class>
 		<class>br.diastecnologia.shopmaquinas.bean.Image</class>
+		<class>br.diastecnologia.shopmaquinas.bean.UserToken</class>
 		
 		
 		<properties> 
@@ -30,7 +31,7 @@
 			<property name="hibernate.format_sql" value="true" />
 			<property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
 			
-						 
+			 			 
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysql-shop-maquinas.jelasticlw.com.br/shopmaquinas"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
@@ -41,7 +42,8 @@
 			<property name="javax.persistence.jdbc.user" value="root"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.password" value="dias1986"/>
-			--> 
+			 -->
+			
 			<property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider"/>
 			<property name="hibernate.c3p0.preferredTestQuery" value="SELECT 1" />
             <property name="hibernate.c3p0.testConnectionOnCheckout" value="true" />

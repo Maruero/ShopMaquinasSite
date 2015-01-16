@@ -32,12 +32,13 @@ import br.diastecnologia.shopmaquinas.bean.Person;
 import br.diastecnologia.shopmaquinas.bean.Subtype;
 import br.diastecnologia.shopmaquinas.bean.Type;
 import br.diastecnologia.shopmaquinas.bean.User;
+import br.diastecnologia.shopmaquinas.bean.UserToken;
 import br.diastecnologia.shopmaquinas.utils.AdPropertyUtils;
 
 @RequestScoped
 public class AdDao {
 		
-	protected int adPageSize = 10;
+	protected int adPageSize = 100;
 	
 	@Inject
 	private EntityManagerFactory entityManagerFactory;
@@ -92,7 +93,11 @@ public class AdDao {
 		
 		List<Ad> ads = new ArrayList<Ad>();
 		
-		JinqStream<Ad> stream = ads();
+		JinqStream<Ad> stream = ads().where( a-> 
+			a.getEndDate() == null || 
+			Calendar.getInstance().getTime().before( a.getEndDate())
+		);
+		
 		if( props != null && props.size() > 0 ){
 			for( AdPropertyValue prop : props ){
 				stream = stream.where( a -> a.getAdPropertyValues().stream().filter( 
@@ -179,6 +184,7 @@ public class AdDao {
 		if( ad.getContract().getContractDefinition() == null ){
 			Contract contract = this.contracts().where( c-> c.getContractID() == ad.getContract().getContractID() ).findFirst().get();
 			ad.setContract(contract);
+			ad.setEndDate(contract.getEndDate());
 		}
 		
 		if( ad.getAdID() > 0 ){
@@ -319,5 +325,10 @@ public class AdDao {
 	public JinqStream<Billing> billings(){
 		init();
 		return streams.streamAll(em, Billing.class);
+	}
+	
+	public JinqStream<UserToken> tokens(){
+		init();
+		return streams.streamAll(em, UserToken.class);
 	}
 }

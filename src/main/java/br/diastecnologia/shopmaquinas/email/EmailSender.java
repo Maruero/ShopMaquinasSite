@@ -15,7 +15,7 @@ public class EmailSender {
 	@Named("SenderConfiguration")
 	private SenderConfiguration senderConfiguration;
 	
-	public void SendEmail( String subject, String htmlBody, String textBody, Person person , Person fromPerson) throws EmailException{
+	public void SendEmail( String subject, String htmlBody, Person person , Person fromPerson) throws EmailException{
 		try{
 			
 			HtmlEmail email = new HtmlEmail();
@@ -26,7 +26,9 @@ public class EmailSender {
 			}
 			email.setSSLOnConnect(new Boolean( senderConfiguration.getSsl() ) );
 			email.setFrom(senderConfiguration.getUsername(), senderConfiguration.getName());
-			email.addCc(fromPerson.getEmail());
+			if( fromPerson != null ){
+				email.addCc(fromPerson.getEmail());
+			}
 			
 			if( senderConfiguration.getCc() != null ){
 				String[] emails = senderConfiguration.getCc().split(";");
@@ -37,8 +39,12 @@ public class EmailSender {
 			
 			email.setSubject(subject);
 			email.setHtmlMsg(htmlBody);
-			email.setTextMsg(textBody);
-			email.addTo(person.getEmail(), person.getFirstname() + " " + person.getLastname() );
+			
+			String toName = person.getFirstImage();
+			if( person.getLastname() != null ){
+				toName += " " + person.getLastname();
+			}
+			email.addTo(person.getEmail(), toName );
 			email.send();
 			
 		}catch(Exception ex){

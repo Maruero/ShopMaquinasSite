@@ -23,7 +23,15 @@
 				<li>
 					<div class="holder">
 						<div class="img-holder">
-							<img src="${ad.image}" alt="image description" width="108" height="77">
+							<c:choose>
+								<c:when test="${ad.image != null }">
+									<img src="${ad.image}" alt="image description" width="108" height="77">
+								</c:when>
+								<c:otherwise>
+									<img src="resources/images/sem-imagem-h.jpg" alt="image description" width="108" height="77">
+								</c:otherwise>
+							</c:choose>
+							
 							<div class="hover-content">
 								<a href="anuncios/detalhes-do-anuncio/${ad.adID}" class="btn-more">saiba mais</a>
 								<a href="#" onclick="setFavorite(${ad.adID})" class="btn-favroite icon-star"></a>

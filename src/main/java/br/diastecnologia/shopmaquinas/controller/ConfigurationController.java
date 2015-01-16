@@ -8,9 +8,12 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang.WordUtils;
+
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.environment.Property;
+import br.diastecnologia.options.ProcessorUsadao;
 import br.diastecnologia.shopmaquinas.bean.Brand;
 import br.diastecnologia.shopmaquinas.bean.Category;
 import br.diastecnologia.shopmaquinas.bean.Model;
@@ -30,6 +33,45 @@ public class ConfigurationController {
 	@Inject
 	@Property("configuration.categoryies.path")
 	private String categoriesPath;
+	
+	@Get("/configurar-mais-categorias")
+	@Transactional
+	public void addMoreCategories() throws IOException{
+		ProcessorUsadao proc = new ProcessorUsadao();
+		List<br.diastecnologia.options.beans.Subtype> subtypes = proc.getSubtypes();
+		
+		for( br.diastecnologia.options.beans.Subtype s : subtypes){
+			if( s.getBrands() == null ){
+				continue;
+			}
+			
+			Subtype subtype = new Subtype();
+			subtype.setName( WordUtils.capitalize(s.getName().toLowerCase()));
+			subtype.setParentId(69);
+			
+			adDao.getEM().persist(subtype);
+			
+			for( br.diastecnologia.options.beans.Brand b : s.getBrands() ){
+				if( b.getModels() == null ){
+					continue;
+				}
+				
+				Brand brand = new Brand();
+				brand.setName(WordUtils.capitalize(b.getName().toLowerCase()));
+				brand.setParentId(subtype.getId());
+				
+				adDao.getEM().persist(brand);
+				
+				for( br.diastecnologia.options.beans.Model m : b.getModels() ){
+					Model model = new Model();
+					model.setName(m.getName());
+					model.setParentId( brand.getId() );
+					
+					adDao.getEM().persist(model);
+				}
+			}
+		}
+	}
 	
 	@Get("/configurar-categorias")
 	@Transactional

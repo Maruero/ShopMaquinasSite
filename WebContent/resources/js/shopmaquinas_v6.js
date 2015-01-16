@@ -12,6 +12,7 @@ $(document).ready(function() {
 	
 	loadOptions();
 	bindEvents();
+	defineMaxUploadSize();
 });
 
 function bindEvents(){
@@ -106,6 +107,7 @@ function openLogin(prefixPath){
 	if( username.length < 1){
 		loginNextPage = prefixPath + 'area-do-cliente';
 		$("#popup-login-opener").click();
+		setTimeout(function(){$("#logon-username").focus();}, 1000);
 	}else{
 		$.ajax({
 			url: prefixPath + 'sair',
@@ -899,7 +901,8 @@ function getAd( adID ){
 	$.ajax({
 		url: '../anuncios/detalhes-do-anuncio-json',
 		data:{
-			'adID' : adID
+			'adID' : adID,
+			'data' : new Date()
 		},
 		success: function(data){
 			loadAdToEdit(data);
@@ -1024,4 +1027,25 @@ function getFavorites(prefixPath){
 	
 	window.location = prefixPath + 'anuncios-favoritos?' + queries ;
 	return false;
+}
+
+function defineMaxUploadSize(){
+	$("[type='file']").on('change', function(e){
+		
+		var files = e.currentTarget.files;
+		
+		for (var x in files) {
+			if( files[x].name != "item" && typeof files[x].name != "undefined" ){
+				var filesize = ((files[x].size/1024)/1024).toFixed(4);
+				
+				if( filesize > 1 ){
+					openRedPopup('Tamanho da imagem', 'Por favor, somente podem ser enviadas imagens de no máximo 1 MB.');
+				}
+			}
+		}
+	});
+}
+
+function addBilling(ele){
+	$(ele).parent().submit();
 }

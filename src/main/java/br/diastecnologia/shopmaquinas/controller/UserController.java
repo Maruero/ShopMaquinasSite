@@ -3,12 +3,17 @@ package br.diastecnologia.shopmaquinas.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
+
+import org.hibernate.Hibernate;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -26,10 +31,14 @@ import br.diastecnologia.shopmaquinas.bean.Message;
 import br.diastecnologia.shopmaquinas.bean.MessageDTO;
 import br.diastecnologia.shopmaquinas.bean.Person;
 import br.diastecnologia.shopmaquinas.bean.User;
+import br.diastecnologia.shopmaquinas.bean.UserToken;
 import br.diastecnologia.shopmaquinas.daos.AdDao;
+import br.diastecnologia.shopmaquinas.email.EmailConfiguration;
+import br.diastecnologia.shopmaquinas.email.EmailSender;
 import br.diastecnologia.shopmaquinas.enums.BillingStatus;
 import br.diastecnologia.shopmaquinas.enums.JsonResponseCode;
 import br.diastecnologia.shopmaquinas.enums.MessageStatus;
+import br.diastecnologia.shopmaquinas.enums.PersonType;
 import br.diastecnologia.shopmaquinas.session.SessionBean;
 
 @Controller
@@ -46,18 +55,83 @@ public class UserController{
 	
 	//@Inject
 	//@Property("billing.days")
-	private Integer billingDays = 5;
+	private Integer billingDays = 0;
+	
+	@Inject
+	@Named("EmailSender")
+	private EmailSender emailSender;
+	
+	@Inject
+	@Named("EmailConfiguration")
+	private EmailConfiguration emailConfiguration;
 	
 	@Get("/contrato/novo-contrato")
 	public void newContract(){
 		List<ContractDefinition> definitions = dao.contractDefinitions().toList();
+		
+		Comparator<ContractDefinition> comparator = (ContractDefinition c1, ContractDefinition c2) -> c1.getOrder() - c2.getOrder();
+		if( session.getUser() != null && session.getUser().getPerson() != null ){
+			if( session.getUser().getPerson().getPersonType() == PersonType.COMPANY ){
+				
+				definitions = definitions.stream().filter( d->
+					d.getContractDefinitionPropertyValues().stream().filter( p-> 
+						p.getContractDefinitionProperty().getName().equals( br.diastecnologia.shopmaquinas.enums.ContractDefinitionProperty.TYPE.toString() )
+						&& p.getValue().toUpperCase().equals("EMPRESARIAL")
+						).count() > 0
+					).collect(Collectors.toList());
+				
+			}else{
+				
+				definitions = definitions.stream().filter( d->
+				d.getContractDefinitionPropertyValues().stream().filter( p-> 
+					p.getContractDefinitionProperty().getName().equals( br.diastecnologia.shopmaquinas.enums.ContractDefinitionProperty.TYPE.toString() )
+					&& p.getValue().toUpperCase().equals("PARTICULAR")
+					).count() > 0
+				).collect(Collectors.toList());
+				
+			}
+		}
+		
+		definitions.sort(comparator);
 		result.include("definitions", definitions);
 	}
 	
 	@Get("/contrato/escolher-contrato")
+	@Transactional
 	public void setContract( @Named("contractDefinitionID")int contractDefinitionID){
-		session.setRedirectObject(contractDefinitionID);
-		result.redirectTo( UserController.class ).register();
+		
+		if( session.getUser() != null && session.getUser().getPerson() != null ){
+		
+			Person person = dao.persons().where( p-> p.getPersonID() == session.getUser().getPerson().getPersonID() ).findFirst().get();
+			
+			ContractDefinition def = dao.contractDefinitions().where( c-> c.getContractDefinitionID() == contractDefinitionID).findFirst().get();
+			Contract contract = new Contract();
+			contract.setPerson(person);
+			contract.setContractDefinition(def);
+			contract.setStartDate( Calendar.getInstance().getTime() );
+			
+			double amount = def.getContractDefinitionPropertyValues().stream().filter( p-> p.getContractDefinitionProperty().getName().equals("PRICE")).findFirst().get().getDoubleValue();
+			Billing billing = new Billing();
+			billing.setAmount(amount);
+			billing.setContract(contract);
+			
+			Calendar dueDate = Calendar.getInstance();
+			dueDate.add( Calendar.DAY_OF_MONTH, billingDays);
+			billing.setDueDate(dueDate.getTime());
+			billing.setStatus(BillingStatus.PENDING);
+			
+			contract.setBillings(new ArrayList<Billing>());
+			contract.getBillings().add(billing);
+			
+			person.getContracts().add(contract);
+			
+			result.redirectTo( ContractController.class ).contracts();
+			return;
+		}else{
+			session.setRedirectObject(contractDefinitionID);
+			result.redirectTo( UserController.class ).register();
+			return;
+		}
 	}
 	
 	@Get("/contrato/cadastro")
@@ -140,6 +214,11 @@ public class UserController{
 		
 		Person person = dao.persons().where( p-> p.getPersonID() == session.getUser().getPerson().getPersonID() ).findFirst().get();
 		
+		Hibernate.initialize(person.getContracts());
+		for( Contract contract : person.getContracts() ){
+			Hibernate.initialize(contract.getAds());
+		}
+		
 		List<Message> messages = person.getMessages().stream().filter( m-> 
 			m.getStatus() == MessageStatus.NEW ||
 			m.getStatus() == MessageStatus.READ
@@ -196,14 +275,39 @@ public class UserController{
 		JsonResponse response = new JsonResponse("Anúncio removido com sucesso.");
 		try{
 			Ad ad = dao.getAd(adID);
-			ad.setEndDate(Calendar.getInstance().getTime());
+			
+			Calendar expired = Calendar.getInstance();
+			expired.setTime(ad.getStartDate());
+			expired.add( Calendar.DAY_OF_YEAR , -1);
+			
+			ad.setEndDate(expired.getTime());
 		}catch(Exception ex){
 			response.setCode( JsonResponseCode.ERROR.toString() );
 			response.setMessage( ex.getMessage() );
 		}
 		result.use( Results.json() ).from( response ).recursive().serialize();
 	}
+	
+	@Get("/acesso-direto")
+	public void directAccess(@Named("token") String token ){
+		try{
 			
+			Optional<UserToken> userToken = dao.tokens().where( 
+					t-> t.getToken().equals(token)
+					&& t.getExpirationDate().after(Calendar.getInstance().getTime()
+			)).findFirst();
+			
+			if( userToken.isPresent() ){
+				session.setUser(userToken.get().getUser());
+				result.redirectTo(UserController.class).userArea();
+			}else{
+				result.redirectTo(HomeController.class).index();
+			}
+		}catch(Exception ex){
+			result.redirectTo(HomeController.class).index();
+		}
+	}
+	
 	@Post("/contrato/salvar-novo-contrato")
 	@Transactional(rollbackOn=Exception.class)
 	public void saveNewRegister( @Named("person")Person person, @Named("user")User user, @Named("contractDefinitionID")int contractDefinitionID)
@@ -254,6 +358,8 @@ public class UserController{
 			
 			session.setUser( userLogged );
 			
+			sendRegisterEmail(userLogged);
+			
 			result.include("update", true);
 			result.include("message", "Novo cadastro salvo com sucesso!");
 			result.redirectTo(ContractController.class).contracts();
@@ -266,15 +372,39 @@ public class UserController{
 		}
 	}
 	
+	private void sendRegisterEmail( User user ){
+		
+		try{
+			String token = UUID.randomUUID().toString();
+			Calendar expiration = Calendar.getInstance();
+			expiration.add( Calendar.MONTH, 1);
+			
+			UserToken userToken = new UserToken();
+			userToken.setToken(token);
+			userToken.setUser(user);
+			userToken.setExpirationDate(expiration.getTime());
+			
+			dao.getEM().persist(userToken);
+			
+			String body = emailConfiguration.getRegisterHtml(user, token);
+			if( body != null ){
+				emailSender.SendEmail("Cadastro realizado com sucesso.", body, user.getPerson(), null);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+	}
+	
 	@Post("/contrato/salvar-dados")
 	@Transactional(rollbackOn=Exception.class)
 	public void saveData( @Named("person")Person person){
 		try{
 			Person oldPerson = dao.persons().where( p-> p.getPersonID() == session.getUser().getPerson().getPersonID() ).findFirst().get();
 			
+			oldPerson.getImages().clear();
 			if(session.getUploadedImages() != null )
 			{
-				oldPerson.setImages(new ArrayList<Image>());
 				for( String image : session.getUploadedImages() )
 				{
 					Image i = new Image();

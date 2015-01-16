@@ -3,6 +3,7 @@ package br.diastecnologia.shopmaquinas.controller;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -35,7 +36,9 @@ import br.com.uol.pagseguro.properties.PagSeguroConfig;
 import br.com.uol.pagseguro.service.NotificationService;
 import br.com.uol.pagseguro.service.SessionService;
 import br.com.uol.pagseguro.service.TransactionService;
+import br.diastecnologia.shopmaquinas.bean.Ad;
 import br.diastecnologia.shopmaquinas.bean.Billing;
+import br.diastecnologia.shopmaquinas.bean.Contract;
 import br.diastecnologia.shopmaquinas.bean.Person;
 import br.diastecnologia.shopmaquinas.daos.AdDao;
 import br.diastecnologia.shopmaquinas.enums.BillingStatus;
@@ -54,9 +57,35 @@ public class BillingsController {
 	@Inject
 	private AdDao adDao;
 	
+	private Integer billingDays = 0;
+	
 	private boolean production = !PagSeguroConfig.isSandboxEnvironment();
 	
 	private static Logger logger = Logger.getLogger("billings");
+	
+	@Post
+	@Transactional
+	@Path("/contrato/prorrogar-contrato")
+	public void addBilling(@Named("contractID") int contractID ){
+		Contract contract = adDao.contracts().filter( c-> c.getContractID() == contractID ).findFirst().get();
+		
+		double amount = contract.getContractDefinition().getContractDefinitionPropertyValues().stream().filter( p-> p.getContractDefinitionProperty().getName().equals("PRICE")).findFirst().get().getDoubleValue();
+		Billing billing = new Billing();
+		billing.setAmount(amount);
+		billing.setContract(contract);
+		
+		Calendar dueDate = Calendar.getInstance();
+		dueDate.add( Calendar.DAY_OF_MONTH, billingDays);
+		billing.setDueDate(dueDate.getTime());
+		billing.setStatus(BillingStatus.PENDING);
+		
+		contract.setBillings(new ArrayList<Billing>());
+		contract.getBillings().add(billing);
+		
+		result.include("ErrorMessage", "Foi criada uma nova fatura para o contrato, assim que identificarmos o pagamento dela o seu contrato terá a data de expiração atualizada.");
+		result.redirectTo( ContractController.class ).contracts();
+		return;
+	}
 	
 	@Get
 	@Path("/gerar-boleto")
@@ -122,6 +151,19 @@ public class BillingsController {
 				Billing billing = billingOp.get();
 				if( trans.getStatus() == TransactionStatus.PAID ){
 					billing.setStatus( BillingStatus.PAID );
+					
+					Calendar expiration = Calendar.getInstance();
+					if( billing.getContract().getEndDate() != null ){
+						expiration.setTime(billing.getContract().getEndDate());
+					}
+					expiration.add( Calendar.MONTH, 1);
+					billing.getContract().setEndDate( expiration.getTime() );
+					for( Ad ad: billing.getContract().getAds()){
+						if( ad.getEndDate().after(ad.getStartDate())){
+							ad.setEndDate(expiration.getTime());
+						}
+					}
+					
 				}else if( trans.getStatus() == TransactionStatus.CANCELLED ){
 					billing.setStatus( BillingStatus.CANCELLED );
 				}
@@ -144,7 +186,7 @@ public class BillingsController {
         
         request.setReceiverEmail("contato@shopmaquinas.com.br");
 
-        request.setNotificationURL("http://www.shopmaquinas.com.br/homologacao/pagseguro-notification");
+        request.setNotificationURL("http://www.shopmaquinas.com.br/pagseguro-notification");
 
         request.setReference("TST-" + billingID);
 

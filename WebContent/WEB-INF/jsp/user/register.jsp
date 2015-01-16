@@ -59,18 +59,18 @@
 					
 					<div class="form-group">
 						<label for="name">Email*</label>
-						<input type="text" id="input-email" class="form-control" placeholder="E-mail" name="person.email" value="${person.email}" requiredLength="1" requiredMessage="O e-mail é obrigatório"/>
+						<input type="text" id="input-email" class="form-control text-upper" placeholder="E-mail" name="person.email" value="${person.email}" requiredLength="1" requiredMessage="O e-mail é obrigatório"/>
 					</div>
 					
 					<div class="form-group">
 						<c:choose>
 							<c:when test="${isCompanyContract}">
 								<label for="name">Nome fantasia*</label>
-								<input type="text" class="form-control" placeholder="Nome fantasia" name="person.firstname" value="${person.firstname}" requiredLength="1" requiredMessage="O nome fantasia é obrigatório"/>
+								<input type="text" class="form-control text-upper" placeholder="Nome fantasia" name="person.firstname" value="${person.firstname}" requiredLength="1" requiredMessage="O nome fantasia é obrigatório"/>
 							</c:when>
 							<c:otherwise>
 								<label for="name">Nome*</label>
-								<input type="text" class="form-control" placeholder="Nome" name="person.firstname" value="${person.firstname}" requiredLength="1" requiredMessage="O nome é obrigatório"/>
+								<input type="text" class="form-control text-upper" placeholder="Nome" name="person.firstname" value="${person.firstname}" requiredLength="1" requiredMessage="O nome é obrigatório"/>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -79,11 +79,11 @@
 						<c:choose>
 							<c:when test="${isCompanyContract}">
 								<label for="name">Razão Social*</label>
-								<input type="text" class="form-control" placeholder="Sobrenome" name="person.lastname" value="${person.lastname}" requiredLength="1" requiredMessage="A razão social é obrigatória"/>
+								<input type="text" class="form-control text-upper" placeholder="Sobrenome" name="person.lastname" value="${person.lastname}" requiredLength="1" requiredMessage="A razão social é obrigatória"/>
 							</c:when>
 							<c:otherwise>
 								<label for="name">Sobrenome*</label>
-								<input type="text" class="form-control" placeholder="Sobrenome" name="person.lastname" value="${person.lastname}" requiredLength="1" requiredMessage="O sobrenome é obrigatório"/>
+								<input type="text" class="form-control text-upper" placeholder="Sobrenome" name="person.lastname" value="${person.lastname}" requiredLength="1" requiredMessage="O sobrenome é obrigatório"/>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -116,7 +116,7 @@
 				<div class="description">
 					<div class="form-group">
 						<label for="name">Telefone*</label>
-						<input type="text" class="form-control" name="person.phone" placeholder="Telefone" id="celular" value="${person.phone}" requiredLength="1" requiredMessage="Telefone inválido."/><br/>
+						<input type="text" class="form-control text-upper" name="person.phone" placeholder="Telefone" id="celular" value="${person.phone}" requiredLength="1" requiredMessage="Telefone inválido."/><br/>
 					</div>
 					<div class="form-group">
 						<label for="name">Endereço*</label>
@@ -127,12 +127,12 @@
 					</div>
 					
 					<div class="form-group">
-						<input type="text" class="form-control address-input" name="person.address.street" id="logradouro" value="${person.address.street}" placeholder="Logradouro" requiredLength="1" requiredMessage="Logradouro é obrigatório."/><br/>
-						<input type="text" class="form-control" name="person.address.number" id="numero" value="${person.address.number}" placeholder="Número" requiredLength="1" requiredMessage="Número é obrigatório."/><br/>
-						<input type="text" class="form-control" name="person.address.complement" id="complemento" value="${person.address.complement}" placeholder="Complemento" /><br/>
-						<input type="text" class="form-control address-input" name="person.address.neighborhood" id="bairro" value="${person.address.neighborhood}" placeholder="Bairro" requiredLength="1" requiredMessage="Bairro é obrigatório."/><br/>
-						<input type="text" class="form-control address-input" name="person.address.city" id="cidade" value="${person.address.city}" placeholder="Cidade" requiredLength="1" requiredMessage="Cidade é obrigatório."/><br/>
-						<input type="text" class="form-control address-input" name="person.address.uf" placeholder="UF" id="uf" alt="**" value="${person.address.uf}" requiredLength="2" requiredMessage="UF é obrigatório."/><br/>
+						<input type="text" class="form-control text-upper" name="person.address.street" id="logradouro" value="${person.address.street}" placeholder="Logradouro" requiredLength="1" requiredMessage="Logradouro é obrigatório."/><br/>
+						<input type="text" class="form-control text-upper" name="person.address.number" id="numero" value="${person.address.number}" placeholder="Número" requiredLength="1" requiredMessage="Número é obrigatório."/><br/>
+						<input type="text" class="form-control text-upper" name="person.address.complement" id="complemento" value="${person.address.complement}" placeholder="Complemento" /><br/>
+						<input type="text" class="form-control text-upper" name="person.address.neighborhood" id="bairro" value="${person.address.neighborhood}" placeholder="Bairro" requiredLength="1" requiredMessage="Bairro é obrigatório."/><br/>
+						<input type="text" class="form-control text-upper" name="person.address.city" id="cidade" value="${person.address.city}" placeholder="Cidade" requiredLength="1" requiredMessage="Cidade é obrigatório."/><br/>
+						<input type="text" class="form-control text-upper" name="person.address.uf" placeholder="UF" id="uf" alt="**" value="${person.address.uf}" requiredLength="2" requiredMessage="UF é obrigatório."/><br/>
 						
 						
 					</div>

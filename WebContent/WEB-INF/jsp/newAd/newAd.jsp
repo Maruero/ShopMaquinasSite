@@ -128,10 +128,10 @@
 					 
 					
 					<div class="form-group">
-						<label for="name">horas/kilometragem*</label>
+						<label for="name">horas/kilometragem</label>
 						
 						<input type="hidden" name="otherProperties[0].adProperty.name" value="HOURS" />
-						<input type="text" class="form-control" name="otherProperties[0].value" data-prop-name="HOURS" alt="999999" requiredLength="1" requiredMessage="Por favor, informe a quantidade de horas de uso."/>
+						<input type="text" class="form-control" name="otherProperties[0].value" data-prop-name="HOURS" alt="999999"/>
 					</div>
 					
 					

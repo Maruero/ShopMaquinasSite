@@ -13,6 +13,7 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.observer.upload.UploadedFile;
+import br.com.caelum.vraptor.validator.Validator;
 import br.com.caelum.vraptor.view.Results;
 import br.diastecnologia.shopmaquinas.bean.Ad;
 import br.diastecnologia.shopmaquinas.bean.AdProperty;
@@ -20,6 +21,7 @@ import br.diastecnologia.shopmaquinas.bean.AdPropertyValue;
 import br.diastecnologia.shopmaquinas.bean.Contract;
 import br.diastecnologia.shopmaquinas.bean.Person;
 import br.diastecnologia.shopmaquinas.daos.AdDao;
+import br.diastecnologia.shopmaquinas.enums.AdProperties;
 import br.diastecnologia.shopmaquinas.session.SessionBean;
 import br.diastecnologia.shopmaquinas.utils.AdPropertyUtils;
 import br.diastecnologia.shopmaquinas.utils.ContractUtils;
@@ -30,6 +32,9 @@ public class NewAdController{
 	
 	@Inject
 	protected Result result;
+	
+	@Inject
+	protected Validator validator;
 	
 	@Inject
 	protected SessionBean session;
@@ -64,7 +69,13 @@ public class NewAdController{
 			result.redirectTo(HomeController.class).index();
 			return;
 		}
-		session.setUploadedImages( new ArrayList<String>() );
+		
+		session.setUploadedImages( 
+			ad.getAdPropertyValues().stream()
+			.filter( p-> p.getAdProperty().getName().equals( AdProperties.IMAGE.toString() ) )
+			.map( i-> i.getValue() )
+			.collect( Collectors.toList() ) 
+		);
 		
 		result.include("ad", ad);
 		result.include("update", true);
@@ -138,12 +149,27 @@ public class NewAdController{
 		String to = "/WEB-INF/jsp/adDetails/getAdDetails.jsp";
 		result.use( Results.page() ).forwardTo(to);
 	}
-	
+
 	@Post("/anunciar/salvar-imagem")
 	public void saveImage( @Named("image")UploadedFile image ){
 		try{
 			if( session.getUploadedImages() == null ){
 				session.setUploadedImages( new ArrayList<String>() );
+			}
+			
+			long limit = 1 * 1024 * 1024; //1 MB
+			if( image == null || image.getSize() >  limit ){
+				result.include("limit", true);
+				
+				if( validator.hasErrors() ){
+					validator.onErrorForwardTo(NewAdController.class).getImageFrame("limit");
+					
+				}else{
+					result.redirectTo(NewAdController.class).getImageFrame("limit");
+				}
+				return;
+			}else{
+				result.include("limit", false);
 			}
 			
 			String miniPath = fileUtils.getWebDefaultFolder() + "/mini-" + fileUtils.saveFile(image);
@@ -171,6 +197,11 @@ public class NewAdController{
 			session.getUploadedImages().remove(imageName);
 		}
 		String path = imageName.replaceAll("mini-", "");
+		if( session.getUploadedImages() != null && session.getUploadedImages().contains( path )){
+			session.getUploadedImages().remove(path);
+		}
+		int index = imageName.lastIndexOf("/") +1;
+		path = imageName.substring( 0 , index) + "mini-" + imageName.substring(index);
 		if( session.getUploadedImages() != null && session.getUploadedImages().contains( path )){
 			session.getUploadedImages().remove(path);
 		}

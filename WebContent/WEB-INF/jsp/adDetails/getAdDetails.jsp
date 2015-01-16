@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <tiles:insertDefinition name="shopmaquinas.template">
 	
@@ -17,22 +18,39 @@
 				<div id="carousel-generic1" class="carousel slide" data-ride="carousel" data-interval="false">
 					<div class="carousel-inner" role="listbox">
 						<div class="item active image-holder">
-							<c:forEach items="${ad.images}" var="image">
-								<c:if test="${image.indexOf('mini') == -1 }">
-									<img src="../../..${image}" alt="image description" width="400" height="341" data-name="${image}" style="display:none;">
-								</c:if>
-							</c:forEach>
+							<c:choose>
+								<c:when test="${fn:length(ad.images) gt 0}">
+									<c:forEach items="${ad.images}" var="image">
+										<c:if test="${image.indexOf('mini') == -1 }">
+											<img src="../../..${image}" alt="image description" width="400" height="341" data-name="${image}" style="display:none;">
+										</c:if>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<img src="../../resources/images/sem-imagem-d.jpg" alt="image description" width="400" height="341" data-name="${image}" style="display:none;">
+								</c:otherwise>						
+							</c:choose>
+							
 						</div>
 					</div>
 				
 					<ol class="carousel-indicators photos-list" style="width:400px;">
-						<c:forEach items="${ad.images}" var="image">
-							<c:if test="${image.indexOf('mini') != -1 }">
+						<c:choose>
+							<c:when test="${fn:length(ad.images) gt 0}">
+								<c:forEach items="${ad.images}" var="image">
+									<c:if test="${image.indexOf('mini') != -1 }">
+										<li>
+											<a href="#"><img id="mini-image-link" src="../../..${image}" alt="image description" width="95" height="81" onclick="return showImage(this);" data-name="${image}"></a>
+										</li>
+									</c:if>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
 								<li>
-									<a href="#"><img id="mini-image-link" src="../../..${image}" alt="image description" width="95" height="81" onclick="return showImage(this);" data-name="${image}"></a>
+									<a href="#"><img id="mini-image-link" src="../../resources/images/mini-sem-imagem-d.jpg" alt="image description" width="95" height="81" onclick="return showImage(this);" data-name="${image}"></a>
 								</li>
-							</c:if>
-						</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</ol>
 				</div>
 			</div>
@@ -44,7 +62,7 @@
 						
 						<c:if test="${prop.adProperty.visible}">
 							<li>
-								<strong class="title">${prop.adProperty.description} -</strong>
+								<strong class="title" style="text-align:right;">${prop.adProperty.description}:</strong>
 								<c:choose>
 									<c:when test="${prop.value == 'true' }">
 										<span class="value price">Sim</span>
@@ -82,10 +100,19 @@
 								<div class="block-holder">
 									<div class="details">
 									
-										<c:if test="${ ad.person.personType == 'COMPANY' && ad.person.firstImage != null }"> 
-											<div class="img-holder">
-												<a href="javascript:;"><img src="../../..${ad.person.firstImage}" alt="image description" width="100" height="133"></a>
-											</div>
+										<c:if test="${ ad.person.personType == 'COMPANY' }">
+											<c:choose>
+												<c:when test="${ad.person.firstImage != null}">
+													<div class="img-holder">
+														<a href="javascript:;"><img src="../../..${ad.person.firstImage}" alt="image description" width="100" height="133"></a>
+													</div>
+												</c:when>
+												<c:otherwise>
+													<div class="img-holder">
+														<a href="javascript:;"><img src="../../resources/images/sem-imagem-x1.jpg" alt="image description" width="100" height="133"></a>
+													</div>
+												</c:otherwise>
+											</c:choose> 
 										</c:if>
 										
 										 
@@ -144,7 +171,7 @@
 									</div>
 									<div class="form-group">
 										<label for="phone">mensagem*</label>
-										<textarea style="min-height:170px !important;" class="form-control" id="proposal-text" rows="3" requiredLength="1" requiredMessage="O campo mensagem é obrigatória"></textarea>
+										<textarea style="min-height:170px !important;" class="form-control" maxlength="1900" id="proposal-text" rows="3" requiredLength="1" requiredMessage="O campo mensagem é obrigatória"></textarea>
 									</div>
 									<a type="submit" id="send-proposal-button" class="btn btn-danger" onclick="sendProposal();">enviar</a>
 								</form>

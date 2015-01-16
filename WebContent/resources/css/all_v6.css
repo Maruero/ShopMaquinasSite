@@ -1092,3 +1092,18 @@ h2 {
   float: left;
   margin-right: 11px;
 }
+
+.divisor{
+    border-top: 1px solid #848484;
+    margin-top: 20px;
+}
+
+.side-by-side .text-wrap.divisor2{
+	border-bottom: 1px solid #848484;
+	padding-bottom: 30px;
+	margin-right: 22px;
+}
+
+.text-upper{
+	text-transform: uppercase;
+}

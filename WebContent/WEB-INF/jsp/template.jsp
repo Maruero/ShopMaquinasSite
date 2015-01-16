@@ -10,7 +10,7 @@
 		<title>Shop Maquinas</title>
 		
 		<link type="text/css" rel="stylesheet" href="<tiles:getAsString name="pathPrefix"/>resources/css/bootstrap.min.css">
-		<link type="text/css" rel="stylesheet" href="<tiles:getAsString name="pathPrefix"/>resources/css/all_v3.css">
+		<link type="text/css" rel="stylesheet" href="<tiles:getAsString name="pathPrefix"/>resources/css/all_v6.css">
 		
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -268,7 +268,7 @@
 		</div>
 		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/jquery-1.11.1.min.js"></script>
 		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/shopmaquinas_v3.js"></script>
+		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/shopmaquinas_v6.js"></script>
 		<script type="text/javascript" src="<tiles:getAsString name="pathPrefix"/>resources/js/meiomask.js"></script>
 		
 		<script>

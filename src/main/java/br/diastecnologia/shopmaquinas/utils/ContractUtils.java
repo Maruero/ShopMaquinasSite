@@ -33,7 +33,7 @@ public class ContractUtils {
 					contract = null;
 				}
 				
-				if( contract.getContractStatus() != ContractStatus.ACTIVE){
+				if( contract != null && contract.getContractStatus() != ContractStatus.ACTIVE){
 					contract = null;
 				}
 			}
